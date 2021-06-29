@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Debug"/>
+    <Units Count="32">
+      <Unit0>
+        <Filename Value="wslguitool.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="44" Y="11"/>
+        <UsageCount Value="97"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="mainwindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="WslGuiToolMainWindow"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="37"/>
+        <CursorPos X="23" Y="56"/>
+        <UsageCount Value="97"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="wslapi.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="16"/>
+        <CursorPos X="22" Y="12"/>
+        <UsageCount Value="65"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="wslcommandline.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="wslcommandLine"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="3" Y="54"/>
+        <UsageCount Value="65"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="wslregistry.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="148"/>
+        <CursorPos X="34" Y="186"/>
+        <UsageCount Value="65"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="applicationinfo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7"/>
+        <CursorPos X="12" Y="24"/>
+        <UsageCount Value="60"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="aboutwindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="2"/>
+        <CursorPos X="40" Y="52"/>
+        <UsageCount Value="58"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="distributionpropertieswindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormDistributionProperties"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="285"/>
+        <CursorPos Y="322"/>
+        <UsageCount Value="53"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="wsl.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="185"/>
+        <CursorPos X="62" Y="187"/>
+        <UsageCount Value="46"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="51"/>
+        <CursorPos X="33" Y="70"/>
+        <UsageCount Value="8"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-process\src\processbody.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="598"/>
+        <CursorPos X="3" Y="615"/>
+        <UsageCount Value="9"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="C:\lazarus\lcl\comctrls.pp"/>
+        <UnitName Value="ComCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1049"/>
+        <CursorPos X="14" Y="1071"/>
+        <UsageCount Value="5"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\regexpr\src\regexpr.pas"/>
+        <UnitName Value="RegExpr"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="343"/>
+        <UsageCount Value="6"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\sysutils.pp"/>
+        <UnitName Value="SysUtils"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="460"/>
+        <CursorPos X="38" Y="477"/>
+        <UsageCount Value="6"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1189"/>
+        <CursorPos X="11" Y="1211"/>
+        <UsageCount Value="7"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\dynlibh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="10" Y="62"/>
+        <UsageCount Value="9"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\winunits-base\src\activex.pp"/>
+        <UnitName Value="ActiveX"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4603"/>
+        <CursorPos X="19" Y="4629"/>
+        <UsageCount Value="7"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-registry\src\registry.pp"/>
+        <UnitName Value="Registry"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="152"/>
+        <CursorPos X="15" Y="177"/>
+        <UsageCount Value="9"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\sysutils\sysutilh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="17" Y="48"/>
+        <UsageCount Value="8"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\fgl.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="310"/>
+        <CursorPos X="14" Y="326"/>
+        <UsageCount Value="11"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-process\src\process.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="40" Y="32"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\wininc\redef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="893"/>
+        <CursorPos X="10" Y="910"/>
+        <UsageCount Value="8"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\wininc\struct.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7781"/>
+        <CursorPos X="6" Y="7781"/>
+        <UsageCount Value="12"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\wininc\ascdef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="356"/>
+        <CursorPos X="10" Y="373"/>
+        <UsageCount Value="8"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2935"/>
+        <CursorPos X="27" Y="2932"/>
+        <UsageCount Value="8"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\ustringh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="22"/>
+        <CursorPos Y="39"/>
+        <UsageCount Value="9"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="C:\lazarus\lcl\valedit.pas"/>
+        <UnitName Value="ValEdit"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="68"/>
+        <CursorPos X="40" Y="81"/>
+        <UsageCount Value="9"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="C:\lazarus\lcl\grids.pas"/>
+        <UnitName Value="Grids"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="11635"/>
+        <CursorPos Y="11663"/>
+        <UsageCount Value="10"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\sysutils\syshelph.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="151"/>
+        <CursorPos X="14" Y="171"/>
+        <UsageCount Value="9"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-base\src\contnrs.pp"/>
+        <UnitName Value="Contnrs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="444"/>
+        <CursorPos X="21" Y="448"/>
+        <UsageCount Value="9"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="..\..\..\Desktop\TODO.txt"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit31>
+    </Units>
+    <JumpHistory Count="26" HistoryIndex="25">
+      <Position1>
+        <Filename Value="distributionpropertieswindow.pas"/>
+        <Caret Line="242" Column="13" TopLine="192"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="14"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="86" Column="58" TopLine="55"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="88" Column="58" TopLine="74"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="38" Column="40" TopLine="11"/>
+      </Position5>
+      <Position6>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="85" Column="33" TopLine="38"/>
+      </Position6>
+      <Position7>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="88" Column="58" TopLine="41"/>
+      </Position7>
+      <Position8>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="123" Column="24" TopLine="104"/>
+      </Position8>
+      <Position9>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="161" Column="9" TopLine="132"/>
+      </Position9>
+      <Position10>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="85" Column="68" TopLine="58"/>
+      </Position10>
+      <Position11>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="92" Column="24" TopLine="65"/>
+      </Position11>
+      <Position12>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="139" Column="56" TopLine="101"/>
+      </Position12>
+      <Position13>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="85" Column="130" TopLine="53"/>
+      </Position13>
+      <Position14>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="99" Column="23" TopLine="72"/>
+      </Position14>
+      <Position15>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="49" Column="15" TopLine="27"/>
+      </Position15>
+      <Position16>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="155" Column="28" TopLine="128"/>
+      </Position16>
+      <Position17>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="70" Column="10" TopLine="43"/>
+      </Position17>
+      <Position18>
+        <Filename Value="wslcommandline.pas"/>
+        <Caret Line="123" Column="41" TopLine="26"/>
+      </Position18>
+      <Position19>
+        <Filename Value="wslcommandline.pas"/>
+        <Caret Line="123" Column="41" TopLine="26"/>
+      </Position19>
+      <Position20>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="48" Column="43" TopLine="40"/>
+      </Position20>
+      <Position21>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="156" Column="34" TopLine="128"/>
+      </Position21>
+      <Position22>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="37" Column="58" TopLine="11"/>
+      </Position22>
+      <Position23>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="179" Column="74" TopLine="139"/>
+      </Position23>
+      <Position24>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="206" Column="18" TopLine="157"/>
+      </Position24>
+      <Position25>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="90" Column="24" TopLine="58"/>
+      </Position25>
+      <Position26>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="225" Column="41" TopLine="213"/>
+      </Position26>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="3">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-registry\src\registry.pp"/>
+        <Line Value="497"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="wsl.pas"/>
+        <Line Value="200"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="wsl.pas"/>
+        <Line Value="185"/>
+      </Item3>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>

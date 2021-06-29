@@ -1,0 +1,454 @@
+object FormDistributionProperties: TFormDistributionProperties
+  Left = 365
+  Height = 496
+  Top = 180
+  Width = 581
+  Caption = 'Distribution properties'
+  ClientHeight = 496
+  ClientWidth = 581
+  DesignTimePPI = 120
+  LCLVersion = '2.0.12.0'
+  object PanelButtons: TPanel
+    Left = 0
+    Height = 71
+    Top = 425
+    Width = 581
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    BorderWidth = 20
+    ClientHeight = 71
+    ClientWidth = 581
+    TabOrder = 0
+    object PanelButtonOk: TPanel
+      Left = 20
+      Height = 31
+      Top = 20
+      Width = 94
+      Align = alLeft
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 31
+      ClientWidth = 94
+      TabOrder = 0
+      object ButtonSave: TButton
+        Left = 0
+        Height = 31
+        Top = 0
+        Width = 94
+        Caption = '&Save'
+        Enabled = False
+        OnClick = ButtonSaveClick
+        TabOrder = 0
+      end
+    end
+    object PanelButtonReset: TPanel
+      Left = 373
+      Height = 31
+      Top = 20
+      Width = 94
+      Align = alRight
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 31
+      ClientWidth = 94
+      TabOrder = 1
+      object ButtonReset: TButton
+        Left = 0
+        Height = 31
+        Top = 0
+        Width = 94
+        Caption = '&Reset'
+        OnClick = ButtonResetClick
+        TabOrder = 0
+      end
+    end
+    object PanelButtonCancel: TPanel
+      Left = 467
+      Height = 31
+      Top = 20
+      Width = 94
+      Align = alRight
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 31
+      ClientWidth = 94
+      TabOrder = 2
+      object ButtonCancel: TButton
+        Left = 0
+        Height = 31
+        Top = 0
+        Width = 94
+        Caption = '&Cancel'
+        ModalResult = 2
+        TabOrder = 0
+      end
+    end
+  end
+  object PanelUpper: TPanel
+    Left = 20
+    Height = 274
+    Top = 20
+    Width = 541
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    BorderSpacing.Right = 20
+    BevelOuter = bvNone
+    ClientHeight = 274
+    ClientWidth = 541
+    TabOrder = 1
+    object GroupBoxFlags: TGroupBox
+      Left = 0
+      Height = 64
+      Top = 210
+      Width = 541
+      Align = alTop
+      Caption = 'Flags:'
+      ClientHeight = 39
+      ClientWidth = 537
+      TabOrder = 0
+      object CheckBoxInterop: TCheckBox
+        Left = 8
+        Height = 24
+        Top = 8
+        Width = 72
+        Caption = 'Interop'
+        OnChange = CheckWslConfigChange
+        TabOrder = 0
+      end
+      object CheckBoxAppendNtPath: TCheckBox
+        Left = 176
+        Height = 24
+        Top = 8
+        Width = 134
+        Caption = 'Append NT path'
+        OnChange = CheckWslConfigChange
+        TabOrder = 1
+      end
+      object CheckBoxDriveMounting: TCheckBox
+        Left = 392
+        Height = 24
+        Top = 8
+        Width = 127
+        Caption = 'Drive mounting'
+        OnChange = CheckWslConfigChange
+        TabOrder = 2
+      end
+    end
+    object LabelName: TLabel
+      Left = 0
+      Height = 20
+      Top = 0
+      Width = 541
+      Align = alTop
+      Caption = 'Name:'
+      ParentColor = False
+    end
+    object EditName: TEdit
+      Left = 0
+      Height = 28
+      Top = 20
+      Width = 541
+      Align = alTop
+      OnChange = EditNameChange
+      OnKeyPress = EditNameKeyPress
+      TabOrder = 1
+      Text = 'EditName'
+    end
+    object PanelSeparatorName: TPanel
+      Left = 0
+      Height = 20
+      Top = 48
+      Width = 541
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 2
+    end
+    object LabelVersion: TLabel
+      Left = 0
+      Height = 20
+      Top = 68
+      Width = 541
+      Align = alTop
+      Caption = 'Version:'
+      ParentColor = False
+    end
+    object PanelVersion: TPanel
+      Left = 0
+      Height = 28
+      Top = 88
+      Width = 541
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 28
+      ClientWidth = 541
+      TabOrder = 3
+      object ComboBoxVersion: TComboBox
+        Left = 0
+        Height = 28
+        Top = 0
+        Width = 125
+        Enabled = False
+        ItemHeight = 20
+        ItemIndex = 0
+        Items.Strings = (
+          '1'
+          '2'
+        )
+        TabOrder = 0
+        Text = '1'
+      end
+    end
+    object PanelSeparatorVersion: TPanel
+      Left = 0
+      Height = 20
+      Top = 190
+      Width = 541
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 4
+    end
+    object PanelUserID: TPanel
+      Left = 0
+      Height = 54
+      Top = 136
+      Width = 541
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvSpace
+      ClientHeight = 54
+      ClientWidth = 541
+      TabOrder = 5
+      object Label1: TLabel
+        Left = 100
+        Height = 1
+        Top = 33
+        Width = 1
+        ParentColor = False
+      end
+      object LabelUserID: TLabel
+        Left = 4
+        Height = 20
+        Top = 1
+        Width = 51
+        Caption = 'User ID:'
+        ParentColor = False
+      end
+      object EditUserID: TMaskEdit
+        Left = 1
+        Height = 28
+        Top = 25
+        Width = 100
+        CharCase = ecNormal
+        MaxLength = 10
+        TabOrder = 0
+        EditMask = '9999999990;1; '
+        Text = '          '
+        SpaceChar = ' '
+      end
+    end
+    object PanelSeparatorVersion1: TPanel
+      Left = 0
+      Height = 20
+      Top = 116
+      Width = 541
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 6
+    end
+  end
+  object PanelEnv: TPanel
+    Left = 20
+    Height = 111
+    Top = 314
+    Width = 541
+    Align = alClient
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    BorderSpacing.Right = 20
+    BevelOuter = bvNone
+    ClientHeight = 111
+    ClientWidth = 541
+    TabOrder = 2
+    object LabelEnv: TLabel
+      Left = 0
+      Height = 20
+      Top = 0
+      Width = 541
+      Align = alTop
+      Caption = 'Environment variables:'
+      ParentColor = False
+    end
+    object Panel1: TPanel
+      Left = 0
+      Height = 28
+      Top = 20
+      Width = 541
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 28
+      ClientWidth = 541
+      TabOrder = 0
+      object SpeedButtonAdd: TSpeedButton
+        Left = 0
+        Height = 28
+        Top = 0
+        Width = 29
+        Enabled = False
+        Flat = True
+        Images = ImageListEnv
+        ImageIndex = 0
+        OnClick = SpeedButtonAddClick
+      end
+      object SpeedButtonDelete: TSpeedButton
+        Left = 34
+        Height = 28
+        Top = 0
+        Width = 29
+        Enabled = False
+        Flat = True
+        Images = ImageListEnv
+        ImageIndex = 1
+        OnClick = SpeedButtonDeleteClick
+      end
+      object SpeedButtonDuplicate: TSpeedButton
+        Left = 72
+        Height = 28
+        Top = 0
+        Width = 29
+        Enabled = False
+        Flat = True
+        Images = ImageListEnv
+        ImageIndex = 2
+        OnClick = SpeedButtonDuplicateClick
+      end
+    end
+    object ValueListEditorEnv: TValueListEditor
+      Left = 0
+      Height = 63
+      Top = 48
+      Width = 541
+      Align = alClient
+      FixedCols = 0
+      Flat = True
+      RowCount = 2
+      TabOrder = 1
+      OnEnter = ValueListEditorEnvEnter
+      OnExit = ValueListEditorEnvExit
+      OnSetEditText = ValueListEditorEnvSetEditText
+      KeyOptions = [keyEdit, keyAdd, keyDelete, keyUnique]
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goAutoAddRows, goAlwaysShowEditor, goThumbTracking]
+      ColWidths = (
+        80
+        460
+      )
+    end
+  end
+  object ImageListEnv: TImageList
+    Left = 364
+    Top = 131
+    Bitmap = {
+      4C6903000000100000001000000000000000000000000000000000000000083F
+      0235187F0A9C107F02DC117F03FD117F03FD107F03DC19810B9B0A3F04340000
+      000000000000000000000000000000000000000000000720030C0F7F01A30E7F
+      00FF117F04C8165F0A770A3F034F0A3F034F0F5F0878118003CA0E7F00FF1681
+      069F0921060A000000000000000000000000061F020D0D7F00C90F7F01E8115E
+      0A47000000000000000000000000000000000000000000000000105F0A490F7F
+      01E80F7E02C1091F060A00000000000000000F7F01A5108003E7031F001F0000
+      0000000000000000000000000000000000000000000000000000000000000660
+      02220F7F01E8127F019A00000000073E00380E7F00FF12630B44000000000000
+      0000000000000000000015430E15174410160000000000000000000000000000
+      0000105C04490E7F00FD0C40073217820BA1148107C600000000000000000000
+      00000000000000000000238416AF0E7F00A00000000000000000000000000000
+      000000000000107F03C817820D98117F03E41462087300000000000000000000
+      00000000000000000000238416AF0E7F00A00000000000000000000000000000
+      0000000000000D5F037A0F7F01D90F7F01FF0B3E054C0000000000000000093F
+      000F248619AF248519AF148107E3138006E1248519AF248518AF0940000C0000
+      000000000000083F02520F7F01F8117E03FF0A3E034E0000000000000000093F
+      000F0E7F00A00E7F00A0128005E10E7F01DC0E7F00A00E7F00A00940000C0000
+      000000000000083F0150107F02FD107F03E0125F077400000000000000000000
+      00000000000000000000238416AF0E7F00A00000000000000000000000000000
+      000000000000125F08790E7F01DE117D019E128004C400000000000000000000
+      00000000000000000000228416AF0E7F00A00000000000000000000000000000
+      000000400000118004C50F7F019B073F00360E7F00FF13640C44000000000000
+      000000000000000000000940000C0940000C0000000000000000000000000000
+      0000135D08490E7F00FF0A3E0335000000001B830EA70F7F01E6031F001F0000
+      000000000000000000000000000000000000000000000000000000000000037F
+      00200F7F02E8128002A00000000000000000051F010C138106CB0E7F00E31964
+      134700000000000000000000000000000000000000000040000010630A4A1080
+      02E60D7F00C6081F050B000000000000000000000000041F020D18820BA50E7F
+      00FF117F03C3115F0674073F004E073E004E12620B76107E03C40E7F00FF117F
+      019E0820050B000000000000000000000000000000000000000000000000073F
+      00381A810D9E107F02E20F7F01FD0E7F01FC0F7F02DF107F029B0A3E04350000
+      0000000000000000000000000000808080000000000000000000262626010D0D
+      0DC6010101FF010101FF030303FB1E1E1E590000000000000000000000000000
+      0000000000000000000080808000858585260101014C0101014C292929590000
+      00FF787878FF8B8B8BFF3B3B3BFF1D1D1DBF0101014C0101014C0202024C1C1C
+      1C040000000000000000808080008F8F8F70010101FD0D0D0DEC111111E41111
+      11E4111111E4111111E4111111E4111111E4111111E4060606F80A0A0AF13030
+      300C00000000000000008080800080808000010101E61414144C000000000000
+      00000000000000000000000000000000000000000000161616BA010101780000
+      000000000000000000008080800080808000010101E61414144C101010482727
+      2743080808220E0E0E692F2F2F010F0F0F7D05050511161616BA010101780000
+      000000000000000000008080800080808000010101E61414144C141414960000
+      008201010145020202D700000000000000FA00000028161616BA010101780000
+      000000000000000000008080800080808000010101E61414144C141414960000
+      008201010145020202D700000000000000FA00000028161616BA010101780000
+      000000000000000000008080800080808000010101E61414144C141414960000
+      008201010145020202D700000000010101F70707071F161616BA010101780000
+      000000000000000000008080800080808000010101E61414144C141414960000
+      008201010145020202D72A2A2A030D0D0D590000000033333388010101780000
+      000000000000000000008080800080808000010101E61414144C141414960000
+      008201010145020202D7000000000000703B0404E8DB2828DE3A0B0B0B270000
+      00000101BB2E0303EDD08383F04180808000010101E61414144C222222862929
+      29760808083D111111C1000000000202752A0303F8EB0101F8EC0101B83A0101
+      BB2F0101FBE20202F8F68282F33680808000020202E61414144C000000000000
+      0000000000000000000000000000000000000303B8370202F8EA0101F8ED0101
+      FBE20101F8F60202B84480808000808080000B0B0BCF353535AE1010107F1010
+      107F1010107F1010107F1010107F1010107F0D0D0D350404F45B0000FFFF0000
+      FFFF0303F0720000000080808000808080003737372F101010AC000000B30000
+      00B3000000B3000000B3000000B31D1D1D941818D1360202FBE30202F8F50101
+      F9E60202F8EE0101B83B80808000808080000000000000000000000000000000
+      0000000000000000000000000000020278250101FAE30101F8F50202B8420202
+      B9340202F9E70101F8EF4141F83C808080000000000000000000000000000000
+      0000000000000000000000000000010171500202F8F40202B842000000000000
+      00000202B9330202ECD90202FC75000000000000000000000051000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FF000000000000000000000051000000FB0101
+      014C0000004A0000004A0000004A0000004A0000004A0000004A0000004A0000
+      004A0000004A0E0E0E91000000FF00000051000000510101018C000000FC0101
+      0152000000510000005100000051000000510000005100000051000000510000
+      00510000001916161664000000FF000000FF000000FB000000F9000000F90000
+      00F9000000F9000000F9000000F9000000F9000000F9000000F9000000F90000
+      00FF0000005116161664000000FF000000FF1515156400000000000000000000
+      00000000000000000000000000000000000000000000000000002F2F2F010000
+      00FE0000005116161664000000FF000000FF1616166400000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00FE0000005116161664000000FF000000FF1616166400000000000000000000
+      000031220903794A10613C250825000000000000000000000000000000000000
+      00FE0000005116161664000000FF000000FF1616166400000000000000000000
+      000064431A09F19621FF794A1063000000000000000000000000000000000000
+      00FE0000005116161664000000FF000000FF16161664000000003C240A04794B
+      1064AB6C1D6BF29621FFB67018A0794B10653C25082400000000000000000000
+      00FE0000005116161664000000FF000000FF1616166400000000794D110EF396
+      21FFF39621FFF39621FFF39621FFF39621FF794B105F00000000000000000000
+      00FE0000005116161664000000FF000000FF161616640000000040000000784C
+      100DA86B2017F29621FFB771196B7A4D120E3C25070400000000000000000000
+      00FE0000005116161664000000FF000000FF1616166400000000000000000000
+      000064431A09F19621FF794A1062000000000000000000000000000000000000
+      00FE0101015315151564000000FF000000FF1616166400000000000000000000
+      000040000000794C100B3B240903000000000000000000000000000000000000
+      00FE000000FE000000FE000000FF000000FF1616166400000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00FE0101018B0000005100000051000000FF0E0E0E910000004A0000004A0000
+      004A0000004A0000004A0000004A0000004A0000004A0000004A0202024C0000
+      00FE000000510000000000000000000000FF000000FF000000FF000000FF0000
+      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+      00FF000000510000000000000000
+    }
+  end
+end
