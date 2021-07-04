@@ -123,6 +123,7 @@ begin
     CurrentWslDistributionLineSplit := WslProcessOutput.Strings[i].Split(' ');
 
     CurrentWslDistribution := TWslCommandLineDistribution.Create();
+    CurrentWslDistribution.IsDefault := (CurrentWslDistributionLineSplit[0] = '*');
     CurrentWslDistribution.Name := CurrentWslDistributionLineSplit[1];
     CurrentWslDistribution.Version := StrToInt(CurrentWslDistributionLineSplit[3]);
     CurrentWslDistribution.IsRunning :=

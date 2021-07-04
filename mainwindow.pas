@@ -12,9 +12,9 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
   AboutWindow, ActnList, DistributionPropertiesWindow,
   // For MB_xxxx dialog flags
-  LCLType,
+  LCLType, Menus,
   // Wsl interface
-  WslCommandLine;
+  WslCommandLine, WslRegistry;
 
 type
 
@@ -24,6 +24,12 @@ type
     CheckIfWslIsInstalled: TAction;
     ActionList1: TActionList;
     IconListWslDistributionList: TImageList;
+    ImageListPopupMenu: TImageList;
+    PopupMenuProperties: TMenuItem;
+    PopupMenuDefault: TMenuItem;
+    PopupMenuRun: TMenuItem;
+    PopupMenuStop: TMenuItem;
+    PopupMenu1: TPopupMenu;
     ToolButtonAbout: TToolButton;
     ToolButtonProperties: TToolButton;
     ToolButton2: TToolButton;
@@ -36,6 +42,7 @@ type
     procedure CheckIfWslIsInstalledExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure LoadWslDistributionInList(Sender: TObject);
+    procedure PopupMenuDefaultClick(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonPropertiesClick(Sender: TObject);
     procedure ToolButtonRunClick(Sender: TObject);
@@ -100,24 +107,24 @@ procedure AddDistributionInListView(WslDistributionList: TListView; WslDistribut
 var
   CurrentDistribution: TListItem;
 begin
-    CurrentDistribution := WslDistributionList.Items.Add;
+  CurrentDistribution := WslDistributionList.Items.Add;
 
-    // TODO use CurrentDistribution.Data to know if running or not ?
-    if WslDistribution.IsRunning
-    then begin
-      CurrentDistribution.ImageIndex := IMAGE_INDEX_RUNNING;
-    end else begin
-      CurrentDistribution.ImageIndex := IMAGE_INDEX_STOP;
-    end;
+  // TODO use CurrentDistribution.Data to know if running or not ?
+  if WslDistribution.IsRunning
+  then begin
+    CurrentDistribution.ImageIndex := IMAGE_INDEX_RUNNING;
+  end else begin
+    CurrentDistribution.ImageIndex := IMAGE_INDEX_STOP;
+  end;
 
-    if WslDistribution.IsDefault
-    then begin
-      CurrentDistribution.Caption := ' * ' + WslDistribution.Name;
-    end else begin
-      CurrentDistribution.Caption := '   ' + WslDistribution.Name;
-    end;
+  if WslDistribution.IsDefault
+  then begin
+    CurrentDistribution.Caption := ' * ' + WslDistribution.Name;
+  end else begin
+    CurrentDistribution.Caption := '   ' + WslDistribution.Name;
+  end;
 
-    CurrentDistribution.SubItems.Add('%d', [WslDistribution.Version]);
+  CurrentDistribution.SubItems.Add('%d', [WslDistribution.Version]);
 end;
 
 procedure UpdateDistributionInListView(Distribution: TListItem; WslDistribution: TWslCommandLineDistribution);
@@ -165,12 +172,29 @@ var
 begin
   WslDistList := ListDistribution();
 
+  for i := 0 to WslDistributionList.Items.Count do
+  begin
+    WslDistributionList.Items[i].Free;
+  end;
+
   WslDistributionList.Items.Clear;
 
   for i := 0 to WslDistList.Count - 1 do
   begin
     AddDistributionInListView(WslDistributionList, WslDistList[i]);
   end;
+
+  // Free list and all object in list
+  WslDistList.Free;
+end;
+
+procedure TWslGuiToolMainWindow.PopupMenuDefaultClick(Sender: TObject);
+begin
+  SetDistributionAsDefault(
+    ExtractDistributionName(
+      WslDistributionList.Selected.Caption));
+
+  RefreshWslDistributionInList(Sender);
 end;
 
 procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);
@@ -206,9 +230,12 @@ begin
     then begin
       i := i + 1;
     end else begin
-       WslDistributionList.Items.Delete(i);
+      WslDistributionList.Items[i].Free;
+      WslDistributionList.Items.Delete(i);
     end;
   end;
+
+  WslDistList.Free;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonAboutClick(Sender: TObject);
@@ -265,14 +292,25 @@ begin
     if Item.ImageIndex = IMAGE_INDEX_RUNNING
     then begin
       ToolButtonRun.Enabled := false;
+      PopupMenuRun.Enabled := false;
       ToolButtonStop.Enabled := true;
+      PopupMenuStop.Enabled := true;
     end else begin
       ToolButtonRun.Enabled := true;
+      PopupMenuRun.Enabled := true;
       ToolButtonStop.Enabled := false;
+      PopupMenuStop.Enabled := false;
     end;
+  end else begin
+    ToolButtonRun.Enabled := false;
+    PopupMenuRun.Enabled := false;
+    ToolButtonStop.Enabled := false;
+    PopupMenuStop.Enabled := false;
   end;
 
   ToolButtonProperties.Enabled := Selected;
+  PopupMenuDefault.Enabled := Selected;
+  PopupMenuProperties.Enabled := Selected;
 end;
 
 end.

@@ -286,7 +286,7 @@ begin
   then begin
     if not SetDistributionVersion(WslDistribution.Name, ComboBoxVersion.ItemIndex + 1)
     then begin
-      Application.MessageBox('Cannot change WSL distribution of this distribution!', 'Error :-(', MB_OK + MB_ICONERROR)
+      Application.MessageBox('Cannot change WSL distribution of this distribution!', 'Error :-(', MB_OK + MB_ICONERROR);
       exit;
     end;
   end;

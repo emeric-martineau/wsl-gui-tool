@@ -29,6 +29,8 @@ function FindDistribution(Distributions: TWslRegistryDistributionList; Name: str
 function LoadWslOneDistributionFromRegistryByName(DistributionName: string): TWslRegistryDistribution;
 // Save a distribution in registry
 procedure SaveDistributionToRegistry(Distribution: TWslRegistryDistribution);
+// Set distribution as default distribution
+procedure SetDistributionAsDefault(DistributionName: string);
 
 const
   LXSS_REG_KEY = '\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss';
@@ -92,7 +94,7 @@ begin
     begin
       Distribution := LoadWslOneDistributionFromRegistryById(DistributionsIdList[i]);
 
-      if Distribution.Name = DefaultDistribution
+      if Distribution.Id = DefaultDistribution
       then begin
         Distribution.IsDefault := true;
       end;
@@ -196,6 +198,33 @@ begin
   Registry.CloseKey;
 
   Registry.Free;
+end;
+
+procedure SetDistributionAsDefault(DistributionName: string);
+var
+  Distribution: TWslRegistryDistribution;
+  Registry : TRegistry;
+begin
+  Distribution := LoadWslOneDistributionFromRegistryByName(DistributionName);
+
+  if Distribution <> nil
+  then begin
+    Registry := TRegistry.Create;
+    Registry.RootKey := HKEY_CURRENT_USER;
+
+    if Registry.KeyExists(LXSS_REG_KEY)
+    then begin
+      Registry.OpenKey(LXSS_REG_KEY, False);
+
+      Registry.Writestring('DefaultDistribution', Distribution.Id);
+
+      Registry.CloseKey;
+    end;
+
+    Registry.Free;
+
+    Distribution.Free;
+  end;
 end;
 
 end.

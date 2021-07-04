@@ -1,7 +1,6 @@
 # Global config
 
 Change default WSL version
-Set distribution as default
 Minimize on systray
 Set default folder to run distribution
 Set default shell (powershell, cmd,...) to run distribution
