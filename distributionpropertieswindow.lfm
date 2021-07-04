@@ -191,13 +191,13 @@ object FormDistributionProperties: TFormDistributionProperties
         Height = 28
         Top = 0
         Width = 125
-        Enabled = False
         ItemHeight = 20
         ItemIndex = 0
         Items.Strings = (
           '1'
           '2'
         )
+        OnChange = CheckWslConfigChange
         TabOrder = 0
         Text = '1'
       end

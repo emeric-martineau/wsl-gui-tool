@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ValEdit,
-  ExtCtrls, Buttons, WslRegistry, WslApi, fgl, Grids, MaskEdit,
+  ExtCtrls, Buttons, WslRegistry, WslApi, WslCommandLine, fgl, Grids, MaskEdit,
   // For MB_xxxx dialog flags
   LCLType;
 
@@ -282,6 +282,15 @@ begin
     exit;
   end;
 
+  if (ComboBoxVersion.ItemIndex + 1) <> WslDistribution.Version
+  then begin
+    if not SetDistributionVersion(WslDistribution.Name, ComboBoxVersion.ItemIndex + 1)
+    then begin
+      Application.MessageBox('Cannot change WSL distribution of this distribution!', 'Error :-(', MB_OK + MB_ICONERROR)
+      exit;
+    end;
+  end;
+
   WslDistribution.DefaultUID := StrToInt(Trim(EditUserID.Text));
   WslDistribution.Flags := Flags;
   WslDistribution.Name := Trim(EditName.Text);
@@ -290,24 +299,6 @@ begin
 
   Self.ModalResult := mrOK;
   Self.Close();
-
-  {if WslSetConfigurationOfDistribution(
-    WslDistribution.Name,
-    StrToInt(
-      Trim(EditUserID.Text)),
-    Flags)
-  then begin
-    // Now save env var in registry
-    if CompareEnvData(ValueListEditorEnv.Strings, WslDistribution.Env) = false
-    then begin
-
-    end;
-
-    Self.ModalResult := mrOK;
-    Self.Close();
-  end else begin
-    Application.MessageBox('Cannot save config!', 'Error', MB_OK + MB_ICONERROR);
-  end;}
 end;
 
 Constructor TFormDistributionProperties.Create(AOwner: TComponent; DistributionName: string; DistributionVersion: integer);

@@ -9,7 +9,6 @@ Parameter to timer to refresh screen
 
 # One distribution
 
-Set WSL version for one distribution
 Add run WSL with command and a specific user
 Export distribution
 Import distribution

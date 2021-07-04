@@ -28,6 +28,8 @@ function FindDistribution(Distributions: TWslCommandLineDistributionList; Name: 
 function StartDistribution(Name: string): boolean;
 // Stop WSL distribution
 function StopDistribution(Name: string): boolean;
+// Set WSL1 or WSL2 for one distribution
+function SetDistributionVersion(Name: string; Version: integer): boolean;
 
 implementation
 
@@ -141,6 +143,33 @@ end;
 function StopDistribution(Name: string): boolean;
 begin
   Result := ShellExecute(0, nil, PChar('wsl'),PChar('--terminate ' + Name), nil, 1) = 0;
+end;
+
+function SetDistributionVersion(Name: string; Version: integer): boolean;
+var
+  // Use to run WSL binary
+  WslProcess: TProcess;
+begin
+  Result := false;
+
+  WslProcess := TProcess.Create(nil);
+
+  WslProcess.Executable := 'wsl';
+  WslProcess.Parameters.Add('--set-version');
+  WslProcess.Parameters.Add(Name);
+  WslProcess.Parameters.Add(IntToStr(Version));
+
+  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.ShowWindow := swoHIDE;
+
+  WslProcess.Execute;
+
+  if WslProcess.ExitStatus = 0
+  then begin
+    Result := true;
+  end;
+
+  WslProcess.Free;
 end;
 
 end.
