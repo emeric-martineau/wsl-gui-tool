@@ -47,6 +47,8 @@ type
     procedure ToolButtonPropertiesClick(Sender: TObject);
     procedure ToolButtonRunClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
+    procedure WslDistributionListCompare(Sender: TObject; Item1,
+      Item2: TListItem; Data: Integer; var Compare: Integer);
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   private
@@ -281,6 +283,29 @@ begin
       WslDistributionList.Selected.Caption));
 
   RefreshWslDistributionInList(Sender);
+end;
+
+procedure TWslGuiToolMainWindow.WslDistributionListCompare(Sender: TObject;
+  Item1, Item2: TListItem; Data: Integer; var Compare: Integer);
+var
+  MyList: TlistView;
+begin
+  MyList := (Sender as TlistView);
+
+  if MyList.SortColumn = 0
+  then begin
+    Compare := CompareText(
+      ExtractDistributionName(Item1.Caption),
+      ExtractDistributionName(Item2.Caption));
+  end else if MyList.SortColumn = 1
+  then begin
+    Compare := StrToInt(Item1.SubItems[0]) - StrToInt(Item2.SubItems[0])
+  end;
+
+  if MyList.SortDirection = sdDescending
+  then begin
+    Compare := - Compare;
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.WslDistributionListSelectItem(Sender: TObject;

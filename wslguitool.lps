@@ -8,9 +8,9 @@
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <CursorPos X="44" Y="11"/>
-        <UsageCount Value="101"/>
+        <UsageCount Value="102"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -19,39 +19,39 @@
         <ComponentName Value="WslGuiToolMainWindow"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="263"/>
-        <CursorPos X="33" Y="165"/>
-        <UsageCount Value="101"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="289"/>
+        <CursorPos X="8" Y="301"/>
+        <UsageCount Value="102"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="wslapi.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="173"/>
         <CursorPos X="82" Y="211"/>
-        <UsageCount Value="69"/>
+        <UsageCount Value="70"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="wslcommandline.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="wslcommandLine"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="89"/>
         <CursorPos X="42" Y="126"/>
-        <UsageCount Value="69"/>
+        <UsageCount Value="70"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="wslregistry.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="183"/>
-        <CursorPos X="48" Y="213"/>
-        <UsageCount Value="69"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="177"/>
+        <CursorPos Y="214"/>
+        <UsageCount Value="70"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -60,7 +60,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="12" Y="24"/>
-        <UsageCount Value="64"/>
+        <UsageCount Value="65"/>
       </Unit5>
       <Unit6>
         <Filename Value="aboutwindow.pas"/>
@@ -68,10 +68,10 @@
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="2"/>
         <CursorPos X="40" Y="52"/>
-        <UsageCount Value="62"/>
+        <UsageCount Value="63"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit6>
@@ -81,10 +81,10 @@
         <ComponentName Value="FormDistributionProperties"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="67"/>
         <CursorPos X="50" Y="31"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit7>
@@ -118,10 +118,11 @@
       <Unit12>
         <Filename Value="C:\lazarus\lcl\comctrls.pp"/>
         <UnitName Value="ComCtrls"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1133"/>
-        <CursorPos X="21" Y="1156"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1538"/>
+        <CursorPos X="43" Y="1565"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit12>
       <Unit13>
         <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\regexpr\src\regexpr.pas"/>
@@ -265,123 +266,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="208" Column="20" TopLine="181"/>
+        <Caret Line="297" TopLine="270"/>
       </Position1>
       <Position2>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="129" Column="39" TopLine="102"/>
+        <Caret Line="295" TopLine="270"/>
       </Position2>
       <Position3>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="280" Column="23" TopLine="248"/>
+        <Caret Line="297" TopLine="270"/>
       </Position3>
       <Position4>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="197" Column="40" TopLine="170"/>
+        <Caret Line="327" TopLine="285"/>
       </Position4>
       <Position5>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="224" Column="9" TopLine="181"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="329" TopLine="285"/>
       </Position5>
       <Position6>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="185" Column="67" TopLine="171"/>
+        <Caret Line="332" TopLine="285"/>
       </Position6>
       <Position7>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="120" TopLine="93"/>
+        <Caret Line="319" TopLine="290"/>
       </Position7>
       <Position8>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="124" TopLine="93"/>
+        <Caret Line="320" TopLine="290"/>
       </Position8>
       <Position9>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="120" TopLine="93"/>
+        <Caret Line="319" TopLine="290"/>
       </Position9>
       <Position10>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="124" TopLine="93"/>
+        <Caret Line="327" TopLine="290"/>
       </Position10>
       <Position11>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="120" TopLine="93"/>
+        <Caret Line="329" TopLine="290"/>
       </Position11>
       <Position12>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="124" TopLine="93"/>
+        <Caret Line="331" TopLine="290"/>
       </Position12>
       <Position13>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="120" TopLine="93"/>
+        <Caret Line="323" Column="99" TopLine="280"/>
       </Position13>
       <Position14>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="165" Column="53" TopLine="115"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="295" TopLine="287"/>
       </Position14>
       <Position15>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="17" Column="11"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="297" TopLine="287"/>
       </Position15>
       <Position16>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="166" Column="24" TopLine="134"/>
+        <Caret Line="299" TopLine="287"/>
       </Position16>
       <Position17>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="44" Column="40" TopLine="33"/>
+        <Caret Line="301" TopLine="287"/>
       </Position17>
       <Position18>
         <Filename Value="mainwindow.pas"/>
-        <Caret Line="165" Column="33" TopLine="142"/>
+        <Caret Line="303" Column="44" TopLine="287"/>
       </Position18>
       <Position19>
-        <Filename Value="wslcommandline.pas"/>
-        <Caret Line="24" Column="26"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="301" TopLine="274"/>
       </Position19>
       <Position20>
-        <Filename Value="wslcommandline.pas"/>
-        <Caret Line="44" Column="26"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="317" TopLine="274"/>
       </Position20>
       <Position21>
-        <Filename Value="mainwindow.pas"/>
-        <Caret Line="165" Column="33" TopLine="263"/>
+        <Filename Value="C:\lazarus\lcl\comctrls.pp"/>
+        <Caret Line="1705" Column="14" TopLine="1679"/>
       </Position21>
       <Position22>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="131" Column="21" TopLine="102"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="64" Column="32" TopLine="37"/>
       </Position22>
       <Position23>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="125" Column="31" TopLine="102"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="330" Column="28" TopLine="289"/>
       </Position23>
       <Position24>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="232" Column="23" TopLine="181"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="298" TopLine="271"/>
       </Position24>
       <Position25>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="126" TopLine="102"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="307" TopLine="271"/>
       </Position25>
       <Position26>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="130" Column="32" TopLine="102"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="308" TopLine="271"/>
       </Position26>
       <Position27>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="140" TopLine="102"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="298" TopLine="271"/>
       </Position27>
       <Position28>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="160" TopLine="133"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="317" TopLine="277"/>
       </Position28>
       <Position29>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="208" Column="31" TopLine="183"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="302" Column="9" TopLine="293"/>
       </Position29>
       <Position30>
-        <Filename Value="wslregistry.pas"/>
-        <Caret Line="164" Column="15" TopLine="124"/>
+        <Filename Value="mainwindow.pas"/>
+        <Caret Line="319" TopLine="289"/>
       </Position30>
     </JumpHistory>
     <RunParams>

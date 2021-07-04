@@ -3519,8 +3519,11 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       end>
     PopupMenu = PopupMenu1
     SmallImages = IconListWslDistributionList
+    SortColumn = 0
+    SortType = stText
     TabOrder = 1
     ViewStyle = vsReport
+    OnCompare = WslDistributionListCompare
     OnSelectItem = WslDistributionListSelectItem
   end
   object IconListToolbar: TImageList
