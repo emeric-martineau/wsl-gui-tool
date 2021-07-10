@@ -30,6 +30,7 @@ type
     PopupMenuRun: TMenuItem;
     PopupMenuStop: TMenuItem;
     PopupMenu1: TPopupMenu;
+    TimerRefreshDistributionList: TTimer;
     ToolButtonAbout: TToolButton;
     ToolButtonProperties: TToolButton;
     ToolButton2: TToolButton;
@@ -41,8 +42,8 @@ type
     ToolButtonRun: TToolButton;
     procedure CheckIfWslIsInstalledExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure LoadWslDistributionInList(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
+    procedure TimerRefreshDistributionListTimer(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonPropertiesClick(Sender: TObject);
     procedure ToolButtonRunClick(Sender: TObject);
@@ -164,30 +165,6 @@ end;
 procedure TWslGuiToolMainWindow.FormCreate(Sender: TObject);
 begin
   Self.CheckIfWslIsInstalledExecute(Sender);
-  Self.LoadWslDistributionInList(Sender);
-end;
-
-procedure TWslGuiToolMainWindow.LoadWslDistributionInList(Sender: TObject);
-var
-  WslDistList: TWslCommandLineDistributionList;
-  i : integer;
-begin
-  WslDistList := ListDistribution();
-
-  for i := 0 to WslDistributionList.Items.Count do
-  begin
-    WslDistributionList.Items[i].Free;
-  end;
-
-  WslDistributionList.Items.Clear;
-
-  for i := 0 to WslDistList.Count - 1 do
-  begin
-    AddDistributionInListView(WslDistributionList, WslDistList[i]);
-  end;
-
-  // Free list and all object in list
-  WslDistList.Free;
 end;
 
 procedure TWslGuiToolMainWindow.PopupMenuDefaultClick(Sender: TObject);
@@ -196,7 +173,15 @@ begin
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
 
+  TimerRefreshDistributionList.Enabled := true;
+end;
+
+procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
+  Sender: TObject);
+begin
   RefreshWslDistributionInList(Sender);
+
+  //(Sender as TTimer).Enabled := false;
 end;
 
 procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);
@@ -207,6 +192,8 @@ var
   CurrentName: string;
 begin
   WslDistList := ListDistribution();
+
+  WslDistributionList.BeginUpdate;
 
   for i := 0 to WslDistList.Count - 1 do
   begin
@@ -237,6 +224,8 @@ begin
     end;
   end;
 
+  WslDistributionList.EndUpdate;
+
   WslDistList.Free;
 end;
 
@@ -264,7 +253,7 @@ begin
 
   DistributionProperties.Free;
 
-  RefreshWslDistributionInList(Sender);
+  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonRunClick(Sender: TObject);
@@ -273,7 +262,7 @@ begin
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
 
-  RefreshWslDistributionInList(Sender);
+  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonStopClick(Sender: TObject);
@@ -282,7 +271,7 @@ begin
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
 
-  RefreshWslDistributionInList(Sender);
+  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.WslDistributionListCompare(Sender: TObject;

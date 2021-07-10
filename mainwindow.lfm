@@ -4344,16 +4344,19 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       Caption = '&Run'
       Enabled = False
       ImageIndex = 0
+      OnClick = ToolButtonRunClick
     end
     object PopupMenuStop: TMenuItem
       Caption = '&Stop'
       Enabled = False
       ImageIndex = 1
+      OnClick = ToolButtonStopClick
     end
     object PopupMenuProperties: TMenuItem
       Caption = '&Properties'
       Enabled = False
       ImageIndex = 2
+      OnClick = ToolButtonPropertiesClick
     end
     object PopupMenuDefault: TMenuItem
       Caption = 'Set as &default'
@@ -4463,5 +4466,11 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       0000000000000B0B0BEA000000FF000000FF0F0F0FE503030301000000000000
       0000000000000000000000000000
     }
+  end
+  object TimerRefreshDistributionList: TTimer
+    Interval = 300
+    OnTimer = TimerRefreshDistributionListTimer
+    Left = 150
+    Top = 177
   end
 end
