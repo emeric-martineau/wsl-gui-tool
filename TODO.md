@@ -15,6 +15,5 @@ Unregister distribution
 
 # Misc
 
-Add timer to auto-reload WSL distribution when main window is displayed
 Edit <USER>\.wslconfig file (https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings)
 Save save & position of main window

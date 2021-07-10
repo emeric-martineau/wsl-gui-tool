@@ -42,6 +42,9 @@ type
     ToolButtonRun: TToolButton;
     procedure CheckIfWslIsInstalledExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormHide(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
@@ -167,6 +170,25 @@ begin
   Self.CheckIfWslIsInstalledExecute(Sender);
 end;
 
+procedure TWslGuiToolMainWindow.FormHide(Sender: TObject);
+begin
+  TimerRefreshDistributionList.Enabled := false;
+end;
+
+procedure TWslGuiToolMainWindow.FormShow(Sender: TObject);
+begin
+    TimerRefreshDistributionList.Enabled := true;
+end;
+
+procedure TWslGuiToolMainWindow.FormWindowStateChange(Sender: TObject);
+begin
+  case WindowState of
+    wsNormal: TimerRefreshDistributionList.Enabled := true;
+    wsMaximized: TimerRefreshDistributionList.Enabled := true;
+    wsMinimized: TimerRefreshDistributionList.Enabled := false;
+  end;
+end;
+
 procedure TWslGuiToolMainWindow.PopupMenuDefaultClick(Sender: TObject);
 begin
   SetDistributionAsDefault(
@@ -180,8 +202,6 @@ procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
   Sender: TObject);
 begin
   RefreshWslDistributionInList(Sender);
-
-  //(Sender as TTimer).Enabled := false;
 end;
 
 procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);
@@ -252,8 +272,6 @@ begin
   DistributionProperties.ShowModal;
 
   DistributionProperties.Free;
-
-  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonRunClick(Sender: TObject);
@@ -261,8 +279,6 @@ begin
   StartDistribution(
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
-
-  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonStopClick(Sender: TObject);
@@ -270,8 +286,6 @@ begin
   StopDistribution(
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
-
-  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.WslDistributionListCompare(Sender: TObject;

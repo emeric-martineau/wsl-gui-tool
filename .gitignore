@@ -2,3 +2,4 @@ backup
 lib
 *.exe
 *.dbg
+wslguitool.lps
