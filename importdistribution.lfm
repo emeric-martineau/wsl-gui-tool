@@ -1,0 +1,160 @@
+object FormImportDistribution: TFormImportDistribution
+  Left = -1831
+  Height = 350
+  Top = 453
+  Width = 400
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  BorderWidth = 20
+  Caption = 'Import a distribution'
+  ClientHeight = 350
+  ClientWidth = 400
+  DesignTimePPI = 120
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.12.0'
+  object PanelButtons: TPanel
+    Left = 20
+    Height = 31
+    Top = 299
+    Width = 360
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 31
+    ClientWidth = 360
+    TabOrder = 0
+    object PanelButtonOk: TPanel
+      Left = 0
+      Height = 31
+      Top = 0
+      Width = 94
+      Align = alLeft
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 31
+      ClientWidth = 94
+      TabOrder = 0
+      object ButtonImport: TButton
+        Left = 0
+        Height = 31
+        Top = 0
+        Width = 94
+        Caption = '&Import'
+        Enabled = False
+        ModalResult = 1
+        TabOrder = 0
+      end
+    end
+    object PanelButtonReset: TPanel
+      Left = 266
+      Height = 31
+      Top = 0
+      Width = 0
+      Align = alRight
+      AutoSize = True
+      BevelOuter = bvNone
+      TabOrder = 1
+    end
+    object PanelButtonCancel: TPanel
+      Left = 266
+      Height = 31
+      Top = 0
+      Width = 94
+      Align = alRight
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 31
+      ClientWidth = 94
+      TabOrder = 2
+      object ButtonCancel: TButton
+        Left = 0
+        Height = 31
+        Top = 0
+        Width = 94
+        Caption = '&Cancel'
+        ModalResult = 2
+        TabOrder = 0
+      end
+    end
+  end
+  object LabeledEditDistributionName: TLabeledEdit
+    Left = 20
+    Height = 28
+    Top = 32
+    Width = 360
+    AutoSize = False
+    EditLabel.Height = 20
+    EditLabel.Width = 360
+    EditLabel.Caption = 'Name of Distribution:'
+    EditLabel.ParentColor = False
+    TabOrder = 1
+    OnChange = LabeledEditDistributionNameChange
+  end
+  object DirectoryEditInstallLocationPath: TDirectoryEdit
+    Left = 20
+    Height = 28
+    Top = 96
+    Width = 360
+    DialogOptions = [ofCreatePrompt, ofEnableSizing, ofViewDetail]
+    ShowHidden = False
+    ButtonWidth = 29
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 2
+    OnChange = LabeledEditDistributionNameChange
+  end
+  object Label1: TLabel
+    Left = 20
+    Height = 20
+    Top = 74
+    Width = 189
+    Caption = 'Folder that will contain data:'
+    ParentColor = False
+  end
+  object ComboBoxVersion: TComboBox
+    Left = 20
+    Height = 28
+    Top = 160
+    Width = 125
+    ItemHeight = 20
+    ItemIndex = 0
+    Items.Strings = (
+      '1'
+      '2'
+    )
+    TabOrder = 3
+    Text = '1'
+  end
+  object Label2: TLabel
+    Left = 20
+    Height = 20
+    Top = 136
+    Width = 102
+    Caption = 'Version of WSL:'
+    ParentColor = False
+  end
+  object EditFileNameFileName: TFileNameEdit
+    Left = 20
+    Height = 28
+    Top = 240
+    Width = 360
+    DialogOptions = [ofFileMustExist, ofEnableSizing, ofViewDetail]
+    Filter = 'Tarball (*.tar)|*.tar|All (*.*)|*.*'
+    FilterIndex = 0
+    DefaultExt = '*.tar'
+    HideDirectories = False
+    ButtonWidth = 29
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 4
+    OnChange = LabeledEditDistributionNameChange
+  end
+  object Label3: TLabel
+    Left = 20
+    Height = 20
+    Top = 216
+    Width = 93
+    Caption = 'File to import:'
+    ParentColor = False
+  end
+end

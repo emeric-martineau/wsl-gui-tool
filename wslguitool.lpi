@@ -18,7 +18,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="2"/>
-      <StringTable CompanyName="MARTINEAU Emeric" FileDescription="A graphical tool for help manage WSL" LegalCopyright="MARTINEAU Emeric" ProductName="Windows Sybsystem Linux GUI Tool" ProductVersion="0.1"/>
+      <StringTable CompanyName="MARTINEAU Emeric" FileDescription="A graphical tool for help manage WSL" LegalCopyright="MARTINEAU Emeric" ProductName="Windows Sybsystem Linux GUI Tool" ProductVersion="0.2"/>
     </VersionInfo>
     <BuildModes Count="3">
       <Item1 Name="Default" Default="True"/>
@@ -106,7 +106,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="9">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -149,6 +149,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="importdistribution.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormImportDistribution"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

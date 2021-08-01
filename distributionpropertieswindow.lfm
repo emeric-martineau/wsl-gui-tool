@@ -1,12 +1,13 @@
 object FormDistributionProperties: TFormDistributionProperties
-  Left = 365
+  Left = -1895
   Height = 496
-  Top = 180
+  Top = 257
   Width = 581
   Caption = 'Distribution properties'
   ClientHeight = 496
   ClientWidth = 581
   DesignTimePPI = 120
+  Position = poOwnerFormCenter
   LCLVersion = '2.0.12.0'
   object PanelButtons: TPanel
     Left = 0

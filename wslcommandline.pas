@@ -30,6 +30,10 @@ function StartDistribution(Name: string): boolean;
 function StopDistribution(Name: string): boolean;
 // Set WSL1 or WSL2 for one distribution
 function SetDistributionVersion(Name: string; Version: integer): boolean;
+// Export a distribution
+function ExportDistribution(Name: string; ExportFileName: string): boolean;
+// Import a distribution
+function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): boolean;
 
 implementation
 
@@ -159,6 +163,69 @@ begin
   WslProcess.Parameters.Add('--set-version');
   WslProcess.Parameters.Add(Name);
   WslProcess.Parameters.Add(IntToStr(Version));
+
+  // TODO return stderr
+
+  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.ShowWindow := swoHIDE;
+
+  WslProcess.Execute;
+
+  if WslProcess.ExitStatus = 0
+  then begin
+    Result := true;
+  end;
+
+  WslProcess.Free;
+end;
+
+function ExportDistribution(Name: string; ExportFileName: string): boolean;
+var
+  // Use to run WSL binary
+  WslProcess: TProcess;
+begin
+  Result := false;
+
+  WslProcess := TProcess.Create(nil);
+
+  WslProcess.Executable := 'wsl';
+  WslProcess.Parameters.Add('--export');
+  WslProcess.Parameters.Add(Name);
+  WslProcess.Parameters.Add(ExportFileName);
+
+  // TODO return stderr
+
+  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.ShowWindow := swoHIDE;
+
+  WslProcess.Execute;
+
+  if WslProcess.ExitStatus = 0
+  then begin
+    Result := true;
+  end;
+
+  WslProcess.Free;
+end;
+
+function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): boolean;
+var
+  // Use to run WSL binary
+  WslProcess: TProcess;
+begin
+  Result := false;
+
+  WslProcess := TProcess.Create(nil);
+
+  WslProcess.Executable := 'wsl';
+  WslProcess.Parameters.Add('--import');
+  WslProcess.Parameters.Add(Name);
+  WslProcess.Parameters.Add(InstallLocationPath);
+  WslProcess.Parameters.Add(FileName);
+  WslProcess.Parameters.Add('--version');
+  WslProcess.Parameters.Add(IntToStr(Version));
+
+  // TODO return stderr
 
   WslProcess.Options := WslProcess.Options + [poWaitOnExit];
   WslProcess.ShowWindow := swoHIDE;

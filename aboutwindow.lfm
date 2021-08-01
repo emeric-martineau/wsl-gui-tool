@@ -1,7 +1,7 @@
 object FormAbout: TFormAbout
-  Left = 379
+  Left = -1985
   Height = 569
-  Top = 171
+  Top = 239
   Width = 568
   BorderStyle = bsDialog
   Caption = 'About WSL GUI Tool'

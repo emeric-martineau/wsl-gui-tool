@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, mainwindow, WslApi, WslCommandLine, WslRegistry, ApplicationInfo,
-  aboutwindow, distributionpropertieswindow;
+  aboutwindow, distributionpropertieswindow, importdistribution;
 
 {$R *.res}
 

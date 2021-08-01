@@ -10,7 +10,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  AboutWindow, ActnList, DistributionPropertiesWindow,
+  AboutWindow, ActnList, DistributionPropertiesWindow, ImportDistribution,
   // For MB_xxxx dialog flags
   LCLType, Menus,
   // Wsl interface
@@ -21,8 +21,6 @@ type
   { TWslGuiToolMainWindow }
 
   TWslGuiToolMainWindow = class(TForm)
-    CheckIfWslIsInstalled: TAction;
-    ActionList1: TActionList;
     IconListWslDistributionList: TImageList;
     ImageListPopupMenu: TImageList;
     PopupMenuProperties: TMenuItem;
@@ -30,7 +28,10 @@ type
     PopupMenuRun: TMenuItem;
     PopupMenuStop: TMenuItem;
     PopupMenu1: TPopupMenu;
+    ExportDialog: TSaveDialog;
     TimerRefreshDistributionList: TTimer;
+    ToolButtonExport: TToolButton;
+    ToolButtonImport: TToolButton;
     ToolButtonAbout: TToolButton;
     ToolButtonProperties: TToolButton;
     ToolButton2: TToolButton;
@@ -48,6 +49,8 @@ type
     procedure PopupMenuDefaultClick(Sender: TObject);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
+    procedure ToolButtonExportClick(Sender: TObject);
+    procedure ToolButtonImportClick(Sender: TObject);
     procedure ToolButtonPropertiesClick(Sender: TObject);
     procedure ToolButtonRunClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
@@ -239,8 +242,7 @@ begin
     then begin
       i := i + 1;
     end else begin
-      WslDistributionList.Items[i].Free;
-      WslDistributionList.Items.Delete(i);
+      WslDistributionList.Items.Delete(i); // Delete call free
     end;
   end;
 
@@ -258,6 +260,35 @@ begin
   About.ShowModal;
 
   About.Free;
+end;
+
+procedure TWslGuiToolMainWindow.ToolButtonExportClick(Sender: TObject);
+begin
+  if ExportDialog.Execute
+  then begin
+    ExportDistribution(
+      ExtractDistributionName(
+        WslDistributionList.Selected.Caption), ExportDialog.FileName);
+  end;
+end;
+
+procedure TWslGuiToolMainWindow.ToolButtonImportClick(Sender: TObject);
+var FormImportDistribution: TFormImportDistribution;
+begin
+  FormImportDistribution := TFormImportDistribution.Create(Self);
+
+  if FormImportDistribution.ShowModal = mrOk
+  then begin
+
+    // TODO check if DistributionName still exists. If yes, display error box.
+    WslCommandLine.ImportDistribution(
+      FormImportDistribution.DistributionName,
+      FormImportDistribution.InstallLocationPath,
+      FormImportDistribution.Version,
+      FormImportDistribution.Filename);
+  end;
+
+  FormImportDistribution.Free;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonPropertiesClick(Sender: TObject);
@@ -339,6 +370,7 @@ begin
   ToolButtonProperties.Enabled := Selected;
   PopupMenuDefault.Enabled := Selected;
   PopupMenuProperties.Enabled := Selected;
+  ToolButtonExport.Enabled := Selected;
 end;
 
 end.
