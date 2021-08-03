@@ -34,6 +34,8 @@ function SetDistributionVersion(Name: string; Version: integer): boolean;
 function ExportDistribution(Name: string; ExportFileName: string): boolean;
 // Import a distribution
 function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): boolean;
+// Unregister a distribution
+function UnregisterDistribution(Name: string): boolean;
 
 implementation
 
@@ -224,6 +226,34 @@ begin
   WslProcess.Parameters.Add(FileName);
   WslProcess.Parameters.Add('--version');
   WslProcess.Parameters.Add(IntToStr(Version));
+
+  // TODO return stderr
+
+  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.ShowWindow := swoHIDE;
+
+  WslProcess.Execute;
+
+  if WslProcess.ExitStatus = 0
+  then begin
+    Result := true;
+  end;
+
+  WslProcess.Free;
+end;
+
+function UnregisterDistribution(Name: string): boolean;
+var
+  // Use to run WSL binary
+  WslProcess: TProcess;
+begin
+  Result := false;
+
+  WslProcess := TProcess.Create(nil);
+
+  WslProcess.Executable := 'wsl';
+  WslProcess.Parameters.Add('--unregister');
+  WslProcess.Parameters.Add(Name);
 
   // TODO return stderr
 

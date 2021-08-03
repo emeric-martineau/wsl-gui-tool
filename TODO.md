@@ -12,7 +12,6 @@ Allow save old export distribution folder
 
 Add run WSL with command and a specific user
 Run/stop multi distrib in same time
-Unregister distribution
 Display base path
 Update base path
 Import distribution window get default version

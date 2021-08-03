@@ -30,6 +30,7 @@ type
     PopupMenu1: TPopupMenu;
     ExportDialog: TSaveDialog;
     TimerRefreshDistributionList: TTimer;
+    ToolButtonUnregisterDistribution: TToolButton;
     ToolButtonExport: TToolButton;
     ToolButtonImport: TToolButton;
     ToolButtonAbout: TToolButton;
@@ -54,6 +55,7 @@ type
     procedure ToolButtonPropertiesClick(Sender: TObject);
     procedure ToolButtonRunClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
+    procedure ToolButtonUnregisterDistributionClick(Sender: TObject);
     procedure WslDistributionListCompare(Sender: TObject; Item1,
       Item2: TListItem; Data: Integer; var Compare: Integer);
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
@@ -307,6 +309,7 @@ end;
 
 procedure TWslGuiToolMainWindow.ToolButtonRunClick(Sender: TObject);
 begin
+  // TODO check return of StartDistribution
   StartDistribution(
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
@@ -314,7 +317,17 @@ end;
 
 procedure TWslGuiToolMainWindow.ToolButtonStopClick(Sender: TObject);
 begin
+  // TODO check return of StopDistribution
   StopDistribution(
+    ExtractDistributionName(
+      WslDistributionList.Selected.Caption));
+end;
+
+procedure TWslGuiToolMainWindow.ToolButtonUnregisterDistributionClick(
+  Sender: TObject);
+begin
+  // TODO check return of UnregisterDistribution
+  UnregisterDistribution(
     ExtractDistributionName(
       WslDistributionList.Selected.Caption));
 end;
@@ -371,6 +384,7 @@ begin
   PopupMenuDefault.Enabled := Selected;
   PopupMenuProperties.Enabled := Selected;
   ToolButtonExport.Enabled := Selected;
+  ToolButtonUnregisterDistribution.Enabled := Selected;
 end;
 
 end.

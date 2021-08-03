@@ -17,8 +17,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="2"/>
-      <StringTable CompanyName="MARTINEAU Emeric" FileDescription="A graphical tool for help manage WSL" LegalCopyright="MARTINEAU Emeric" ProductName="Windows Sybsystem Linux GUI Tool" ProductVersion="0.2"/>
+      <MinorVersionNr Value="3"/>
+      <StringTable CompanyName="MARTINEAU Emeric" FileDescription="A graphical tool for help manage WSL" LegalCopyright="MARTINEAU Emeric" ProductName="Windows Sybsystem Linux GUI Tool" ProductVersion="0.3.0"/>
     </VersionInfo>
     <BuildModes Count="3">
       <Item1 Name="Default" Default="True"/>
