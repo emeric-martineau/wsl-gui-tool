@@ -16,8 +16,9 @@ function GetAppVersionStr: string;
 var
    Exe: string;
    Size: DWord;
-   Buffer: PChar;
+   Buffer: Pointer;
    FixedFileInfo: PVSFixedFileInfo;
+   FixedFileInfoSize: DWord;
 begin
  Result := '?.?.?.?';
  Exe := ParamStr(0);
@@ -27,11 +28,11 @@ begin
 
  if Size > 0 then
  try
-    Buffer := AllocMem(Size);
+    GetMem(Buffer, Size);
 
     GetFileVersionInfo(PChar(Exe),0, Size, Buffer);
 
-    if VerQueryValue(Buffer, '\', FixedFileInfo, Size)
+    if VerQueryValue(Buffer, '\', FixedFileInfo, FixedFileInfoSize)
     then begin
       Result := Format('%d.%d.%d.%d',
         [LongRec(FixedFileInfo^.dwFileVersionMS).Hi,  //major
@@ -44,6 +45,7 @@ begin
  end;
 
 end;
+
 
 end.
 
