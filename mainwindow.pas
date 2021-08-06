@@ -61,9 +61,18 @@ type
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   private
-
-  public
+    // Refresh distribution list
     procedure RefreshWslDistributionInList(Sender: TObject);
+    // When only one distribution is selected
+    procedure ManageOneSelectedItemInListView(Item: TListItem;
+      Selected: Boolean);
+    // When many distributions is selected
+    procedure ManageManySelectedItemInListView();
+    // Manage action of distribution
+    procedure ManageOneDistributionActionButton(status: boolean);
+    // Manage action for many distributions
+    procedure ManageMultiDistributionActionButton(status: boolean);
+  public
   end;
 
 var
@@ -156,6 +165,19 @@ begin
   end;
 
   Distribution.SubItems[0] := Format('%d', [WslDistribution.Version]);
+end;
+
+function NumberItemSelected(List: TListView): integer;
+var idx: integer;
+begin
+  Result := 0;
+  for idx := 0 to List.Items.Count - 1 do
+  begin
+    if List.Items[idx].Selected
+    then begin
+      Inc(Result);
+    end;
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.CheckIfWslIsInstalledExecute(Sender: TObject);
@@ -308,19 +330,33 @@ begin
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonRunClick(Sender: TObject);
+var idx: integer;
 begin
-  // TODO check return of StartDistribution
-  StartDistribution(
-    ExtractDistributionName(
-      WslDistributionList.Selected.Caption));
+  for idx := 0 to WslDistributionList.Items.Count -1 do
+  begin
+    if WslDistributionList.Items[idx].Selected
+    then begin
+      // TODO check return of StartDistribution
+      StartDistribution(
+        ExtractDistributionName(
+          WslDistributionList.Items[idx].Caption));
+    end;
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonStopClick(Sender: TObject);
+var idx: integer;
 begin
-  // TODO check return of StopDistribution
-  StopDistribution(
-    ExtractDistributionName(
-      WslDistributionList.Selected.Caption));
+  for idx := 0 to WslDistributionList.Items.Count -1 do
+  begin
+    if WslDistributionList.Items[idx].Selected
+    then begin
+      // TODO check return of StartDistribution
+      StopDistribution(
+        ExtractDistributionName(
+          WslDistributionList.Items[idx].Caption));
+    end;
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonUnregisterDistributionClick(
@@ -358,6 +394,21 @@ end;
 procedure TWslGuiToolMainWindow.WslDistributionListSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 begin
+  TimerRefreshDistributionList.Enabled := false;
+
+  if NumberItemSelected(TListView(Sender)) > 1
+  then begin
+    ManageManySelectedItemInListView();
+  end else begin
+    ManageOneSelectedItemInListView(Item, Selected);
+  end;
+
+  TimerRefreshDistributionList.Enabled := true;
+end;
+
+procedure TWslGuiToolMainWindow.ManageOneSelectedItemInListView(Item: TListItem;
+  Selected: Boolean);
+begin
   if Selected
   then begin
     // Event fire when item selected AND unselected
@@ -380,11 +431,35 @@ begin
     PopupMenuStop.Enabled := false;
   end;
 
-  ToolButtonProperties.Enabled := Selected;
-  PopupMenuDefault.Enabled := Selected;
-  PopupMenuProperties.Enabled := Selected;
-  ToolButtonExport.Enabled := Selected;
-  ToolButtonUnregisterDistribution.Enabled := Selected;
+  ManageOneDistributionActionButton(Selected);
+end;
+
+procedure TWslGuiToolMainWindow.ManageManySelectedItemInListView();
+begin
+  ToolButtonRun.Enabled := true;
+  PopupMenuRun.Enabled := true;
+  ToolButtonStop.Enabled := true;
+  PopupMenuStop.Enabled := true;
+
+  ManageOneDistributionActionButton(false);
+end;
+
+procedure TWslGuiToolMainWindow.ManageOneDistributionActionButton(status: boolean);
+begin
+  ToolButtonProperties.Enabled := status;
+  PopupMenuDefault.Enabled := status;
+  PopupMenuProperties.Enabled := status;
+  ToolButtonExport.Enabled := status;
+  ToolButtonImport.Enabled := status;
+  ToolButtonUnregisterDistribution.Enabled := status;
+end;
+
+procedure TWslGuiToolMainWindow.ManageMultiDistributionActionButton(status: boolean);
+begin
+  ToolButtonRun.Enabled := status;
+  PopupMenuRun.Enabled := status;
+  ToolButtonStop.Enabled := status;
+  PopupMenuStop.Enabled := status;
 end;
 
 end.
