@@ -31,6 +31,8 @@ function LoadWslOneDistributionFromRegistryByName(DistributionName: string): TWs
 procedure SaveDistributionToRegistry(Distribution: TWslRegistryDistribution);
 // Set distribution as default distribution
 procedure SetDistributionAsDefault(DistributionName: string);
+// Return default WSL version
+function GetDefaultWslVersion: integer;
 
 const
   LXSS_REG_KEY = '\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss';
@@ -225,6 +227,34 @@ begin
 
     Distribution.Free;
   end;
+end;
+
+function GetDefaultWslVersion: integer;
+var
+  Registry : TRegistry;
+begin
+  Registry := TRegistry.Create;
+  Registry.RootKey := HKEY_CURRENT_USER;
+  Result := 1;
+
+  if Registry.KeyExists(LXSS_REG_KEY)
+  then begin
+    Registry.OpenKey(LXSS_REG_KEY, False);
+
+    if Registry.ValueExists('DefaultVersion')
+    then begin
+      Result := Registry.ReadInteger('DefaultVersion');
+
+      if (Result < 0) or (Result > 2)
+      then begin
+        Result := 1;
+      end;
+    end;
+
+    Registry.CloseKey;
+  end;
+
+  Registry.Free;
 end;
 
 end.

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  EditBtn;
+  EditBtn, WslRegistry;
 
 type
 
@@ -26,6 +26,7 @@ type
     PanelButtonOk: TPanel;
     PanelButtonReset: TPanel;
     PanelButtons: TPanel;
+    procedure FormCreate(Sender: TObject);
     procedure LabeledEditDistributionNameChange(Sender: TObject);
   private
     function ReadFilename: string;
@@ -55,6 +56,11 @@ begin
   ButtonImport.Enabled := (Trim(LabeledEditDistributionName.Text) <> '') and
      (Trim(Self.DirectoryEditInstallLocationPath.Text) <> '') and
      (Trim(Self.EditFileNameFilename.Text) <> '');
+end;
+
+procedure TFormImportDistribution.FormCreate(Sender: TObject);
+begin
+  ComboBoxVersion.ItemIndex := GetDefaultWslVersion - 1;
 end;
 
 function TFormImportDistribution.ReadFilename: string;

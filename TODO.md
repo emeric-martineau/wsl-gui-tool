@@ -13,7 +13,6 @@ Allow save old export distribution folder
 Add run WSL with command and a specific user
 Display base path
 Update base path
-Import distribution window get default version
 
 # Misc
 
