@@ -3515,7 +3515,6 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       Left = 261
       Top = 2
       Caption = 'Import distribution'
-      Enabled = False
       ImageIndex = 6
       OnClick = ToolButtonImportClick
     end

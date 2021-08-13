@@ -450,7 +450,6 @@ begin
   PopupMenuDefault.Enabled := status;
   PopupMenuProperties.Enabled := status;
   ToolButtonExport.Enabled := status;
-  ToolButtonImport.Enabled := status;
   ToolButtonUnregisterDistribution.Enabled := status;
 end;
 
