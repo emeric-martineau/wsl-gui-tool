@@ -296,6 +296,13 @@ begin
 
   WslDistributionList.EndUpdate;
 
+  if WslDistributionList.SelCount = 1
+  then begin
+    ManageOneSelectedItemInListView(WslDistributionList.Selected, true);
+  end else begin
+    ManageOneSelectedItemInListView(WslDistributionList.Selected, false);
+  end;
+
   WslDistList.Free;
 end;
 
