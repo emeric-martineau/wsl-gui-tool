@@ -1,0 +1,83 @@
+object FormRunCommandWithUser: TFormRunCommandWithUser
+  Left = -1546
+  Height = 325
+  Top = 457
+  Width = 395
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Run a command with user'
+  ClientHeight = 325
+  ClientWidth = 395
+  DesignTimePPI = 120
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.12.0'
+  object LabeledEditUsername: TLabeledEdit
+    Left = 20
+    Height = 28
+    Top = 40
+    Width = 356
+    EditLabel.Height = 20
+    EditLabel.Width = 356
+    EditLabel.Caption = 'Username:'
+    EditLabel.ParentColor = False
+    TabOrder = 0
+  end
+  object LabeledEditCommandLine: TLabeledEdit
+    Left = 20
+    Height = 28
+    Top = 104
+    Width = 356
+    EditLabel.Height = 20
+    EditLabel.Width = 356
+    EditLabel.Caption = 'Command line:'
+    EditLabel.ParentColor = False
+    TabOrder = 1
+  end
+  object CheckBoxDefaultShell: TCheckBox
+    Left = 20
+    Height = 24
+    Top = 232
+    Width = 150
+    Caption = 'Run in default shell'
+    Checked = True
+    State = cbChecked
+    TabOrder = 2
+  end
+  object ButtonRun: TButton
+    Left = 20
+    Height = 31
+    Top = 280
+    Width = 94
+    Caption = '&Run'
+    ModalResult = 1
+    TabOrder = 3
+  end
+  object ButtonCancel: TButton
+    Left = 282
+    Height = 31
+    Top = 280
+    Width = 94
+    Caption = '&Cancel'
+    ModalResult = 2
+    TabOrder = 4
+  end
+  object DirectoryEditDefault: TDirectoryEdit
+    Left = 20
+    Height = 28
+    Top = 176
+    Width = 353
+    ShowHidden = False
+    ButtonWidth = 29
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 5
+  end
+  object Label1: TLabel
+    Left = 20
+    Height = 20
+    Top = 152
+    Width = 148
+    Caption = 'Default start directory:'
+    ParentColor = False
+  end
+end

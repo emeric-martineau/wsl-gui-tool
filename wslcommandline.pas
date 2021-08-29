@@ -25,7 +25,7 @@ function ListDistribution: TWslCommandLineDistributionList;
 // Find a distribution in list
 function FindDistribution(Distributions: TWslCommandLineDistributionList; Name: string): TWslCommandLineDistribution;
 // Start WSL distribution
-function StartDistribution(Name: string): boolean;
+function StartDistribution(Name: string; User: string = ''; Command: string = ''; Directory: string = ''; UseShell: boolean = true): boolean;
 // Stop WSL distribution
 function StopDistribution(Name: string): boolean;
 // Set WSL1 or WSL2 for one distribution
@@ -141,10 +141,37 @@ begin
   WslProcessOutput.Free;
 end;
 
-function StartDistribution(Name: string): boolean;
+function StartDistribution(Name: string; User: string = ''; Command: string = ''; Directory: string = ''; UseShell: boolean = true): boolean;
+var
+  args: string;
+  dir: PChar;
 begin
+  args := '--distribution ' + Name;
+
+  if User <> ''
+  then begin
+    args := args + ' --user ' + User;
+  end;
+
+  if Command <> ''
+  then begin
+    if UseShell
+    then begin
+      args := args + ' -- ' + Command;
+    end else begin
+      args := args + ' --exec ' + Command;
+    end;
+  end;
+
+  if Directory = ''
+  then begin
+    dir := nil;
+  end else begin
+    dir := PChar(Directory);
+  end;
+
   // TODO allow use windows terminal, powershell....
-  Result := ShellExecute(0, nil, PChar('wsl'),PChar('--distribution ' + Name), nil, 1) = 0;
+  Result := ShellExecute(0, nil, PChar('wsl'),PChar(args), dir, 1) = 0;
 end;
 
 function StopDistribution(Name: string): boolean;

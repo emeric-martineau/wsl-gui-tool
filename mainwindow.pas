@@ -11,6 +11,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
   AboutWindow, ActnList, DistributionPropertiesWindow, ImportDistribution,
+  RunCommandWithUser,
   // For MB_xxxx dialog flags
   LCLType, Menus,
   // Wsl interface
@@ -23,6 +24,7 @@ type
   TWslGuiToolMainWindow = class(TForm)
     IconListWslDistributionList: TImageList;
     ImageListPopupMenu: TImageList;
+    PopupMenuRunCommandWithUser: TMenuItem;
     PopupMenuProperties: TMenuItem;
     PopupMenuDefault: TMenuItem;
     PopupMenuRun: TMenuItem;
@@ -48,6 +50,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
+    procedure PopupMenuRunCommandWithUserClick(Sender: TObject);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonExportClick(Sender: TObject);
@@ -69,9 +72,8 @@ type
     // When many distributions is selected
     procedure ManageManySelectedItemInListView();
     // Manage action of distribution
-    procedure ManageOneDistributionActionButton(status: boolean);
-    // Manage action for many distributions
-    procedure ManageMultiDistributionActionButton(status: boolean);
+    procedure ManageOneDistributionActionWithoutState(enable: boolean);
+    procedure ManageOneDistributionActionWithState(running: boolean);
   public
   end;
 
@@ -223,6 +225,28 @@ begin
       WslDistributionList.Selected.Caption));
 
   TimerRefreshDistributionList.Enabled := true;
+end;
+
+procedure TWslGuiToolMainWindow.PopupMenuRunCommandWithUserClick(Sender: TObject
+  );
+var RunForm : TFormRunCommandWithUser;
+begin
+  RunForm := TFormRunCommandWithUser.Create(Self);
+
+  RunForm.ShowModal;
+
+  if RunForm.ModalResult = mrOK
+  then begin
+    StartDistribution(
+      ExtractDistributionName(
+        WslDistributionList.Selected.Caption),
+      RunForm.LabeledEditUsername.Text,
+      RunForm.LabeledEditCommandLine.Text,
+      RunForm.DirectoryEditDefault.Text,
+      RunForm.CheckBoxDefaultShell.Checked);
+  end;
+
+  RunForm.Free;
 end;
 
 procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
@@ -412,26 +436,16 @@ begin
   if Selected
   then begin
     // Event fire when item selected AND unselected
-    if Item.ImageIndex = IMAGE_INDEX_RUNNING
-    then begin
-      ToolButtonRun.Enabled := false;
-      PopupMenuRun.Enabled := false;
-      ToolButtonStop.Enabled := true;
-      PopupMenuStop.Enabled := true;
-    end else begin
-      ToolButtonRun.Enabled := true;
-      PopupMenuRun.Enabled := true;
-      ToolButtonStop.Enabled := false;
-      PopupMenuStop.Enabled := false;
-    end;
+    ManageOneDistributionActionWithState(Item.ImageIndex = IMAGE_INDEX_RUNNING);
   end else begin
     ToolButtonRun.Enabled := false;
     PopupMenuRun.Enabled := false;
+    PopupMenuRunCommandWithUser.Enabled := false;
     ToolButtonStop.Enabled := false;
     PopupMenuStop.Enabled := false;
   end;
 
-  ManageOneDistributionActionButton(Selected);
+  ManageOneDistributionActionWithoutState(Selected);
 end;
 
 procedure TWslGuiToolMainWindow.ManageManySelectedItemInListView();
@@ -440,25 +454,27 @@ begin
   PopupMenuRun.Enabled := true;
   ToolButtonStop.Enabled := true;
   PopupMenuStop.Enabled := true;
+  PopupMenuRunCommandWithUser.Enabled := false;
 
-  ManageOneDistributionActionButton(false);
+  ManageOneDistributionActionWithoutState(false);
 end;
 
-procedure TWslGuiToolMainWindow.ManageOneDistributionActionButton(status: boolean);
+procedure TWslGuiToolMainWindow.ManageOneDistributionActionWithoutState(enable: boolean);
 begin
-  ToolButtonProperties.Enabled := status;
-  PopupMenuDefault.Enabled := status;
-  PopupMenuProperties.Enabled := status;
-  ToolButtonExport.Enabled := status;
-  ToolButtonUnregisterDistribution.Enabled := status;
+  ToolButtonProperties.Enabled := enable;
+  PopupMenuDefault.Enabled := enable;
+  PopupMenuProperties.Enabled := enable;
+  ToolButtonExport.Enabled := enable;
+  ToolButtonUnregisterDistribution.Enabled := enable;
 end;
 
-procedure TWslGuiToolMainWindow.ManageMultiDistributionActionButton(status: boolean);
+procedure TWslGuiToolMainWindow.ManageOneDistributionActionWithState(running: boolean);
 begin
-  ToolButtonRun.Enabled := status;
-  PopupMenuRun.Enabled := status;
-  ToolButtonStop.Enabled := status;
-  PopupMenuStop.Enabled := status;
+  ToolButtonRun.Enabled := not running;
+  PopupMenuRun.Enabled := not running;
+  ToolButtonStop.Enabled := running;
+  PopupMenuStop.Enabled := running;
+  PopupMenuRunCommandWithUser.Enabled := not running;
 end;
 
 end.
