@@ -3542,6 +3542,11 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       item
         Caption = 'Version'
         Width = 69
+      end    
+      item
+        AutoSize = True
+        Caption = 'Base path'
+        Width = 85
       end>
     MultiSelect = True
     PopupMenu = PopupMenu1

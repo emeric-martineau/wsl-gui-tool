@@ -125,7 +125,7 @@ begin
   end;
 end;
 
-procedure AddDistributionInListView(WslDistributionList: TListView; WslDistribution: TWslCommandLineDistribution);
+procedure AddDistributionInListView(WslDistributionList: TListView; WslDistribution: TWslCommandLineDistribution; BasePath: string);
 var
   CurrentDistribution: TListItem;
 begin
@@ -147,9 +147,10 @@ begin
   end;
 
   CurrentDistribution.SubItems.Add('%d', [WslDistribution.Version]);
+  CurrentDistribution.SubItems.Add(BasePath);
 end;
 
-procedure UpdateDistributionInListView(Distribution: TListItem; WslDistribution: TWslCommandLineDistribution);
+procedure UpdateDistributionInListView(Distribution: TListItem; WslDistribution: TWslCommandLineDistribution; BasePath: string);
 begin
   // TODO use CurrentDistribution.Data to know if running or not ?
   if WslDistribution.IsRunning
@@ -167,6 +168,7 @@ begin
   end;
 
   Distribution.SubItems[0] := Format('%d', [WslDistribution.Version]);
+  Distribution.SubItems[1] := BasePath;
 end;
 
 function NumberItemSelected(List: TListView): integer;
@@ -259,10 +261,14 @@ procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);
 var
   CurrentDistribution: TListItem;
   WslDistList: TWslCommandLineDistributionList;
+  WslRegistryDistList: TWslRegistryDistributionList;
+  RegistryDistribution: TWslRegistryDistribution;
   i : integer;
   CurrentName: string;
 begin
   WslDistList := ListDistribution();
+
+  WslRegistryDistList := LoadWslFromRegistry();
 
   WslDistributionList.BeginUpdate;
 
@@ -270,12 +276,14 @@ begin
   begin
     CurrentDistribution := FindDistributionInListView(WslDistributionList, WslDistList[i].Name);
 
+    RegistryDistribution := FindDistribution(WslRegistryDistList, WslDistList[i].Name);
+
     if CurrentDistribution = nil
     then begin
       // Add new distribution
-      AddDistributionInListView(WslDistributionList, WslDistList[i]);
+      AddDistributionInListView(WslDistributionList, WslDistList[i], RegistryDistribution.BasePath);
     end else begin
-      UpdateDistributionInListView(CurrentDistribution, WslDistList[i]);
+      UpdateDistributionInListView(CurrentDistribution, WslDistList[i], RegistryDistribution.BasePath);
     end;
   end;
 
@@ -304,6 +312,7 @@ begin
   end;
 
   WslDistList.Free;
+  WslRegistryDistList.Free;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonAboutClick(Sender: TObject);
