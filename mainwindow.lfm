@@ -3533,6 +3533,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     Top = 69
     Width = 572
     Align = alClient
+    AutoSortIndicator = True
     Columns = <    
       item
         AutoSize = True

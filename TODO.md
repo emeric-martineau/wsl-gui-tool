@@ -10,7 +10,6 @@ Allow save old export distribution folder
 
 # One distribution
 
-Add sort indicator in TlistView
 Update base path
 Add action to quick duplicate
 Allow rename distribution in listview directly

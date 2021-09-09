@@ -84,6 +84,10 @@ const
   IMAGE_INDEX_RUNNING = 0;
   IMAGE_INDEX_STOP = 1;
 
+  DISTRIBUTION_TLISTVIEW_COLUMN_NAME = 0;
+  DISTRIBUTION_TLISTVIEW_COLUMN_VERSION = 1;
+  DISTRIBUTION_TLISTVIEW_COLUMN_BASEREF = 2;
+
 implementation
 
 {$R *.lfm}
@@ -167,8 +171,8 @@ begin
     Distribution.Caption := '   ' + WslDistribution.Name;
   end;
 
-  Distribution.SubItems[0] := Format('%d', [WslDistribution.Version]);
-  Distribution.SubItems[1] := BasePath;
+  Distribution.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1] := Format('%d', [WslDistribution.Version]);
+  Distribution.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_BASEREF - 1] := BasePath;
 end;
 
 function NumberItemSelected(List: TListView): integer;
@@ -420,9 +424,12 @@ begin
     Compare := CompareText(
       ExtractDistributionName(Item1.Caption),
       ExtractDistributionName(Item2.Caption));
-  end else if MyList.SortColumn = 1
+  end else if MyList.SortColumn = DISTRIBUTION_TLISTVIEW_COLUMN_VERSION
   then begin
-    Compare := StrToInt(Item1.SubItems[0]) - StrToInt(Item2.SubItems[0])
+    Compare := StrToInt(Item1.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1]) - StrToInt(Item2.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1])
+  end else if MyList.SortColumn = DISTRIBUTION_TLISTVIEW_COLUMN_BASEREF
+  then begin
+    Compare := CompareText(Item1.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1], Item2.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1])
   end;
 
   if MyList.SortDirection = sdDescending
