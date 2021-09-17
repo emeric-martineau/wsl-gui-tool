@@ -405,11 +405,17 @@ end;
 
 procedure TWslGuiToolMainWindow.ToolButtonUnregisterDistributionClick(
   Sender: TObject);
+var DistributionName: string;
+    QuestionMessage : string;
 begin
-  // TODO check return of UnregisterDistribution
-  UnregisterDistribution(
-    ExtractDistributionName(
-      WslDistributionList.Selected.Caption));
+  DistributionName := ExtractDistributionName(WslDistributionList.Selected.Caption);
+  QuestionMessage := Format('Do you really want remove distribution "%s"', [DistributionName]);
+
+  if Application.MessageBox(PChar(QuestionMessage), 'Delete', MB_YESNO + MB_ICONQUESTION) = mrYes
+  then begin
+      // TODO check return of UnregisterDistribution
+      UnregisterDistribution(DistributionName);
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.WslDistributionListCompare(Sender: TObject;
