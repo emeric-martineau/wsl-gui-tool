@@ -1,11 +1,11 @@
 object FormDistributionProperties: TFormDistributionProperties
   Left = -1895
   Height = 496
-  Top = 257
-  Width = 581
+  Top = 258
+  Width = 576
   Caption = 'Distribution properties'
   ClientHeight = 496
-  ClientWidth = 581
+  ClientWidth = 576
   DesignTimePPI = 120
   Position = poOwnerFormCenter
   LCLVersion = '2.0.12.0'
@@ -13,13 +13,13 @@ object FormDistributionProperties: TFormDistributionProperties
     Left = 0
     Height = 71
     Top = 425
-    Width = 581
+    Width = 576
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
     BorderWidth = 20
     ClientHeight = 71
-    ClientWidth = 581
+    ClientWidth = 576
     TabOrder = 0
     object PanelButtonOk: TPanel
       Left = 20
@@ -44,7 +44,7 @@ object FormDistributionProperties: TFormDistributionProperties
       end
     end
     object PanelButtonReset: TPanel
-      Left = 373
+      Left = 368
       Height = 31
       Top = 20
       Width = 94
@@ -65,7 +65,7 @@ object FormDistributionProperties: TFormDistributionProperties
       end
     end
     object PanelButtonCancel: TPanel
-      Left = 467
+      Left = 462
       Height = 31
       Top = 20
       Width = 94
@@ -88,27 +88,27 @@ object FormDistributionProperties: TFormDistributionProperties
   end
   object PanelUpper: TPanel
     Left = 20
-    Height = 274
+    Height = 278
     Top = 20
-    Width = 541
+    Width = 536
     Align = alTop
     AutoSize = True
     BorderSpacing.Left = 20
     BorderSpacing.Top = 20
     BorderSpacing.Right = 20
     BevelOuter = bvNone
-    ClientHeight = 274
-    ClientWidth = 541
+    ClientHeight = 278
+    ClientWidth = 536
     TabOrder = 1
     object GroupBoxFlags: TGroupBox
       Left = 0
       Height = 64
-      Top = 210
-      Width = 541
+      Top = 214
+      Width = 536
       Align = alTop
       Caption = 'Flags:'
       ClientHeight = 39
-      ClientWidth = 537
+      ClientWidth = 532
       TabOrder = 0
       object CheckBoxInterop: TCheckBox
         Left = 8
@@ -142,7 +142,7 @@ object FormDistributionProperties: TFormDistributionProperties
       Left = 0
       Height = 20
       Top = 0
-      Width = 541
+      Width = 536
       Align = alTop
       Caption = 'Name:'
       ParentColor = False
@@ -151,7 +151,7 @@ object FormDistributionProperties: TFormDistributionProperties
       Left = 0
       Height = 28
       Top = 20
-      Width = 541
+      Width = 536
       Align = alTop
       OnChange = EditNameChange
       OnKeyPress = EditNameKeyPress
@@ -162,123 +162,154 @@ object FormDistributionProperties: TFormDistributionProperties
       Left = 0
       Height = 20
       Top = 48
-      Width = 541
+      Width = 536
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 2
     end
-    object LabelVersion: TLabel
+    object PanelVersionAndUser: TPanel
       Left = 0
-      Height = 20
+      Height = 54
       Top = 68
-      Width = 541
-      Align = alTop
-      Caption = 'Version:'
-      ParentColor = False
-    end
-    object PanelVersion: TPanel
-      Left = 0
-      Height = 28
-      Top = 88
-      Width = 541
+      Width = 536
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 28
-      ClientWidth = 541
+      ClientHeight = 54
+      ClientWidth = 536
       TabOrder = 3
-      object ComboBoxVersion: TComboBox
+      object PanelVersion: TPanel
         Left = 0
-        Height = 28
+        Height = 54
         Top = 0
-        Width = 125
-        ItemHeight = 20
-        ItemIndex = 0
-        Items.Strings = (
-          '1'
-          '2'
-        )
-        OnChange = CheckWslConfigChange
+        Width = 127
+        Align = alLeft
+        BorderSpacing.Right = 50
+        BevelOuter = bvNone
+        ClientHeight = 54
+        ClientWidth = 127
         TabOrder = 0
-        Text = '1'
+        object LabelVersion: TLabel
+          Left = 1
+          Height = 20
+          Top = 1
+          Width = 51
+          Caption = 'Version:'
+          ParentColor = False
+        end
+        object ComboBoxVersion: TComboBox
+          Left = 1
+          Height = 28
+          Top = 24
+          Width = 125
+          ItemHeight = 20
+          ItemIndex = 0
+          Items.Strings = (
+            '1'
+            '2'
+          )
+          OnChange = CheckWslConfigChange
+          TabOrder = 0
+          Text = '1'
+        end
+      end
+      object PanelUserID: TPanel
+        Left = 177
+        Height = 54
+        Top = 0
+        Width = 102
+        Align = alLeft
+        AutoSize = True
+        BevelOuter = bvSpace
+        ClientHeight = 54
+        ClientWidth = 102
+        TabOrder = 1
+        object LabelUserID: TLabel
+          Left = 4
+          Height = 20
+          Top = 1
+          Width = 51
+          Caption = 'User ID:'
+          ParentColor = False
+        end
+        object EditUserID: TMaskEdit
+          Left = 1
+          Height = 28
+          Top = 25
+          Width = 100
+          CharCase = ecNormal
+          MaxLength = 10
+          TabOrder = 0
+          EditMask = '9999999990;1; '
+          Text = '          '
+          SpaceChar = ' '
+        end
       end
     end
     object PanelSeparatorVersion: TPanel
       Left = 0
-      Height = 20
-      Top = 190
-      Width = 541
+      Height = 52
+      Top = 142
+      Width = 536
       Align = alTop
+      BorderSpacing.Bottom = 20
       BevelOuter = bvNone
+      ClientHeight = 52
+      ClientWidth = 536
       TabOrder = 4
-    end
-    object PanelUserID: TPanel
-      Left = 0
-      Height = 54
-      Top = 136
-      Width = 541
-      Align = alTop
-      AutoSize = True
-      BevelOuter = bvSpace
-      ClientHeight = 54
-      ClientWidth = 541
-      TabOrder = 5
-      object Label1: TLabel
-        Left = 100
-        Height = 1
-        Top = 33
-        Width = 1
-        ParentColor = False
-      end
-      object LabelUserID: TLabel
-        Left = 4
+      object LabelBasePAth: TLabel
+        Left = 0
         Height = 20
-        Top = 1
-        Width = 51
-        Caption = 'User ID:'
+        Top = 0
+        Width = 536
+        Align = alTop
+        Caption = 'Base path:'
         ParentColor = False
       end
-      object EditUserID: TMaskEdit
-        Left = 1
+      object DirectoryEditBasePath: TDirectoryEdit
+        Left = 0
         Height = 28
-        Top = 25
-        Width = 100
-        CharCase = ecNormal
-        MaxLength = 10
+        Top = 24
+        Width = 536
+        Directory = 'DirectoryEditBasePath'
+        ShowHidden = False
+        ButtonWidth = 29
+        NumGlyphs = 1
+        Align = alBottom
+        MaxLength = 0
         TabOrder = 0
-        EditMask = '9999999990;1; '
-        Text = '          '
-        SpaceChar = ' '
+        OnChange = EditNameChange
+        Text = 'DirectoryEditBasePath'
       end
     end
     object PanelSeparatorVersion1: TPanel
       Left = 0
       Height = 20
-      Top = 116
-      Width = 541
+      Top = 122
+      Width = 536
       Align = alTop
       BevelOuter = bvNone
-      TabOrder = 6
+      TabOrder = 5
     end
   end
   object PanelEnv: TPanel
     Left = 20
-    Height = 111
-    Top = 314
-    Width = 541
+    Height = 107
+    Top = 318
+    Width = 536
     Align = alClient
     BorderSpacing.Left = 20
     BorderSpacing.Top = 20
     BorderSpacing.Right = 20
     BevelOuter = bvNone
-    ClientHeight = 111
-    ClientWidth = 541
+    ClientHeight = 107
+    ClientWidth = 536
     TabOrder = 2
     object LabelEnv: TLabel
       Left = 0
       Height = 20
       Top = 0
-      Width = 541
+      Width = 536
       Align = alTop
       Caption = 'Environment variables:'
       ParentColor = False
@@ -287,12 +318,12 @@ object FormDistributionProperties: TFormDistributionProperties
       Left = 0
       Height = 28
       Top = 20
-      Width = 541
+      Width = 536
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
       ClientHeight = 28
-      ClientWidth = 541
+      ClientWidth = 536
       TabOrder = 0
       object SpeedButtonAdd: TSpeedButton
         Left = 0
@@ -330,9 +361,9 @@ object FormDistributionProperties: TFormDistributionProperties
     end
     object ValueListEditorEnv: TValueListEditor
       Left = 0
-      Height = 63
+      Height = 59
       Top = 48
-      Width = 541
+      Width = 536
       Align = alClient
       FixedCols = 0
       Flat = True
@@ -345,7 +376,7 @@ object FormDistributionProperties: TFormDistributionProperties
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goAutoAddRows, goAlwaysShowEditor, goThumbTracking]
       ColWidths = (
         80
-        460
+        455
       )
     end
   end

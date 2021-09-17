@@ -1,13 +1,13 @@
 object FormImportDistribution: TFormImportDistribution
   Left = -1831
-  Height = 350
+  Height = 351
   Top = 453
   Width = 400
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   BorderWidth = 20
   Caption = 'Import a distribution'
-  ClientHeight = 350
+  ClientHeight = 351
   ClientWidth = 400
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -16,7 +16,7 @@ object FormImportDistribution: TFormImportDistribution
   object PanelButtons: TPanel
     Left = 20
     Height = 31
-    Top = 299
+    Top = 300
     Width = 360
     Align = alBottom
     AutoSize = True

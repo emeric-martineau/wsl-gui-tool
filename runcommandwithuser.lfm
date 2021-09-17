@@ -1,12 +1,12 @@
 object FormRunCommandWithUser: TFormRunCommandWithUser
   Left = -1546
-  Height = 325
-  Top = 457
+  Height = 326
+  Top = 458
   Width = 395
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Run a command with user'
-  ClientHeight = 325
+  ClientHeight = 326
   ClientWidth = 395
   DesignTimePPI = 120
   Position = poOwnerFormCenter

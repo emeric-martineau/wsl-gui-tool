@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ValEdit,
   ExtCtrls, Buttons, WslRegistry, WslApi, WslCommandLine, fgl, Grids, MaskEdit,
   // For MB_xxxx dialog flags
-  LCLType;
+  LCLType, EditBtn;
 
 type
   TMapStrings = specialize TFPGMap<String, String>;
@@ -23,21 +23,23 @@ type
     CheckBoxInterop: TCheckBox;
     CheckBoxAppendNtPath: TCheckBox;
     ComboBoxVersion: TComboBox;
+    DirectoryEditBasePath: TDirectoryEdit;
     EditName: TEdit;
     GroupBoxFlags: TGroupBox;
     ImageListEnv: TImageList;
-    Label1: TLabel;
+    LabelBasePAth: TLabel;
     LabelUserID: TLabel;
     LabelVersion: TLabel;
     LabelName: TLabel;
     LabelEnv: TLabel;
     EditUserID: TMaskEdit;
     Panel1: TPanel;
+    PanelVersion: TPanel;
     PanelUserID: TPanel;
     PanelButtonCancel: TPanel;
     PanelSeparatorVersion: TPanel;
     PanelSeparatorVersion1: TPanel;
-    PanelVersion: TPanel;
+    PanelVersionAndUser: TPanel;
     PanelSeparatorName: TPanel;
     PanelUpper: TPanel;
     PanelEnv: TPanel;
@@ -150,6 +152,7 @@ begin
       EditName.Text := WslDistribution.Name;
       ComboBoxVersion.ItemIndex := WslDistribution.Version - 1;
       EditUserID.Text := IntToStr(WslDistribution.DefaultUID);
+      DirectoryEditBasePath.Text := WslDistribution.BasePath;
 
       ValueListEditorEnv.Strings.Clear;
 
@@ -212,12 +215,14 @@ var
   IdenticalInterop: boolean;
   IdenticalAppendNtPath: boolean;
   IdenticalDriveMounting: boolean;
+  IdenticalBasePath: boolean;
 begin
   IdenticalName := Trim(EditName.Text) = WslDistribution.Name;
   IdenticalVersion := (ComboBoxVersion.ItemIndex + 1) = WslDistribution.Version;
   IdenticalInterop := CheckBoxInterop.Checked = ((WslDistribution.Flags and WSL_DISTRIBUTION_FLAGS_ENABLE_INTEROP) > 0);
   IdenticalAppendNtPath := CheckBoxAppendNtPath.Checked = ((WslDistribution.Flags and WSL_DISTRIBUTION_FLAGS_APPEND_NT_PATH) > 0);
   IdenticalDriveMounting := CheckBoxDriveMounting.Checked = ((WslDistribution.Flags and WSL_DISTRIBUTION_FLAGS_ENABLE_DRIVE_MOUNTING) > 0);
+  IdenticalBasePath := Trim(DirectoryEditBasePath.Text) = WslDistribution.BasePath;
 
   ButtonSave.Enabled := not (
     IdenticalName and
@@ -225,7 +230,8 @@ begin
     IdenticalInterop and
     IdenticalAppendNtPath and
     IdenticalDriveMounting and
-    CompareEnvData(ValueListEditorEnv.Strings, WslDistribution.Env)
+    CompareEnvData(ValueListEditorEnv.Strings, WslDistribution.Env) and
+    IdenticalBasePath
     );
 end;
 
@@ -277,7 +283,13 @@ begin
   end;
 
   if (Trim(EditName.Text) <> WslDistribution.Name) and
-    (Application.MessageBox('Wsl distribution name change! Are you sur ?', 'Caution!', MB_YESNO + MB_ICONWARNING) = mrNo)
+    (Application.MessageBox('Wsl distribution name change!' + #13 + 'Are you sure ?', 'Caution!', MB_YESNO + MB_ICONWARNING) = mrNo)
+  then begin
+    exit;
+  end;
+
+  if (Trim(DirectoryEditBasePath.Text) <> WslDistribution.BasePath) and
+    (Application.MessageBox('Wsl distribution base path change! That''s can break working.' + #13 + 'Are you sure ?', 'Caution!', MB_YESNO + MB_ICONWARNING) = mrNo)
   then begin
     exit;
   end;
@@ -294,6 +306,7 @@ begin
   WslDistribution.DefaultUID := StrToInt(Trim(EditUserID.Text));
   WslDistribution.Flags := Flags;
   WslDistribution.Name := Trim(EditName.Text);
+  WslDistribution.BasePath := Trim(DirectoryEditBasePath.Text);
 
   SaveDistributionToRegistry(WslDistribution);
 

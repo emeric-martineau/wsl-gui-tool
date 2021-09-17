@@ -10,9 +10,9 @@ Allow save old export distribution folder
 
 # One distribution
 
-Update base path
 Add action to quick duplicate
 Allow rename distribution in listview directly
+Add confirmation box to delete distribution
 
 # Misc
 

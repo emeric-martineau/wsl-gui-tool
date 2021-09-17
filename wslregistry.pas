@@ -190,12 +190,12 @@ begin
   Registry.WriteInteger('Flags', Distribution.Flags);
   Registry.WriteInteger('DefaultUid', Distribution.DefaultUID);
   Registry.WriteStringList('DefaultEnvironment', Distribution.Env);
+  Registry.WriteString('BasePath', Distribution.BasePath);
+
 // TODO
 //  Result.Version := Registry.ReadInteger('Version');
-//  Result.BasePath := Registry.Readstring('BasePath');
 //  Result.KernelCommandLine := Registry.Readstring('KernelCommandLine');
 //  Result.PackageFamilyName := Registry.Readstring('PackageFamilyName');
-
 
   Registry.CloseKey;
 
