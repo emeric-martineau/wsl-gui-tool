@@ -83,6 +83,8 @@ var
 const
   IMAGE_INDEX_RUNNING = 0;
   IMAGE_INDEX_STOP = 1;
+  IMAGE_INDEX_RUNNING_DEFAULT = 2;
+  IMAGE_INDEX_STOP_DEFAULT = 3;
 
   DISTRIBUTION_TLISTVIEW_COLUMN_NAME = 0;
   DISTRIBUTION_TLISTVIEW_COLUMN_VERSION = 1;
@@ -94,11 +96,6 @@ implementation
 
 { TWslGuiToolMainWindow }
 
-function ExtractDistributionName(Name: string): string;
-begin
-  Result := Copy(Name, 4, Length(Name) - 3);
-end;
-
 function FindDistributionInListView(WslDistributionList: TListView; DistributionName: string): TListItem;
 var
   i: integer;
@@ -107,7 +104,7 @@ begin
 
   for i := 0 to WslDistributionList.Items.Count -1 do
   begin
-    if ExtractDistributionName(WslDistributionList.Items[i].Caption) = DistributionName
+    if WslDistributionList.Items[i].Caption = DistributionName
     then begin
       exit(WslDistributionList.Items[i]);
     end;
@@ -136,20 +133,24 @@ begin
   CurrentDistribution := WslDistributionList.Items.Add;
 
   // TODO use CurrentDistribution.Data to know if running or not ?
-  if WslDistribution.IsRunning
-  then begin
-    CurrentDistribution.ImageIndex := IMAGE_INDEX_RUNNING;
-  end else begin
-    CurrentDistribution.ImageIndex := IMAGE_INDEX_STOP;
-  end;
-
   if WslDistribution.IsDefault
   then begin
-    CurrentDistribution.Caption := ' * ' + WslDistribution.Name;
+    if WslDistribution.IsRunning
+    then begin
+      CurrentDistribution.ImageIndex := IMAGE_INDEX_RUNNING_DEFAULT;
+    end else begin
+      CurrentDistribution.ImageIndex := IMAGE_INDEX_STOP_DEFAULT;
+    end;
   end else begin
-    CurrentDistribution.Caption := '   ' + WslDistribution.Name;
+    if WslDistribution.IsRunning
+    then begin
+      CurrentDistribution.ImageIndex := IMAGE_INDEX_RUNNING;
+    end else begin
+      CurrentDistribution.ImageIndex := IMAGE_INDEX_STOP;
+    end;
   end;
 
+  CurrentDistribution.Caption := WslDistribution.Name;
   CurrentDistribution.SubItems.Add('%d', [WslDistribution.Version]);
   CurrentDistribution.SubItems.Add(BasePath);
 end;
@@ -166,11 +167,22 @@ begin
 
   if WslDistribution.IsDefault
   then begin
-    Distribution.Caption := ' * ' + WslDistribution.Name;
+    if WslDistribution.IsRunning
+    then begin
+      Distribution.ImageIndex := IMAGE_INDEX_RUNNING_DEFAULT;
+    end else begin
+      Distribution.ImageIndex := IMAGE_INDEX_STOP_DEFAULT;
+    end;
   end else begin
-    Distribution.Caption := '   ' + WslDistribution.Name;
+      if WslDistribution.IsRunning
+      then begin
+        Distribution.ImageIndex := IMAGE_INDEX_RUNNING;
+      end else begin
+        Distribution.ImageIndex := IMAGE_INDEX_STOP;
+      end;
   end;
 
+  Distribution.Caption := WslDistribution.Name;
   Distribution.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1] := Format('%d', [WslDistribution.Version]);
   Distribution.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_BASEREF - 1] := BasePath;
 end;
@@ -226,9 +238,7 @@ end;
 
 procedure TWslGuiToolMainWindow.PopupMenuDefaultClick(Sender: TObject);
 begin
-  SetDistributionAsDefault(
-    ExtractDistributionName(
-      WslDistributionList.Selected.Caption));
+  SetDistributionAsDefault(WslDistributionList.Selected.Caption);
 
   TimerRefreshDistributionList.Enabled := true;
 end;
@@ -244,8 +254,7 @@ begin
   if RunForm.ModalResult = mrOK
   then begin
     StartDistribution(
-      ExtractDistributionName(
-        WslDistributionList.Selected.Caption),
+      WslDistributionList.Selected.Caption,
       RunForm.LabeledEditUsername.Text,
       RunForm.LabeledEditCommandLine.Text,
       RunForm.DirectoryEditDefault.Text,
@@ -296,7 +305,7 @@ begin
 
   while i < WslDistributionList.Items.Count do
   begin
-    CurrentName := ExtractDistributionName(WslDistributionList.Items[i].Caption);
+    CurrentName := WslDistributionList.Items[i].Caption;
 
     if IsExistsInOutput(CurrentName, WslDistList)
     then begin
@@ -335,8 +344,7 @@ begin
   if ExportDialog.Execute
   then begin
     ExportDistribution(
-      ExtractDistributionName(
-        WslDistributionList.Selected.Caption), ExportDialog.FileName);
+      WslDistributionList.Selected.Caption, ExportDialog.FileName);
   end;
 end;
 
@@ -364,7 +372,7 @@ var
   DistributionProperties : TFormDistributionProperties;
 begin
   DistributionProperties := TFormDistributionProperties.Create(Self,
-    ExtractDistributionName(WslDistributionList.Selected.Caption),
+    WslDistributionList.Selected.Caption,
     WslDistributionList.Selected.SubItems[0].ToInteger
     );
 
@@ -382,8 +390,7 @@ begin
     then begin
       // TODO check return of StartDistribution
       StartDistribution(
-        ExtractDistributionName(
-          WslDistributionList.Items[idx].Caption));
+        WslDistributionList.Items[idx].Caption);
     end;
   end;
 end;
@@ -397,8 +404,7 @@ begin
     then begin
       // TODO check return of StartDistribution
       StopDistribution(
-        ExtractDistributionName(
-          WslDistributionList.Items[idx].Caption));
+        WslDistributionList.Items[idx].Caption);
     end;
   end;
 end;
@@ -408,7 +414,7 @@ procedure TWslGuiToolMainWindow.ToolButtonUnregisterDistributionClick(
 var DistributionName: string;
     QuestionMessage : string;
 begin
-  DistributionName := ExtractDistributionName(WslDistributionList.Selected.Caption);
+  DistributionName := WslDistributionList.Selected.Caption;
   QuestionMessage := Format('Do you really want remove distribution "%s"', [DistributionName]);
 
   if Application.MessageBox(PChar(QuestionMessage), 'Delete', MB_YESNO + MB_ICONQUESTION) = mrYes
@@ -427,9 +433,7 @@ begin
 
   if MyList.SortColumn = 0
   then begin
-    Compare := CompareText(
-      ExtractDistributionName(Item1.Caption),
-      ExtractDistributionName(Item2.Caption));
+    Compare := CompareText(Item1.Caption, Item2.Caption);
   end else if MyList.SortColumn = DISTRIBUTION_TLISTVIEW_COLUMN_VERSION
   then begin
     Compare := StrToInt(Item1.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1]) - StrToInt(Item2.SubItems[DISTRIBUTION_TLISTVIEW_COLUMN_VERSION - 1])
