@@ -1,7 +1,7 @@
 object WslGuiToolMainWindow: TWslGuiToolMainWindow
-  Left = -1992
+  Left = 639
   Height = 441
-  Top = 790
+  Top = 315
   Width = 572
   Caption = 'WSL GUI Tool'
   ClientHeight = 441
@@ -3557,6 +3557,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     TabOrder = 1
     ViewStyle = vsReport
     OnCompare = WslDistributionListCompare
+    OnEdited = WslDistributionListEdited
     OnSelectItem = WslDistributionListSelectItem
   end
   object IconListToolbar: TImageList

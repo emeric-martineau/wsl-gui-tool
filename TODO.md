@@ -11,7 +11,6 @@ Allow save old export distribution folder
 # One distribution
 
 Add action to quick duplicate
-Allow rename distribution in listview directly
 
 # Misc
 

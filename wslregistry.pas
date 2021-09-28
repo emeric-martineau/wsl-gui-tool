@@ -33,6 +33,8 @@ procedure SaveDistributionToRegistry(Distribution: TWslRegistryDistribution);
 procedure SetDistributionAsDefault(DistributionName: string);
 // Return default WSL version
 function GetDefaultWslVersion: integer;
+// Check if distribution exists.
+function IsDistributionExists(DistributionName: string): boolean;
 
 const
   LXSS_REG_KEY = '\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss';
@@ -250,6 +252,43 @@ begin
         Result := 1;
       end;
     end;
+
+    Registry.CloseKey;
+  end;
+
+  Registry.Free;
+end;
+
+function IsDistributionExists(DistributionName: string): boolean;
+var
+  Registry : TRegistry;
+  DistributionsIdList : Tstrings;
+  i: integer;
+begin
+  Result := false;
+
+  Registry := TRegistry.Create;
+  Registry.RootKey := HKEY_CURRENT_USER;
+
+  if Registry.KeyExists(LXSS_REG_KEY)
+  then begin
+    Registry.OpenKey(LXSS_REG_KEY, False);
+
+    DistributionsIdList := TstringList.Create();
+
+    Registry.GetKeyNames(DistributionsIdList);
+
+    for i := 0 to DistributionsIdList.Count - 1 do
+    begin
+      Result := CheckDistributionName(DistributionsIdList[i], DistributionName);
+
+      if Result
+      then begin
+        break;
+      end;
+    end;
+
+    DistributionsIdList.Free;
 
     Registry.CloseKey;
   end;

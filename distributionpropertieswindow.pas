@@ -258,8 +258,10 @@ end;
 procedure TFormDistributionProperties.ButtonSaveClick(Sender: TObject);
 var
   Flags: LongWord;
+  NewDistributionName: string;
 begin
   Flags := WslDistribution.Flags;
+  NewDistributionName := Trim(EditName.Text);
 
   if CheckBoxInterop.Checked
   then begin
@@ -282,7 +284,18 @@ begin
     Flags := Flags and( not WSL_DISTRIBUTION_FLAGS_ENABLE_DRIVE_MOUNTING);
   end;
 
-  if (Trim(EditName.Text) <> WslDistribution.Name) and
+  if IsDistributionExists(NewDistributionName)
+  then begin
+    Application.MessageBox(
+      PChar(
+        Format('The "%s" distribution name already exists!', [NewDistributionName])),
+      'Error',
+      MB_OK + MB_ICONERROR);
+
+    exit;
+  end;
+
+  if (NewDistributionName <> WslDistribution.Name) and
     (Application.MessageBox('Wsl distribution name change!' + #13 + 'Are you sure ?', 'Caution!', MB_YESNO + MB_ICONWARNING) = mrNo)
   then begin
     exit;
@@ -319,12 +332,6 @@ begin
   inherited Create(AOwner);
 
   WslDistribution := LoadWslOneDistributionFromRegistryByName(DistributionName);
-
-  // Fucking bug https://github.com/microsoft/WSL/issues/6924
-  if DistributionVersion = 1
-  then begin
-    WslDistribution.Version := DistributionVersion;
-  end;
 
   InitScreen();
 end;

@@ -61,6 +61,8 @@ type
     procedure ToolButtonUnregisterDistributionClick(Sender: TObject);
     procedure WslDistributionListCompare(Sender: TObject; Item1,
       Item2: TListItem; Data: Integer; var Compare: Integer);
+    procedure WslDistributionListEdited(Sender: TObject; Item: TListItem;
+      var AValue: string);
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   private
@@ -445,6 +447,35 @@ begin
   if MyList.SortDirection = sdDescending
   then begin
     Compare := - Compare;
+  end;
+end;
+
+procedure TWslGuiToolMainWindow.WslDistributionListEdited(Sender: TObject;
+  Item: TListItem; var AValue: string);
+var WslDistribution: TWslRegistryDistribution;
+begin
+  // If edit is canceled
+  if Item.Caption = AValue
+  then begin
+    exit;
+  end;
+
+  if IsDistributionExists(AValue)
+  then begin
+    Application.MessageBox(
+      PChar(
+        Format('The "%s" distribution name already exists!', [AValue])),
+      'Error',
+      MB_OK + MB_ICONERROR);
+
+    AValue := Item.Caption;
+  end else begin
+    WslDistribution := LoadWslOneDistributionFromRegistryByName(Item.Caption);
+    WslDistribution.Name := AValue;
+
+    SaveDistributionToRegistry(WslDistribution);
+
+    WslDistribution.Free;
   end;
 end;
 
