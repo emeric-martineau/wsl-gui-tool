@@ -106,7 +106,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="11">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -163,6 +163,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="prompt.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormPrompt"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

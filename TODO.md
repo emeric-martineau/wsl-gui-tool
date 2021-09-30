@@ -10,9 +10,11 @@ Allow save old export distribution folder
 
 # One distribution
 
-Add action to quick duplicate
+Space is not allow in distribution name. Add check
+Export/Import can be long, add  job queue with log
 
 # Misc
 
 Edit <USER>\.wslconfig file (https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings)
 Save size & position of main window
+Add i18n support

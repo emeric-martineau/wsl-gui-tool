@@ -1,7 +1,7 @@
 object FormDistributionProperties: TFormDistributionProperties
-  Left = -1895
+  Left = -1294
   Height = 496
-  Top = 258
+  Top = 361
   Width = 576
   Caption = 'Distribution properties'
   ClientHeight = 496
@@ -20,6 +20,7 @@ object FormDistributionProperties: TFormDistributionProperties
     BorderWidth = 20
     ClientHeight = 71
     ClientWidth = 576
+    ParentColor = False
     TabOrder = 0
     object PanelButtonOk: TPanel
       Left = 20

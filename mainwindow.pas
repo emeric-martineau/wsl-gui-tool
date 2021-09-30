@@ -11,7 +11,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
   AboutWindow, ActnList, DistributionPropertiesWindow, ImportDistribution,
-  RunCommandWithUser,
+  RunCommandWithUser, Prompt,
   // For MB_xxxx dialog flags
   LCLType, Menus,
   // Wsl interface
@@ -32,6 +32,7 @@ type
     PopupMenu1: TPopupMenu;
     ExportDialog: TSaveDialog;
     TimerRefreshDistributionList: TTimer;
+    ToolButtonDuplicate: TToolButton;
     ToolButtonUnregisterDistribution: TToolButton;
     ToolButtonExport: TToolButton;
     ToolButtonImport: TToolButton;
@@ -53,6 +54,7 @@ type
     procedure PopupMenuRunCommandWithUserClick(Sender: TObject);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
+    procedure ToolButtonDuplicateClick(Sender: TObject);
     procedure ToolButtonExportClick(Sender: TObject);
     procedure ToolButtonImportClick(Sender: TObject);
     procedure ToolButtonPropertiesClick(Sender: TObject);
@@ -341,6 +343,73 @@ begin
   About.Free;
 end;
 
+function CheckDistributionName(DistributionName: string; var ErrorMessage: string): boolean;
+begin
+  Result := true;
+
+  if IsDistributionExists(DistributionName)
+  then begin
+    ErrorMessage := 'Distribution name still exists';
+    Result := false;
+  end;
+end;
+
+procedure TWslGuiToolMainWindow.ToolButtonDuplicateClick(Sender: TObject);
+var
+  DistributionName: string;
+  TempFilename: string;
+  CurrentDistribution: TWslRegistryDistribution;
+  // For UUID Generator
+  GUID: TGuid;
+  GUIDResult: HResult;
+  UUID: string;
+begin
+  DistributionName := Format('%s-Copy', [WslDistributionList.Selected.Caption]);
+
+  if Prompt.Prompt(
+    Self,
+    Format('Clone distribution "%s"', [WslDistributionList.Selected.Caption]),
+    'Please enter the name of distribution:',
+    DistributionName,
+    @CheckDistributionName)
+  then begin
+    Caption := 'Ok';
+
+    TempFilename := GetTempFileName(
+      GetTempDir(false),
+      'wslguitool-clone-distribution-');
+
+    ExportDistribution(
+        WslDistributionList.Selected.Caption, TempFilename);
+
+    CurrentDistribution := LoadWslOneDistributionFromRegistryByName(WslDistributionList.Selected.Caption);
+
+    GUIDResult := CreateGuid(GUID);
+
+    if GUIDResult = S_OK
+    then begin
+      // {B54ED86E-211F-4803-AF46-0586DA66C583}
+      UUID := GuidToString(GUID);
+      // B54ED86E-211F-4803-AF46-0586DA66C583
+      UUID := Copy(UUID, 2, Length(UUID) - 2);
+
+      // TODO check if DistributionName still exists. If yes, display error box.
+       WslCommandLine.ImportDistribution(
+         DistributionName,
+         Format('%s-%s', [CurrentDistribution.BasePath, UUID]),
+         CurrentDistribution.Version,
+         TempFilename);
+
+       DeleteFile(TempFilename);
+     end else begin
+       Application.MessageBox(
+         'Cannot generate UUID to clone distribution! Sorry :(',
+         'Error',
+         MB_OK + MB_ICONERROR);
+     end;
+  end;
+end;
+
 procedure TWslGuiToolMainWindow.ToolButtonExportClick(Sender: TObject);
 begin
   if ExportDialog.Execute
@@ -358,7 +427,7 @@ begin
   if FormImportDistribution.ShowModal = mrOk
   then begin
 
-    // TODO check if DistributionName still exists. If yes, display error box.
+    // Check if DistributionName still exists done in previous form.
     WslCommandLine.ImportDistribution(
       FormImportDistribution.DistributionName,
       FormImportDistribution.InstallLocationPath,
@@ -507,6 +576,7 @@ begin
     PopupMenuRunCommandWithUser.Enabled := false;
     ToolButtonStop.Enabled := false;
     PopupMenuStop.Enabled := false;
+    ToolButtonDuplicate.Enabled := false;
   end;
 
   ManageOneDistributionActionWithoutState(Selected);
@@ -519,6 +589,7 @@ begin
   ToolButtonStop.Enabled := true;
   PopupMenuStop.Enabled := true;
   PopupMenuRunCommandWithUser.Enabled := false;
+  ToolButtonDuplicate.Enabled := false;
 
   ManageOneDistributionActionWithoutState(false);
 end;
@@ -530,6 +601,7 @@ begin
   PopupMenuProperties.Enabled := enable;
   ToolButtonExport.Enabled := enable;
   ToolButtonUnregisterDistribution.Enabled := enable;
+  ToolButtonDuplicate.Enabled := enable;
 end;
 
 procedure TWslGuiToolMainWindow.ManageOneDistributionActionWithState(running: boolean);
