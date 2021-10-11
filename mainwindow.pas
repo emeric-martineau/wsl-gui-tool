@@ -345,9 +345,11 @@ end;
 
 function CheckDistributionName(DistributionName: string; var ErrorMessage: string): boolean;
 begin
-  Result := true;
-
-  if IsDistributionExists(DistributionName)
+  if not IsValidDistributionName(DistributionName)
+  then begin
+    ErrorMessage := 'Distribution name is not valid! Only chars allowed "0-9, "a-z", "A-Z, ".-"';
+    Result := false;
+  end else if IsDistributionExists(DistributionName)
   then begin
     ErrorMessage := 'Distribution name still exists';
     Result := false;
@@ -393,7 +395,6 @@ begin
       // B54ED86E-211F-4803-AF46-0586DA66C583
       UUID := Copy(UUID, 2, Length(UUID) - 2);
 
-      // TODO check if DistributionName still exists. If yes, display error box.
        WslCommandLine.ImportDistribution(
          DistributionName,
          Format('%s-%s', [CurrentDistribution.BasePath, UUID]),

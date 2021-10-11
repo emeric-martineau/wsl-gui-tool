@@ -10,7 +10,6 @@ Allow save old export distribution folder
 
 # One distribution
 
-Space is not allow in distribution name. Add check
 Export/Import can be long, add  job queue with log
 
 # Misc

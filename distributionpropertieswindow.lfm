@@ -155,7 +155,6 @@ object FormDistributionProperties: TFormDistributionProperties
       Width = 536
       Align = alTop
       OnChange = EditNameChange
-      OnKeyPress = EditNameKeyPress
       TabOrder = 1
       Text = 'EditName'
     end
@@ -165,8 +164,21 @@ object FormDistributionProperties: TFormDistributionProperties
       Top = 48
       Width = 536
       Align = alTop
+      AutoSize = True
       BevelOuter = bvNone
+      ClientHeight = 20
+      ClientWidth = 536
       TabOrder = 2
+      object LabelError: TLabel
+        Left = 0
+        Height = 20
+        Top = 0
+        Width = 68
+        Caption = 'LabelError'
+        Font.Color = clRed
+        ParentColor = False
+        ParentFont = False
+      end
     end
     object PanelVersionAndUser: TPanel
       Left = 0

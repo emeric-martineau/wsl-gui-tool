@@ -27,6 +27,7 @@ type
     EditName: TEdit;
     GroupBoxFlags: TGroupBox;
     ImageListEnv: TImageList;
+    LabelError: TLabel;
     LabelBasePAth: TLabel;
     LabelUserID: TLabel;
     LabelVersion: TLabel;
@@ -54,7 +55,6 @@ type
     procedure ButtonSaveClick(Sender: TObject);
     procedure CheckWslConfigChange(Sender: TObject);
     procedure EditNameChange(Sender: TObject);
-    procedure EditNameKeyPress(Sender: TObject; var Key: char);
     procedure SpeedButtonAddClick(Sender: TObject);
     procedure SpeedButtonDeleteClick(Sender: TObject);
     procedure SpeedButtonDuplicateClick(Sender: TObject);
@@ -136,6 +136,8 @@ procedure TFormDistributionProperties.InitScreen();
 var
   i: integer;
 begin
+  LabelError.Caption := ' ';
+
   if WslDistribution = nil
     then begin
       EditName.Text := '';
@@ -240,16 +242,6 @@ begin
   CheckWslConfigChange(Sender);
 end;
 
-procedure TFormDistributionProperties.EditNameKeyPress(Sender: TObject;
-  var Key: char);
-begin
-  // #8 is Backspace
-  if not (Key in [#8, '0'..'9', 'a'..'z', 'A'..'Z', '_'])
-  then begin
-    Key := #0;
-  end;
-end;
-
 procedure TFormDistributionProperties.ButtonResetClick(Sender: TObject);
 begin
   InitScreen();
@@ -282,6 +274,12 @@ begin
     Flags := Flags or WSL_DISTRIBUTION_FLAGS_ENABLE_DRIVE_MOUNTING;
   end else begin
     Flags := Flags and( not WSL_DISTRIBUTION_FLAGS_ENABLE_DRIVE_MOUNTING);
+  end;
+
+  if not IsValidDistributionName(EditName.Text)
+  then begin
+    LabelError.Caption := 'Distribution name is not valid! Only chars allowed "0-9, "a-z", "A-Z, ".-"';
+    exit;
   end;
 
   if IsDistributionExists(NewDistributionName)

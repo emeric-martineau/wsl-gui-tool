@@ -35,6 +35,8 @@ procedure SetDistributionAsDefault(DistributionName: string);
 function GetDefaultWslVersion: integer;
 // Check if distribution exists.
 function IsDistributionExists(DistributionName: string): boolean;
+// Check if distribution name is valid
+function IsValidDistributionName(DistributionName: string): boolean;
 
 const
   LXSS_REG_KEY = '\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss';
@@ -294,6 +296,23 @@ begin
   end;
 
   Registry.Free;
+end;
+
+function IsValidDistributionName(DistributionName: string): boolean;
+var i: integer;
+begin
+  Result := true;
+
+  for i := 1 to Length(DistributionName) do
+  begin
+    if not ((DistributionName[i] in ['0'..'9']) or
+       (DistributionName[i] in ['a'..'z']) or
+       (DistributionName[i] in ['A'..'Z']) or
+       (DistributionName[i] in ['-', '.', '_']))
+    then begin
+      exit(false);
+    end;
+  end;
 end;
 
 end.
