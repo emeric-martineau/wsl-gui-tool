@@ -4,8 +4,6 @@ unit mainwindow;
 
 // Icon from https://icons8.com/icon/set/stop/windows
 
-// TODO sort tlistview
-
 interface
 
 uses
@@ -15,7 +13,9 @@ uses
   // For MB_xxxx dialog flags
   LCLType, Menus,
   // Wsl interface
-  WslCommandLine, WslRegistry;
+  WslCommandLine, WslRegistry,
+  // Process
+  BackgroundProcessProgressBar, Process, processresultdisplay;
 
 type
 
@@ -23,6 +23,7 @@ type
 
   TWslGuiToolMainWindow = class(TForm)
     IconListWslDistributionList: TImageList;
+    ImageListStatusbar: TImageList;
     ImageListPopupMenu: TImageList;
     PopupMenuRunCommandWithUser: TMenuItem;
     PopupMenuProperties: TMenuItem;
@@ -47,11 +48,14 @@ type
     ToolButtonRun: TToolButton;
     procedure CheckIfWslIsInstalledExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
     procedure PopupMenuRunCommandWithUserClick(Sender: TObject);
+    procedure StatusBar1DrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonDuplicateClick(Sender: TObject);
@@ -68,16 +72,33 @@ type
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
   private
+    BackgroundProcessProgressBar: TBackgroundProcessProgressBar;
+
+    // To manage statusbar message
+    StatusbarMessage: string;
+    StatusbarImageIndex: integer;
+    procedure SetStatusbarExport(DistributionName: string);
+    procedure SetStatusbarImport(DistributionName: string);
+    procedure SetStatusbarError(Message: string);
+    procedure SetStatusbarUnregister(DistributionName: string);
+
     // Refresh distribution list
     procedure RefreshWslDistributionInList(Sender: TObject);
+
     // When only one distribution is selected
     procedure ManageOneSelectedItemInListView(Item: TListItem;
       Selected: Boolean);
+
     // When many distributions is selected
     procedure ManageManySelectedItemInListView();
+
     // Manage action of distribution
     procedure ManageOneDistributionActionWithoutState(enable: boolean);
     procedure ManageOneDistributionActionWithState(running: boolean);
+
+    // Job interaction
+    procedure BackgroundProcessProgressBarFinished(ExitStatus: integer; Canceled: boolean);
+    procedure BackgroundProcessProgressBarStatusbarDblClick(Sender: TObject);
   public
   end;
 
@@ -93,6 +114,14 @@ const
   DISTRIBUTION_TLISTVIEW_COLUMN_NAME = 0;
   DISTRIBUTION_TLISTVIEW_COLUMN_VERSION = 1;
   DISTRIBUTION_TLISTVIEW_COLUMN_BASEREF = 2;
+
+  STATUSBAR_MARGIN_LEFT = 5;
+  STATUSBAR_EXPORT_IMAGE_INDEX = 0;
+  STATUSBAR_IMPORT_IMAGE_INDEX = 1;
+  STATUSBAR_ERROR_IMAGE_INDEX = 2;
+  STATUSBAR_OK_IMAGE_INDEX = 3;
+  STATUSBAR_UNREGISTER_IMAGE_INDEX = 4;
+  STATUSBAR_CANCEL_IMAGE_INDEX = 5;
 
 implementation
 
@@ -218,7 +247,19 @@ end;
 
 procedure TWslGuiToolMainWindow.FormCreate(Sender: TObject);
 begin
+  BackgroundProcessProgressBar := TBackgroundProcessProgressBar.Create(Self);
+  BackgroundProcessProgressBar.OnFinished := @BackgroundProcessProgressBarFinished;
+  BackgroundProcessProgressBar.OnDrawPanel := @StatusBar1DrawPanel;
+  BackgroundProcessProgressBar.OnDblClick := @BackgroundProcessProgressBarStatusbarDblClick;
+
+  StatusbarImageIndex := -1;
+  StatusbarMessage := '';
   Self.CheckIfWslIsInstalledExecute(Sender);
+end;
+
+procedure TWslGuiToolMainWindow.FormDestroy(Sender: TObject);
+begin
+  BackgroundProcessProgressBar.Free;
 end;
 
 procedure TWslGuiToolMainWindow.FormHide(Sender: TObject);
@@ -268,6 +309,35 @@ begin
   RunForm.Free;
 end;
 
+procedure TWslGuiToolMainWindow.StatusBar1DrawPanel(StatusBar: TStatusBar;
+  Panel: TStatusPanel; const Rect: TRect);
+var
+  StatusbarImageTop: integer;
+  StatusbarTextTop: integer;
+begin
+  if StatusbarImageIndex > -1
+  then begin
+    // Center text
+    StatusbarTextTop := (Rect.Height - StatusBar.Canvas.TextHeight('Txt')) div 2;
+
+    // Center image
+    StatusbarImageTop := (Rect.Height - ImageListStatusbar.Height) div 2;
+
+    ImageListStatusbar.Draw(
+      StatusBar.Canvas, Rect.Left + STATUSBAR_MARGIN_LEFT,
+      StatusbarImageTop,
+      StatusbarImageIndex);
+
+    StatusBar.Canvas.Brush.Style := bsClear; // To have transparent background
+
+    StatusBar.Canvas.TextOut(
+      Rect.left + STATUSBAR_MARGIN_LEFT +
+      STATUSBAR_MARGIN_LEFT + ImageListStatusbar.Width,
+      StatusbarTextTop,
+      StatusbarMessage);
+  end;
+end;
+
 procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
   Sender: TObject);
 begin
@@ -315,7 +385,7 @@ begin
     then begin
       i := i + 1;
     end else begin
-      WslDistributionList.Items.Delete(i); // Delete call free
+      WslDistributionList.Items.Delete(i); // Delete call free() of object
     end;
   end;
 
@@ -365,6 +435,9 @@ var
   GUID: TGuid;
   GUIDResult: HResult;
   UUID: string;
+  // Import process
+  ExportProcess: TProcess;
+  ImportProcess: TProcess;
 begin
   DistributionName := Format('%s-Copy', [WslDistributionList.Selected.Caption]);
 
@@ -375,14 +448,16 @@ begin
     DistributionName,
     @CheckDistributionName)
   then begin
-    Caption := 'Ok';
-
     TempFilename := GetTempFileName(
       GetTempDir(false),
       'wslguitool-clone-distribution-');
 
-    ExportDistribution(
+    SetStatusbarExport(WslDistributionList.Selected.Caption);
+
+    ExportProcess := ExportDistribution(
         WslDistributionList.Selected.Caption, TempFilename);
+
+    BackgroundProcessProgressBar.Run(ExportProcess);
 
     CurrentDistribution := LoadWslOneDistributionFromRegistryByName(WslDistributionList.Selected.Caption);
 
@@ -395,45 +470,59 @@ begin
       // B54ED86E-211F-4803-AF46-0586DA66C583
       UUID := Copy(UUID, 2, Length(UUID) - 2);
 
-       WslCommandLine.ImportDistribution(
-         DistributionName,
-         Format('%s-%s', [CurrentDistribution.BasePath, UUID]),
-         CurrentDistribution.Version,
-         TempFilename);
+      SetStatusbarImport(DistributionName);
 
-       DeleteFile(TempFilename);
-     end else begin
-       Application.MessageBox(
-         'Cannot generate UUID to clone distribution! Sorry :(',
-         'Error',
-         MB_OK + MB_ICONERROR);
-     end;
+      ImportProcess := WslCommandLine.ImportDistribution(
+        DistributionName,
+        Format('%s-%s', [CurrentDistribution.BasePath, UUID]),
+        CurrentDistribution.Version,
+        TempFilename);
+
+      DeleteFile(TempFilename);
+
+      BackgroundProcessProgressBar.Run(ImportProcess);
+    end else begin
+      Application.MessageBox(
+        'Cannot generate UUID to clone distribution! Sorry :(',
+        'Error',
+        MB_OK + MB_ICONERROR);
+    end;
   end;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonExportClick(Sender: TObject);
+var ExportProcess: TProcess;
 begin
   if ExportDialog.Execute
   then begin
-    ExportDistribution(
+    SetStatusbarExport(WslDistributionList.Selected.Caption);
+
+    ExportProcess := ExportDistribution(
       WslDistributionList.Selected.Caption, ExportDialog.FileName);
+
+    BackgroundProcessProgressBar.Run(ExportProcess);
   end;
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonImportClick(Sender: TObject);
-var FormImportDistribution: TFormImportDistribution;
+var
+  FormImportDistribution: TFormImportDistribution;
+  ImportProcess: TProcess;
 begin
   FormImportDistribution := TFormImportDistribution.Create(Self);
 
   if FormImportDistribution.ShowModal = mrOk
   then begin
+    SetStatusbarImport(FormImportDistribution.DistributionName);
 
     // Check if DistributionName still exists done in previous form.
-    WslCommandLine.ImportDistribution(
+    ImportProcess := WslCommandLine.ImportDistribution(
       FormImportDistribution.DistributionName,
       FormImportDistribution.InstallLocationPath,
       FormImportDistribution.Version,
       FormImportDistribution.Filename);
+
+    BackgroundProcessProgressBar.Run(ImportProcess);
   end;
 
   FormImportDistribution.Free;
@@ -474,7 +563,7 @@ begin
   begin
     if WslDistributionList.Items[idx].Selected
     then begin
-      // TODO check return of StartDistribution
+      // TODO check return of StopDistribution
       StopDistribution(
         WslDistributionList.Items[idx].Caption);
     end;
@@ -483,16 +572,21 @@ end;
 
 procedure TWslGuiToolMainWindow.ToolButtonUnregisterDistributionClick(
   Sender: TObject);
-var DistributionName: string;
-    QuestionMessage : string;
+var
+  DistributionName: string;
+  QuestionMessage: string;
+  UnregisterProcess: TProcess;
 begin
   DistributionName := WslDistributionList.Selected.Caption;
   QuestionMessage := Format('Do you really want remove distribution "%s"', [DistributionName]);
 
   if Application.MessageBox(PChar(QuestionMessage), 'Delete', MB_YESNO + MB_ICONQUESTION) = mrYes
   then begin
-      // TODO check return of UnregisterDistribution
-      UnregisterDistribution(DistributionName);
+    SetStatusbarUnregister(DistributionName);
+
+    UnregisterProcess := UnregisterDistribution(DistributionName);
+
+    BackgroundProcessProgressBar.Run(UnregisterProcess);
   end;
 end;
 
@@ -612,6 +706,80 @@ begin
   ToolButtonStop.Enabled := running;
   PopupMenuStop.Enabled := running;
   PopupMenuRunCommandWithUser.Enabled := not running;
+end;
+
+procedure TWslGuiToolMainWindow.SetStatusbarExport(DistributionName: string);
+begin
+  StatusbarMessage := Format('Export distribution "%s" in progress...', [DistributionName]);
+  StatusbarImageIndex := STATUSBAR_EXPORT_IMAGE_INDEX;
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.SetStatusbarImport(DistributionName: string);
+begin
+  StatusbarMessage := Format('Import distribution "%s" in progress...', [DistributionName]);
+  StatusbarImageIndex := STATUSBAR_IMPORT_IMAGE_INDEX;
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.SetStatusbarError(Message: string);
+begin
+  StatusbarMessage := Message;
+  StatusbarImageIndex := STATUSBAR_ERROR_IMAGE_INDEX;
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.SetStatusbarUnregister(DistributionName: string);
+begin
+  StatusbarMessage := Format('Unregister distribution "%s" in progress...', [DistributionName]);
+  StatusbarImageIndex := STATUSBAR_UNREGISTER_IMAGE_INDEX;
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.BackgroundProcessProgressBarFinished(ExitStatus: integer; Canceled: boolean);
+begin
+  if Canceled
+  then begin
+    StatusbarImageIndex := STATUSBAR_CANCEL_IMAGE_INDEX;
+    StatusbarMessage := 'Job canceled';
+  end else if ExitStatus = 0
+  then begin
+    StatusbarImageIndex := STATUSBAR_OK_IMAGE_INDEX;
+    StatusbarMessage := 'Job successed';
+  end else begin
+    StatusbarImageIndex := STATUSBAR_ERROR_IMAGE_INDEX;
+    StatusbarMessage := 'Job error';
+  end;
+
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.BackgroundProcessProgressBarStatusbarDblClick(Sender: TObject);
+var Log: TFormProcessResultDisplay;
+begin
+  if BackgroundProcessProgressBar.Running
+  then begin
+    if Application.MessageBox(
+      'Do you want stop the job?', 'Job running',
+      MB_YESNO + MB_ICONQUESTION) = mrYes
+    then begin
+      BackgroundProcessProgressBar.Terminate();
+    end;
+  end else if not BackgroundProcessProgressBar.Canceled
+  then begin
+    Log := TFormProcessResultDisplay.Create(Self);
+
+    Log.SetLog(
+      BackgroundProcessProgressBar.Executable,
+      BackgroundProcessProgressBar.Parameters,
+      BackgroundProcessProgressBar.ExitStatus,
+      BackgroundProcessProgressBar.Stdout,
+      BackgroundProcessProgressBar.Stderr);
+
+    Log.ShowModal;
+
+    Log.Free;
+  end;
 end;
 
 end.

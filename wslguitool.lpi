@@ -106,7 +106,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="13">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -170,6 +170,17 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="backgroundprocessprogressbar.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="processresultdisplay.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormProcessResultDisplay"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormProcessResultDisplay"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

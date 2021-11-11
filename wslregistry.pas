@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, fgl, Regexpr, ComObj, Registry, WslApi;
 
-Type
+type
   // A WSL distribution
   TWslRegistryDistribution = class(TWslApiDistribution)
       Id: string;

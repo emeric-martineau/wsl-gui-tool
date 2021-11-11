@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Process, fgl, Regexpr, ComObj, ShellApi;
 
-Type
+type
   // A WSL distribution
   TWslCommandLineDistribution = class(TObject)
       Name: string;
@@ -31,11 +31,11 @@ function StopDistribution(Name: string): boolean;
 // Set WSL1 or WSL2 for one distribution
 function SetDistributionVersion(Name: string; Version: integer): boolean;
 // Export a distribution
-function ExportDistribution(Name: string; ExportFileName: string): boolean;
+function ExportDistribution(Name: string; ExportFileName: string): TProcess;
 // Import a distribution
-function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): boolean;
+function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): TProcess;
 // Unregister a distribution
-function UnregisterDistribution(Name: string): boolean;
+function UnregisterDistribution(Name: string): TProcess;
 
 implementation
 
@@ -208,13 +208,11 @@ begin
   WslProcess.Free;
 end;
 
-function ExportDistribution(Name: string; ExportFileName: string): boolean;
+function ExportDistribution(Name: string; ExportFileName: string): TProcess;
 var
   // Use to run WSL binary
   WslProcess: TProcess;
 begin
-  Result := false;
-
   WslProcess := TProcess.Create(nil);
 
   WslProcess.Executable := 'wsl';
@@ -222,28 +220,17 @@ begin
   WslProcess.Parameters.Add(Name);
   WslProcess.Parameters.Add(ExportFileName);
 
-  // TODO return stderr
-
-  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.Options := WslProcess.Options + [poUsePipes] - [poWaitOnExit];
   WslProcess.ShowWindow := swoHIDE;
 
-  WslProcess.Execute;
-
-  if WslProcess.ExitStatus = 0
-  then begin
-    Result := true;
-  end;
-
-  WslProcess.Free;
+  Result := WslProcess;
 end;
 
-function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): boolean;
+function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): TProcess;
 var
   // Use to run WSL binary
   WslProcess: TProcess;
 begin
-  Result := false;
-
   WslProcess := TProcess.Create(nil);
 
   WslProcess.Executable := 'wsl';
@@ -254,47 +241,27 @@ begin
   WslProcess.Parameters.Add('--version');
   WslProcess.Parameters.Add(IntToStr(Version));
 
-  // TODO return stderr
-
-  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.Options := WslProcess.Options + [poUsePipes] - [poWaitOnExit];
   WslProcess.ShowWindow := swoHIDE;
 
-  WslProcess.Execute;
-
-  if WslProcess.ExitStatus = 0
-  then begin
-    Result := true;
-  end;
-
-  WslProcess.Free;
+  Result := WslProcess;
 end;
 
-function UnregisterDistribution(Name: string): boolean;
+function UnregisterDistribution(Name: string): TProcess;
 var
   // Use to run WSL binary
   WslProcess: TProcess;
 begin
-  Result := false;
-
   WslProcess := TProcess.Create(nil);
 
   WslProcess.Executable := 'wsl';
   WslProcess.Parameters.Add('--unregister');
   WslProcess.Parameters.Add(Name);
 
-  // TODO return stderr
-
-  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.Options := WslProcess.Options + [poUsePipes] - [poWaitOnExit];
   WslProcess.ShowWindow := swoHIDE;
 
-  WslProcess.Execute;
-
-  if WslProcess.ExitStatus = 0
-  then begin
-    Result := true;
-  end;
-
-  WslProcess.Free;
+  Result := WslProcess;
 end;
 
 end.

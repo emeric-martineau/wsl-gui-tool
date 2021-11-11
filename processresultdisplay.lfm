@@ -1,0 +1,48 @@
+object FormProcessResultDisplay: TFormProcessResultDisplay
+  Left = -1705
+  Height = 459
+  Top = 384
+  Width = 722
+  Caption = 'Command result'
+  ClientHeight = 459
+  ClientWidth = 722
+  DesignTimePPI = 120
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.12.0'
+  object PanelButton: TPanel
+    Left = 0
+    Height = 70
+    Top = 389
+    Width = 722
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    BorderWidth = 20
+    ClientHeight = 70
+    ClientWidth = 722
+    TabOrder = 0
+    object ButtonClose: TButton
+      Left = 608
+      Height = 30
+      Top = 20
+      Width = 94
+      Align = alRight
+      Caption = '&Close'
+      ModalResult = 11
+      TabOrder = 0
+    end
+  end
+  object Memo1: TMemo
+    Left = 0
+    Height = 389
+    Top = 0
+    Width = 722
+    Align = alClient
+    Lines.Strings = (
+      'Memo1'
+    )
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+  end
+end
