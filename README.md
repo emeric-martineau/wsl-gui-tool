@@ -7,8 +7,10 @@ WSL GUI Tool allow you to manage WSL features with GUI and not by command line.
 You can:
  * start/stop a distribution
  * rename distribution
+ * delete distribution
  * change flag of distribution
  * edit default environment variables
+ * export/import distribution
 
 ## Installation
 
@@ -19,6 +21,10 @@ Just download executable file in release github section.
 ![Main window](images/screenshot/mainwindow.png)
 
 ![Distribution properties window](images/screenshot/distributionproperties.png)
+
+## Documenation
+
+See [DOCUMENTATION.md](./DOCUMENTATION.md)
 
 ## How to build?
 

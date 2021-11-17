@@ -13,8 +13,6 @@ Store all command and result in log file
 
 # Misc
 
-Add DOCUMENTATION.md wich explain statusbar, cancel job, log... and other item of GUI
-
 Edit <USER>\.wslconfig file (https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings)
 Edit /etc/wsl.conf of a distribution
 Save size & position of main window
