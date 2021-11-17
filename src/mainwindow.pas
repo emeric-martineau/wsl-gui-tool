@@ -97,6 +97,8 @@ type
     procedure ManageOneDistributionActionWithState(running: boolean);
 
     // Job interaction
+    procedure ActivateBackgroundProcessButon(Status: boolean);
+    procedure BackgroundProcessProgressBarRun();
     procedure BackgroundProcessProgressBarFinished(ExitStatus: integer; Canceled: boolean);
     procedure BackgroundProcessProgressBarStatusbarDblClick(Sender: TObject);
   public
@@ -248,6 +250,8 @@ end;
 procedure TWslGuiToolMainWindow.FormCreate(Sender: TObject);
 begin
   BackgroundProcessProgressBar := TBackgroundProcessProgressBar.Create(Self);
+
+  BackgroundProcessProgressBar.OnRun := @BackgroundProcessProgressBarRun;
   BackgroundProcessProgressBar.OnFinished := @BackgroundProcessProgressBarFinished;
   BackgroundProcessProgressBar.OnDrawPanel := @StatusBar1DrawPanel;
   BackgroundProcessProgressBar.OnDblClick := @BackgroundProcessProgressBarStatusbarDblClick;
@@ -664,7 +668,7 @@ begin
   if Selected
   then begin
     // Event fire when item selected AND unselected
-    ManageOneDistributionActionWithState(Item.ImageIndex in [IMAGE_INDEX_RUNNING, IMAGE_INDEX_RUNNING_DEFAULT] );
+    ManageOneDistributionActionWithState(Item.ImageIndex in [IMAGE_INDEX_RUNNING, IMAGE_INDEX_RUNNING_DEFAULT]);
   end else begin
     ToolButtonRun.Enabled := false;
     PopupMenuRun.Enabled := false;
@@ -694,9 +698,13 @@ begin
   ToolButtonProperties.Enabled := enable;
   PopupMenuDefault.Enabled := enable;
   PopupMenuProperties.Enabled := enable;
-  ToolButtonExport.Enabled := enable;
-  ToolButtonUnregisterDistribution.Enabled := enable;
-  ToolButtonDuplicate.Enabled := enable;
+
+  if not BackgroundProcessProgressBar.Running
+  then begin
+    ToolButtonExport.Enabled := enable;
+    ToolButtonUnregisterDistribution.Enabled := enable;
+    ToolButtonDuplicate.Enabled := enable;
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.ManageOneDistributionActionWithState(running: boolean);
@@ -751,6 +759,8 @@ begin
     StatusbarMessage := 'Job error';
   end;
 
+  ActivateBackgroundProcessButon(true);
+
   BackgroundProcessProgressBar.Refresh;
 end;
 
@@ -780,6 +790,19 @@ begin
 
     Log.Free;
   end;
+end;
+
+procedure TWslGuiToolMainWindow.BackgroundProcessProgressBarRun();
+begin
+  ActivateBackgroundProcessButon(false);
+end;
+
+procedure TWslGuiToolMainWindow.ActivateBackgroundProcessButon(Status: boolean);
+begin
+  ToolButtonExport.Enabled := Status;
+  ToolButtonImport.Enabled := Status;
+  ToolButtonDuplicate.Enabled := Status;
+  ToolButtonUnregisterDistribution.Enabled := Status;
 end;
 
 end.

@@ -21,13 +21,15 @@ uses
 type
 
   TBackgroundProcessProgressBarFinished = procedure(ExitStatus: integer; Canceled: boolean) of object;
+  TBackgroundProcessProgressBarRun = procedure() of object;
 
   // Background process
   TBackgroundProcessProgressBar = class(TObject)
       FProcess: TProcess;
       FTimer: TTimer;
       FOwner: TForm;
-      FCallback: TBackgroundProcessProgressBarFinished;
+      FCallbackFinished: TBackgroundProcessProgressBarFinished;
+      FCallbackRun: TBackgroundProcessProgressBarRun;
       FStdout: TStringList;
       FStderr: TStringList;
       Statusbar: TStatusBar;
@@ -51,7 +53,8 @@ type
       procedure Terminate();
   published
       property Process: TProcess write FProcess;
-      property OnFinished: TBackgroundProcessProgressBarFinished read FCallback write FCallback;
+      property OnRun: TBackgroundProcessProgressBarRun read FCallbackRun write FCallbackRun;
+      property OnFinished: TBackgroundProcessProgressBarFinished read FCallbackFinished write FCallbackFinished;
       property OnDrawPanel: TDrawPanelEvent read GetOnDrawPanel write SetOnDrawPanel;
       property OnDblClick: TNotifyEvent read GetOnDblClick write SetOnDblClick;
       property Stdout: TStringList read FStdout;
@@ -79,7 +82,8 @@ begin
   FTimer.OnTimer := @Self.CheckProcessStatus;
   FTimer.Interval := Intervale;
 
-  FCallback := nil;
+  FCallbackFinished := nil;
+  FCallbackRun := nil;
 
   Statusbar := TStatusBar.Create(Owner);
   Statusbar.Parent := Owner;
@@ -121,7 +125,7 @@ end;
 
 procedure TBackgroundProcessProgressBar.CheckProcessStatus(Sender: TObject);
 begin
-  if (not FProcess.Running) and (FCallback <> nil)
+  if (not FProcess.Running) and (FCallbackFinished <> nil)
   then begin
     FTimer.Enabled := False;
 
@@ -133,7 +137,7 @@ begin
     FProcess.Free;
     FProcess := nil;
 
-    FCallback(FExitStatus, FCanceled);
+    FCallbackFinished(FExitStatus, FCanceled);
   end;
 end;
 
@@ -149,6 +153,11 @@ begin
 
   FExecutable :=  FProcess.Executable;
   FParameters.AddStrings(FProcess.Parameters, true);
+
+  if (FCallbackRun <> nil)
+  then begin
+    FCallbackRun();
+  end;
 
   FProcess.Execute;
   FTimer.Enabled := True;
