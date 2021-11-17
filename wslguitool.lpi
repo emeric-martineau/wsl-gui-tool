@@ -178,8 +178,8 @@
         <Filename Value="processresultdisplay.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormProcessResultDisplay"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="FormProcessResultDisplay"/>
       </Unit12>
     </Units>
   </ProjectOptions>

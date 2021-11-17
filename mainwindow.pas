@@ -664,7 +664,7 @@ begin
   if Selected
   then begin
     // Event fire when item selected AND unselected
-    ManageOneDistributionActionWithState(Item.ImageIndex = IMAGE_INDEX_RUNNING);
+    ManageOneDistributionActionWithState(Item.ImageIndex in [IMAGE_INDEX_RUNNING, IMAGE_INDEX_RUNNING_DEFAULT] );
   end else begin
     ToolButtonRun.Enabled := false;
     PopupMenuRun.Enabled := false;
