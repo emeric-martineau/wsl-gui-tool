@@ -60,6 +60,8 @@ Select a distribution (running or stopped)
 
 ![Set default distribution](images/screenshot/set-default-distribution1.jpg)
 
+Note: Default distribution have an asterisk on icon status.
+
 ## Change properties of a distribution
 
 Select a distribution (running or stopped)
