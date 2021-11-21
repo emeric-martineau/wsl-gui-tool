@@ -1,4 +1,4 @@
-unit processresultdisplay;
+unit ProcessResultDisplay;
 
 {$mode objfpc}{$H+}
 

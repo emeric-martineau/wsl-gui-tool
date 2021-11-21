@@ -7,9 +7,9 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, mainwindow, WslApi, WslCommandLine, WslRegistry, ApplicationInfo,
-  aboutwindow, distributionpropertieswindow, importdistribution,
-  runcommandwithuser, prompt, backgroundprocessprogressbar, processresultdisplay;
+  Forms, MainWindow, WslApi, WslCommandLine, WslRegistry, ApplicationInfo,
+  AboutWindow, DistributionPropertiesWindow, ImportDistributionWindow,
+  RunCommandWithUserWindow, PromptWindow, BackgroundProcessProgressBar, ProcessResultDisplay;
 
 {$R *.res}
 

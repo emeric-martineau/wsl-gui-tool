@@ -1,4 +1,4 @@
-unit aboutwindow;
+unit AboutWindow;
 
 {$mode objfpc}{$H+}
 

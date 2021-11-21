@@ -150,25 +150,28 @@
         <ResourceBaseClass Value="Form"/>
       </Unit7>
       <Unit8>
-        <Filename Value="importdistribution.pas"/>
+        <Filename Value="importdistributionwindow.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormImportDistribution"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ImportDistributionWindow"/>
       </Unit8>
       <Unit9>
-        <Filename Value="runcommandwithuser.pas"/>
+        <Filename Value="runcommandwithuserwindow.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormRunCommandWithUser"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="RunCommandWithUserWindow"/>
       </Unit9>
       <Unit10>
-        <Filename Value="prompt.pas"/>
+        <Filename Value="promptwindow.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormPrompt"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="PromptWindow"/>
       </Unit10>
       <Unit11>
         <Filename Value="backgroundprocessprogressbar.pas"/>

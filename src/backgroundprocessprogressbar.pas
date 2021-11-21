@@ -9,7 +9,7 @@
 @author(Emeric MARTINEAU)
 @created(2021)
 }
-unit backgroundprocessprogressbar;
+unit BackgroundProcessProgressBar;
 
 {$mode objfpc}{$H+}
 

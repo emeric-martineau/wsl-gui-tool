@@ -1,4 +1,4 @@
-unit mainwindow;
+unit MainWindow;
 
 {$mode objfpc}{$H+}
 
@@ -8,8 +8,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  AboutWindow, ActnList, DistributionPropertiesWindow, ImportDistribution,
-  RunCommandWithUser, Prompt,
+  AboutWindow, ActnList, DistributionPropertiesWindow, importdistributionwindow,
+  RunCommandWithUserWindow, PromptWindow,
   // For MB_xxxx dialog flags
   LCLType, Menus,
   // Wsl interface
@@ -445,7 +445,7 @@ var
 begin
   DistributionName := Format('%s-Copy', [WslDistributionList.Selected.Caption]);
 
-  if Prompt.Prompt(
+  if Prompt(
     Self,
     Format('Clone distribution "%s"', [WslDistributionList.Selected.Caption]),
     'Please enter the name of distribution:',

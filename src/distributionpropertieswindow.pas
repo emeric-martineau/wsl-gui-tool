@@ -1,4 +1,4 @@
-unit distributionpropertieswindow;
+unit DistributionPropertiesWindow;
 
 {$mode objfpc}{$H+}
 

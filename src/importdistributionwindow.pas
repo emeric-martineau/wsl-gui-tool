@@ -1,4 +1,4 @@
-unit importdistribution;
+unit ImportDistributionWindow;
 
 {$mode objfpc}{$H+}
 

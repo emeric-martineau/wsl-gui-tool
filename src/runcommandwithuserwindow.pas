@@ -1,4 +1,4 @@
-unit runcommandwithuser;
+unit runcommandwithuserwindow;
 
 {$mode objfpc}{$H+}
 

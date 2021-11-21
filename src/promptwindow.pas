@@ -1,4 +1,4 @@
-unit prompt;
+unit promptwindow;
 
 {$mode objfpc}{$H+}
 
