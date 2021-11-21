@@ -66,7 +66,7 @@ type
     WslDistribution: TWslRegistryDistribution;
     procedure InitScreen();
   public
-    constructor Create(AOwner: TComponent; DistributionName: string; DistributionVersion: integer); overload;
+    constructor Create(AOwner: TComponent; DistributionName: string); overload;
     destructor destroy; override;
   end;
 
@@ -325,7 +325,7 @@ begin
   Self.Close();
 end;
 
-Constructor TFormDistributionProperties.Create(AOwner: TComponent; DistributionName: string; DistributionVersion: integer);
+Constructor TFormDistributionProperties.Create(AOwner: TComponent; DistributionName: string);
 begin
   inherited Create(AOwner);
 

@@ -537,9 +537,7 @@ var
   DistributionProperties : TFormDistributionProperties;
 begin
   DistributionProperties := TFormDistributionProperties.Create(Self,
-    WslDistributionList.Selected.Caption,
-    WslDistributionList.Selected.SubItems[0].ToInteger
-    );
+    WslDistributionList.Selected.Caption);
 
   DistributionProperties.ShowModal;
 
