@@ -46,7 +46,6 @@ type
     IconListToolbar: TImageList;
     ToolBar1: TToolBar;
     ToolButtonRun: TToolButton;
-    procedure CheckIfWslIsInstalledExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
@@ -235,18 +234,6 @@ begin
   end;
 end;
 
-procedure TWslGuiToolMainWindow.CheckIfWslIsInstalledExecute(Sender: TObject);
-begin
-  if not WslCommandLine.IsWslInstalled()
-  then begin
-    Application.MessageBox(
-      'WSL seems to be not installed!',
-      'Error',
-      MB_OK + MB_ICONERROR);
-    Application.Terminate;
-  end;
-end;
-
 procedure TWslGuiToolMainWindow.FormCreate(Sender: TObject);
 begin
   BackgroundProcessProgressBar := TBackgroundProcessProgressBar.Create(Self);
@@ -258,7 +245,6 @@ begin
 
   StatusbarImageIndex := -1;
   StatusbarMessage := '';
-  Self.CheckIfWslIsInstalledExecute(Sender);
 end;
 
 procedure TWslGuiToolMainWindow.FormDestroy(Sender: TObject);
