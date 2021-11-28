@@ -15,7 +15,9 @@ uses
   // Wsl interface
   WslCommandLine, WslRegistry,
   // Process
-  BackgroundProcessProgressBar, Process, processresultdisplay;
+  BackgroundProcessProgressBar, Process, processresultdisplay,
+  // Wslconfig
+  WslConfigEditWindow;
 
 type
 
@@ -33,6 +35,8 @@ type
     PopupMenu1: TPopupMenu;
     ExportDialog: TSaveDialog;
     TimerRefreshDistributionList: TTimer;
+    ToolButton1: TToolButton;
+    ToolButton3: TToolButton;
     ToolButtonDuplicate: TToolButton;
     ToolButtonUnregisterDistribution: TToolButton;
     ToolButtonExport: TToolButton;
@@ -54,9 +58,10 @@ type
     procedure FormWindowStateChange(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
     procedure PopupMenuRunCommandWithUserClick(Sender: TObject);
-    procedure StatusBar1DrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+    procedure StatusBar1DrawPanel(StatusBar: TStatusBar; {%H-}Panel: TStatusPanel;
       const Rect: TRect);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
+    procedure ToolButton3Click(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonDuplicateClick(Sender: TObject);
     procedure ToolButtonExportClick(Sender: TObject);
@@ -66,7 +71,7 @@ type
     procedure ToolButtonStopClick(Sender: TObject);
     procedure ToolButtonUnregisterDistributionClick(Sender: TObject);
     procedure WslDistributionListCompare(Sender: TObject; Item1,
-      Item2: TListItem; Data: Integer; var Compare: Integer);
+      Item2: TListItem; {%H-}Data: Integer; var Compare: Integer);
     procedure WslDistributionListEdited(Sender: TObject; Item: TListItem;
       var AValue: string);
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
@@ -346,6 +351,15 @@ procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
   Sender: TObject);
 begin
   RefreshWslDistributionInList(Sender);
+end;
+
+procedure TWslGuiToolMainWindow.ToolButton3Click(Sender: TObject);
+var
+  WslConfigForm: TFormWslconfigEdit;
+begin
+  WslConfigForm := TFormWslconfigEdit.Create(Self);
+  WslConfigForm.ShowModal;
+  WslConfigForm.Free;
 end;
 
 procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);

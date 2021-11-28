@@ -9,7 +9,9 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, MainWindow, WslApi, WslCommandLine, WslRegistry, ApplicationInfo,
   AboutWindow, DistributionPropertiesWindow, ImportDistributionWindow,
-  RunCommandWithUserWindow, PromptWindow, BackgroundProcessProgressBar, ProcessResultDisplay;
+  RunCommandWithUserWindow, PromptWindow, BackgroundProcessProgressBar,
+  ProcessResultDisplay, WslConfigEditWindow, Wslconfig;
+
 
 {$R *.res}
 

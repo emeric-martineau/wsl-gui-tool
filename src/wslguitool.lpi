@@ -106,7 +106,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="15">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -117,6 +117,7 @@
         <ComponentName Value="WslGuiToolMainWindow"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="MainWindow"/>
       </Unit1>
       <Unit2>
         <Filename Value="wslapi.pas"/>
@@ -141,6 +142,7 @@
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="AboutWindow"/>
       </Unit6>
       <Unit7>
         <Filename Value="distributionpropertieswindow.pas"/>
@@ -176,6 +178,7 @@
       <Unit11>
         <Filename Value="backgroundprocessprogressbar.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="BackgroundProcessProgressBar"/>
       </Unit11>
       <Unit12>
         <Filename Value="processresultdisplay.pas"/>
@@ -184,6 +187,19 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="wslconfigeditwindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormWslconfigEdit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="WslConfigEditWindow"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="wslconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="WslConfig"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

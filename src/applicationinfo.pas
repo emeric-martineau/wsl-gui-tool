@@ -32,6 +32,9 @@ begin
 
     GetFileVersionInfo(PChar(Exe),0, Size, Buffer);
 
+    FixedFileInfoSize := 0;
+    FixedFileInfo := nil;
+
     if VerQueryValue(Buffer, '\', FixedFileInfo, FixedFileInfoSize)
     then begin
       Result := Format('%d.%d.%d.%d',

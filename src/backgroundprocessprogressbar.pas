@@ -103,24 +103,18 @@ begin
   if FProcess <> nil
   then begin
     FProcess.Terminate(0);
-    FProcess.Free;
-    FProcess := nil;
+    FreeAndNil(FProcess);
   end;
 
   FTimer.Free;
-  FTimer := nil;
 
   Statusbar.Free;
-  Statusbar := nil;
 
   FStdout.Free;
-  FStdout := nil;
 
   FStderr.Free;
-  FStderr := nil;
 
   FParameters.Free;
-  FParameters := nil;
 end;
 
 procedure TBackgroundProcessProgressBar.CheckProcessStatus(Sender: TObject);
@@ -134,8 +128,7 @@ begin
 
     FExitStatus := FProcess.ExitStatus;
 
-    FProcess.Free;
-    FProcess := nil;
+    FreeAndNil(FProcess);
 
     FCallbackFinished(FExitStatus, FCanceled);
   end;
