@@ -18,9 +18,9 @@ Just download executable file in release github section.
 
 ## Screenshot
 
-![Main window](images/screenshot/mainwindow.png)
+![Main window](images/screenshot/mainwindow.jpg)
 
-![Distribution properties window](images/screenshot/distributionproperties.png)
+![Distribution properties window](images/screenshot/distributionproperties.jpg)
 
 ## Documenation
 

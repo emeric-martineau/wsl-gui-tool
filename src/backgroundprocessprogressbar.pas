@@ -23,7 +23,8 @@ type
   TBackgroundProcessProgressBarFinished = procedure(ExitStatus: integer; Canceled: boolean) of object;
   TBackgroundProcessProgressBarRun = procedure() of object;
 
-  // Background process
+  { TBackgroundProcessProgressBar }
+
   TBackgroundProcessProgressBar = class(TObject)
       FProcess: TProcess;
       FTimer: TTimer;
@@ -66,6 +67,8 @@ type
   end;
 
 implementation
+
+{ TBackgroundProcessProgressBar }
 
 constructor TBackgroundProcessProgressBar.Create(Owner: TForm);
 begin

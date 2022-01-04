@@ -101,12 +101,15 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="LazControls"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPackages>
-    <Units Count="15">
+    <Units Count="16">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -150,6 +153,7 @@
         <ComponentName Value="FormDistributionProperties"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="DistributionPropertiesWindow"/>
       </Unit7>
       <Unit8>
         <Filename Value="importdistributionwindow.pas"/>
@@ -200,6 +204,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="WslConfig"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="wslconfigparameterctrl.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="WslconfigParameterCtrl"/>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -213,6 +222,9 @@
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
+      <Debugging>
+        <UseHeaptrc Value="True"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

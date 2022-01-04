@@ -1,11 +1,11 @@
 object WslGuiToolMainWindow: TWslGuiToolMainWindow
-  Left = -2012
+  Left = 2924
   Height = 441
-  Top = 214
-  Width = 723
+  Top = 376
+  Width = 722
   Caption = 'WSL GUI Tool'
   ClientHeight = 441
-  ClientWidth = 723
+  ClientWidth = 722
   DesignTimePPI = 120
   Icon.Data = {
     47AC01000000010006000000000001002000D926000066000000808000000100
@@ -3447,7 +3447,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     Left = 0
     Height = 69
     Top = 0
-    Width = 723
+    Width = 722
     ButtonHeight = 64
     ButtonWidth = 65
     Caption = 'ToolBar1'
@@ -3559,7 +3559,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     Left = 0
     Height = 372
     Top = 69
-    Width = 723
+    Width = 722
     Align = alClient
     AutoSortIndicator = True
     Columns = <    

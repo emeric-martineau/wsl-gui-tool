@@ -7,10 +7,11 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, MainWindow, WslApi, WslCommandLine, WslRegistry, ApplicationInfo,
-  AboutWindow, DistributionPropertiesWindow, ImportDistributionWindow,
-  RunCommandWithUserWindow, PromptWindow, BackgroundProcessProgressBar,
-  ProcessResultDisplay, WslConfigEditWindow, Wslconfig;
+  Forms, lazcontrols, MainWindow, WslApi, WslCommandLine, WslRegistry,
+  ApplicationInfo, AboutWindow, DistributionPropertiesWindow,
+  ImportDistributionWindow, RunCommandWithUserWindow, PromptWindow,
+  BackgroundProcessProgressBar, ProcessResultDisplay, WslConfigEditWindow,
+  Wslconfig, WslconfigParameterCtrl;
 
 
 {$R *.res}

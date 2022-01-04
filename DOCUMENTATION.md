@@ -101,3 +101,11 @@ Job finish with error
 when you double click, a window with run command, stdout and stderr
 
 ![Log](images/screenshot/status-job-distribution5.jpg)
+
+## Edit wslconfig file
+
+In tool bar, click on:
+![WSLConfig toolbar button](images/screenshot/edit-wslconfig-file-toolbar.jpg)
+
+then a new window is displayed:
+![WSLConfig](images/screenshot/edit-wslconfig-file)
