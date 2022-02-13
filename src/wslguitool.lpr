@@ -11,7 +11,7 @@ uses
   ApplicationInfo, AboutWindow, DistributionPropertiesWindow,
   ImportDistributionWindow, RunCommandWithUserWindow, PromptWindow,
   BackgroundProcessProgressBar, ProcessResultDisplay, WslConfigEditWindow,
-  Wslconfig, WslconfigParameterCtrl, LCLType;
+  Wslconfig, WslconfigParameterCtrl, WslConfigGlobal, LCLType;
 
 {$R *.res}
 

@@ -26,10 +26,31 @@ type
 
   TWslconfigEntryType = (EntryString, EntrySize, EntryNumber, EntryBoolean, EntryPath);
 
+  { TWslconfigEntryParameter }
+
+  TWslconfigEntryParameter = class(TObject)
+  public
+    Caption: string;
+    Key: string;
+    Section: string;
+    EntryType: TWslconfigEntryType;
+    Help: string;
+    DefaultValue: string;
+    WinMajorVersion: integer;
+    WinMinorVersion: integer;
+
+    constructor Create(aCaption: String; aKey: string; aSection: string;
+      aType: TWslconfigEntryType; aHelp: string; aDefault: string;
+      aWinMajorVersion: integer; aWinMinorVersion: integer);
+  end;
+
+  { TWslconfigEntry }
+
   TWslconfigEntry = class(TObject)
   public
     Caption: string;
     Key: string;
+    Section: string;
     EntryType: TWslconfigEntryType;
     Help: string;
     DefaultValue: string;
@@ -37,8 +58,8 @@ type
     WinMinorVersion: integer;
     Value: string;
 
-    constructor Create(aCaption: String; aKey: string; aValue: string;
-      aType: TWslconfigEntryType; aHelp: string; aDefault: string;
+    constructor Create(aCaption: String; aKey: string; aSection: string;
+      aValue: string; aType: TWslconfigEntryType; aHelp: string; aDefault: string;
       aWinMajorVersion: integer; aWinMinorVersion: integer);
   end;
 
@@ -107,8 +128,9 @@ type
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
-  { TWslconfigEntryList }
+  { TWslconfigEntry*List }
 
+  TWslconfigEntryParameterList = specialize TFPGObjectList<TWslconfigEntryParameter>;
   TWslconfigEntryPanelList = specialize TFPGObjectList<TWslconfigEntryPanel>;
   TWslconfigEntryList  = specialize TFPGObjectList<TWslconfigEntry>;
 
@@ -159,14 +181,31 @@ type
 
 implementation
 
+{ TWslconfigEntryParameter }
+
+constructor TWslconfigEntryParameter.Create(aCaption: String; aKey: string;
+  aSection: string; aType: TWslconfigEntryType; aHelp: string; aDefault: string;
+  aWinMajorVersion: integer; aWinMinorVersion: integer);
+begin
+  Caption := aCaption;
+  Key := aKey;
+  EntryType := aType;
+  Help := aHelp;
+  Section := aSection;
+  WinMajorVersion := aWinMajorVersion;
+  WinMinorVersion := aWinMinorVersion;
+  DefaultValue := aDefault;
+end;
+
 { TWslconfigEntry }
 
 constructor TWslconfigEntry.Create(aCaption: String; aKey: string;
-  aValue: string; aType: TWslconfigEntryType; aHelp: string;
+  aSection: string; aValue: string; aType: TWslconfigEntryType; aHelp: string;
   aDefault: string; aWinMajorVersion: integer; aWinMinorVersion: integer);
 begin
   Caption := aCaption;
   Key := aKey;
+  Section := aSection;
   EntryType := aType;
   Help := aHelp;
   DefaultValue := aDefault;

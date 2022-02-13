@@ -17,7 +17,7 @@ uses
   // Process
   BackgroundProcessProgressBar, Process, processresultdisplay,
   // Wslconfig
-  WslConfigEditWindow;
+  WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow;
 
 type
 
@@ -27,6 +27,7 @@ type
     IconListWslDistributionList: TImageList;
     ImageListStatusbar: TImageList;
     ImageListPopupMenu: TImageList;
+    PopupMenuEditEtcWslConf: TMenuItem;
     PopupMenuRunCommandWithUser: TMenuItem;
     PopupMenuProperties: TMenuItem;
     PopupMenuDefault: TMenuItem;
@@ -36,7 +37,7 @@ type
     ExportDialog: TSaveDialog;
     TimerRefreshDistributionList: TTimer;
     ToolButton1: TToolButton;
-    ToolButton3: TToolButton;
+    ToolButtonWslconfigEdit: TToolButton;
     ToolButtonDuplicate: TToolButton;
     ToolButtonUnregisterDistribution: TToolButton;
     ToolButtonExport: TToolButton;
@@ -56,11 +57,12 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
+    procedure PopupMenuEditEtcWslConfClick(Sender: TObject);
     procedure PopupMenuRunCommandWithUserClick(Sender: TObject);
     procedure StatusBar1DrawPanel(StatusBar: TStatusBar; {%H-}Panel: TStatusPanel;
       const Rect: TRect);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
-    procedure ToolButton3Click(Sender: TObject);
+    procedure ToolButtonWslconfigEditClick(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonDuplicateClick(Sender: TObject);
     procedure ToolButtonExportClick(Sender: TObject);
@@ -283,6 +285,11 @@ begin
   TimerRefreshDistributionList.Enabled := true;
 end;
 
+procedure TWslGuiToolMainWindow.PopupMenuEditEtcWslConfClick(Sender: TObject);
+begin
+  // TODO
+end;
+
 procedure TWslGuiToolMainWindow.PopupMenuRunCommandWithUserClick(Sender: TObject
   );
 var RunForm : TFormRunCommandWithUser;
@@ -339,13 +346,18 @@ begin
   RefreshWslDistributionInList(Sender);
 end;
 
-procedure TWslGuiToolMainWindow.ToolButton3Click(Sender: TObject);
+procedure TWslGuiToolMainWindow.ToolButtonWslconfigEditClick(Sender: TObject);
 var
   WslConfigForm: TFormWslconfigEdit;
+  WslParameters: TWslconfigEntryParameterList;
 begin
-  WslConfigForm := TFormWslconfigEdit.Create(Self);
+  WslParameters := GenerateWslConfigForUser;
+
+  WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(Self, WslParameters);
   WslConfigForm.ShowModal;
   WslConfigForm.Free;
+
+  WslParameters.Free;
 end;
 
 procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);
@@ -674,6 +686,7 @@ begin
     ToolButtonStop.Enabled := false;
     PopupMenuStop.Enabled := false;
     ToolButtonDuplicate.Enabled := false;
+    PopupMenuEditEtcWslConf.Enabled := false;
   end;
 
   ManageOneDistributionActionWithoutState(Selected);
@@ -702,6 +715,7 @@ begin
     ToolButtonExport.Enabled := enable;
     ToolButtonUnregisterDistribution.Enabled := enable;
     ToolButtonDuplicate.Enabled := enable;
+    PopupMenuEditEtcWslConf.Enabled := enable;
   end;
 end;
 

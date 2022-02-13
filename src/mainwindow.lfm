@@ -1,7 +1,7 @@
 object WslGuiToolMainWindow: TWslGuiToolMainWindow
-  Left = 2924
+  Left = 558
   Height = 441
-  Top = 376
+  Top = 256
   Width = 722
   Caption = 'WSL GUI Tool'
   ClientHeight = 441
@@ -3546,13 +3546,13 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       Caption = 'ToolButton1'
       Style = tbsSeparator
     end
-    object ToolButton3: TToolButton
+    object ToolButtonWslconfigEdit: TToolButton
       Left = 464
       Hint = 'Edit global .wslconfig file'
       Top = 2
-      Caption = 'ToolButtonWslconfigEdit'
+      Caption = 'Edit global WSL config'
       ImageIndex = 9
-      OnClick = ToolButton3Click
+      OnClick = ToolButtonWslconfigEditClick
     end
   end
   object WslDistributionList: TListView
@@ -5206,6 +5206,10 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       Caption = 'Set as &default'
       Enabled = False
       OnClick = PopupMenuDefaultClick
+    end
+    object PopupMenuEditEtcWslConf: TMenuItem
+      Caption = '&Edit /etc/wsl.conf'
+      OnClick = PopupMenuEditEtcWslConfClick
     end
   end
   object ImageListPopupMenu: TImageList
