@@ -29,10 +29,11 @@ type
     WslList: TWslconfigEntryList;
     Wslconfig: TWslconfigFile;
     WslParameters: TWslconfigEntryParameterList;
+    ConfigFilename: string;
     procedure OnValueChange(Sender: TObject);
     procedure OnValueReset(Sender: TObject);
   public
-    constructor CreateWslConfigForm(TheOwner: TComponent; aParameters: TWslconfigEntryParameterList);
+    constructor CreateWslConfigForm(TheOwner: TComponent; aConfigFilename: string; aParameters: TWslconfigEntryParameterList);
   end;
 
 var
@@ -47,11 +48,12 @@ implementation
 
 { TFormWslconfigEdit }
 
-constructor TFormWslconfigEdit.CreateWslConfigForm(TheOwner: TComponent; aParameters: TWslconfigEntryParameterList);
+constructor TFormWslconfigEdit.CreateWslConfigForm(TheOwner: TComponent; aConfigFilename: string; aParameters: TWslconfigEntryParameterList);
 begin
   Inherited Create(TheOwner);
 
-  WslParameters := aParameters
+  WslParameters := aParameters;
+  ConfigFilename := aConfigFilename;
 end;
 
 function InitList(Wslconfig: TWslconfigFile; aParameters: TWslconfigEntryParameterList): TWslconfigEntryList;
@@ -62,7 +64,7 @@ var
 begin
   Result := TWslconfigEntryList.Create;
 
-  for Index := 0 to aParameters.Count do
+  for Index := 0 to aParameters.Count - 1 do
   begin
     Param := aParameters[Index];
 
@@ -83,7 +85,7 @@ end;
 
 procedure TFormWslconfigEdit.FormCreate(Sender: TObject);
 begin
-  Wslconfig := TWslconfigFile.Create(GetUserDir + '.wslconfig');
+  Wslconfig := TWslconfigFile.Create(ConfigFilename);
 
   WslList := InitList(Wslconfig, WslParameters);
 
@@ -110,6 +112,7 @@ var
   Section: string;
   Value: TWslValue;
 begin
+  // TODO for /etc/wsl.conf, display content of file, not save
   for Index := 0 to WslList.Count - 1 do
   begin
     Key := WslList[Index].Key;
@@ -134,6 +137,7 @@ procedure TFormWslconfigEdit.FormDestroy(Sender: TObject);
 begin
   WslconfigPropertiesPanel.Free;
   Wslconfig.Free;
+  WslList.Free;
 end;
 
 procedure TFormWslconfigEdit.OnValueChange(Sender: TObject);

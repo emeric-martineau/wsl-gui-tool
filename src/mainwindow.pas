@@ -17,7 +17,10 @@ uses
   // Process
   BackgroundProcessProgressBar, Process, processresultdisplay,
   // Wslconfig
-  WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow;
+  WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow,
+  // /etc/wsl.conf
+  WslConfigDitribution
+  ;
 
 type
 
@@ -286,8 +289,20 @@ begin
 end;
 
 procedure TWslGuiToolMainWindow.PopupMenuEditEtcWslConfClick(Sender: TObject);
+var
+  WslConfigForm: TFormWslconfigEdit;
+  WslParameters: TWslconfigEntryParameterList;
 begin
-  // TODO
+  WslParameters := GenerateWslConfigForDistribution;
+
+  WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
+    Self,
+    '\\wsl$\' + WslDistributionList.Selected.Caption + '\etc\wsl.conf',
+    WslParameters);
+  WslConfigForm.ShowModal;
+  WslConfigForm.Free;
+
+  WslParameters.Free;
 end;
 
 procedure TWslGuiToolMainWindow.PopupMenuRunCommandWithUserClick(Sender: TObject
@@ -353,7 +368,10 @@ var
 begin
   WslParameters := GenerateWslConfigForUser;
 
-  WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(Self, WslParameters);
+  WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
+    Self,
+    GetUserDir + '.wslconfig',
+    WslParameters);
   WslConfigForm.ShowModal;
   WslConfigForm.Free;
 

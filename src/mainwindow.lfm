@@ -1,11 +1,11 @@
 object WslGuiToolMainWindow: TWslGuiToolMainWindow
-  Left = 558
+  Left = -1773
   Height = 441
-  Top = 256
-  Width = 722
+  Top = 301
+  Width = 720
   Caption = 'WSL GUI Tool'
   ClientHeight = 441
-  ClientWidth = 722
+  ClientWidth = 720
   DesignTimePPI = 120
   Icon.Data = {
     47AC01000000010006000000000001002000D926000066000000808000000100
@@ -3447,7 +3447,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     Left = 0
     Height = 69
     Top = 0
-    Width = 722
+    Width = 720
     ButtonHeight = 64
     ButtonWidth = 65
     Caption = 'ToolBar1'
@@ -3559,7 +3559,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     Left = 0
     Height = 372
     Top = 69
-    Width = 722
+    Width = 720
     Align = alClient
     AutoSortIndicator = True
     Columns = <    
@@ -5209,6 +5209,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
     end
     object PopupMenuEditEtcWslConf: TMenuItem
       Caption = '&Edit /etc/wsl.conf'
+      Enabled = False
       OnClick = PopupMenuEditEtcWslConfClick
     end
   end
