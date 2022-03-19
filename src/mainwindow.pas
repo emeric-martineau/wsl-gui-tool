@@ -19,7 +19,7 @@ uses
   // Wslconfig
   WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow,
   // /etc/wsl.conf
-  WslConfigDitribution
+  WslConfigDitribution, Clipbrd
   ;
 
 type
@@ -89,6 +89,7 @@ type
     procedure SetStatusbarExport(DistributionName: string);
     procedure SetStatusbarImport(DistributionName: string);
     procedure SetStatusbarError(Message: string);
+    procedure SetStatusbarInfo(Message: string);
     procedure SetStatusbarUnregister(DistributionName: string);
 
     // Refresh distribution list
@@ -133,6 +134,7 @@ const
   STATUSBAR_OK_IMAGE_INDEX = 3;
   STATUSBAR_UNREGISTER_IMAGE_INDEX = 4;
   STATUSBAR_CANCEL_IMAGE_INDEX = 5;
+  STATUSBAR_INFO_IMAGE_INDEX = 6;
 
 implementation
 
@@ -298,8 +300,15 @@ begin
   WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
     Self,
     '\\wsl$\' + WslDistributionList.Selected.Caption + '\etc\wsl.conf',
-    WslParameters);
-  WslConfigForm.ShowModal;
+    WslParameters,
+    false);
+
+  if WslConfigForm.ShowModal = mrOk
+  then begin
+    Clipboard.AsText := WslConfigForm.Data.Text;
+    SetStatusbarInfo('Content of wsl.conf file was copied in clipboard. You can now copy this with Vi.');
+  end;
+
   WslConfigForm.Free;
 
   WslParameters.Free;
@@ -764,6 +773,13 @@ procedure TWslGuiToolMainWindow.SetStatusbarError(Message: string);
 begin
   StatusbarMessage := Message;
   StatusbarImageIndex := STATUSBAR_ERROR_IMAGE_INDEX;
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.SetStatusbarInfo(Message: string);
+begin
+  StatusbarMessage := Message;
+  StatusbarImageIndex := STATUSBAR_INFO_IMAGE_INDEX;
   BackgroundProcessProgressBar.Refresh;
 end;
 

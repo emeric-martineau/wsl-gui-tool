@@ -42,6 +42,7 @@ object FormWslconfigEdit: TFormWslconfigEdit
         Width = 94
         Caption = '&Save'
         Enabled = False
+        ModalResult = 1
         OnClick = ButtonSaveClick
         TabOrder = 0
       end

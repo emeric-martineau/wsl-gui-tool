@@ -30,10 +30,22 @@ type
     Wslconfig: TWslconfigFile;
     WslParameters: TWslconfigEntryParameterList;
     ConfigFilename: string;
+
+    // Contains data of file if not saved
+    FData: TStrings;
+    // Keep if we want save data on disk
+    SaveFile: boolean;
+
     procedure OnValueChange(Sender: TObject);
     procedure OnValueReset(Sender: TObject);
   public
-    constructor CreateWslConfigForm(TheOwner: TComponent; aConfigFilename: string; aParameters: TWslconfigEntryParameterList);
+    constructor CreateWslConfigForm(
+      TheOwner: TComponent;
+      aConfigFilename: string;
+      aParameters: TWslconfigEntryParameterList;
+      aSaveFile: boolean = true);
+    // Only set if don't save data
+    property Data: TStrings read FData;
   end;
 
 var
@@ -48,12 +60,18 @@ implementation
 
 { TFormWslconfigEdit }
 
-constructor TFormWslconfigEdit.CreateWslConfigForm(TheOwner: TComponent; aConfigFilename: string; aParameters: TWslconfigEntryParameterList);
+constructor TFormWslconfigEdit.CreateWslConfigForm(
+  TheOwner: TComponent;
+  aConfigFilename: string;
+  aParameters: TWslconfigEntryParameterList;
+  aSaveFile: boolean = true);
 begin
   Inherited Create(TheOwner);
 
   WslParameters := aParameters;
   ConfigFilename := aConfigFilename;
+  FData := nil;
+  SaveFile := aSaveFile;
 end;
 
 function InitList(Wslconfig: TWslconfigFile; aParameters: TWslconfigEntryParameterList): TWslconfigEntryList;
@@ -112,7 +130,6 @@ var
   Section: string;
   Value: TWslValue;
 begin
-  // TODO for /etc/wsl.conf, display content of file, not save
   for Index := 0 to WslList.Count - 1 do
   begin
     Key := WslList[Index].Key;
@@ -130,7 +147,13 @@ begin
     end;
   end;
 
-  Wslconfig.UpdateFile;
+  if SaveFile
+  then begin
+    Wslconfig.UpdateFile;
+  end else begin
+    // for /etc/wsl.conf, display content of file, not save
+    FData := Wslconfig.Update;
+  end;
 end;
 
 procedure TFormWslconfigEdit.FormDestroy(Sender: TObject);
@@ -138,6 +161,11 @@ begin
   WslconfigPropertiesPanel.Free;
   Wslconfig.Free;
   WslList.Free;
+
+  if FData <> nil
+  then begin
+    FData.Free;
+  end;
 end;
 
 procedure TFormWslconfigEdit.OnValueChange(Sender: TObject);
