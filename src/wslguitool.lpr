@@ -11,16 +11,28 @@ uses
   ApplicationInfo, AboutWindow, DistributionPropertiesWindow,
   ImportDistributionWindow, RunCommandWithUserWindow, PromptWindow,
   BackgroundProcessProgressBar, ProcessResultDisplay, WslConfigEditWindow,
-  Wslconfig, WslconfigParameterCtrl;
-
+  Wslconfig, WslconfigParameterCtrl, LCLType;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource:=True;
+
   Application.Scaled:=True;
   Application.Initialize;
-  Application.CreateForm(TWslGuiToolMainWindow, WslGuiToolMainWindow);
-  Application.Run;
+
+  if WslCommandLine.IsWslInstalled() then
+  begin
+    Application.CreateForm(TWslGuiToolMainWindow, WslGuiToolMainWindow);
+    Application.Run;
+  end
+  else begin
+    Application.MessageBox(
+      'WSL seems to be not installed!',
+      'Error',
+      MB_OK + MB_ICONERROR
+    );
+    Application.Terminate;
+  end;
 end.
 
