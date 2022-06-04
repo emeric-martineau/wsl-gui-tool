@@ -1,5 +1,5 @@
 object WslGuiToolMainWindow: TWslGuiToolMainWindow
-  Left = -1773
+  Left = -1772
   Height = 441
   Top = 301
   Width = 720

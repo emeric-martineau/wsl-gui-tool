@@ -24,7 +24,7 @@ const
 type
   { TWslconfigEntryType }
 
-  TWslconfigEntryType = (EntryString, EntrySize, EntryNumber, EntryBoolean, EntryPath);
+  TWslconfigEntryType = (EntryString, EntrySize, EntryNumber, EntryBoolean, EntryPath, EntryHeader);
 
   { TWslconfigEntryParameter }
 
@@ -322,6 +322,12 @@ begin
     ComboValue.Items.Add('PB');
     ComboValue.OnResize := @OnResizeInput; // Need to have same size of Label and Edit
     ComboValue.Visible := true;
+  end else begin
+    // EntryHeader
+    EditValue.Visible := false;
+    ComboValue.Visible := false;
+    HelpImage.Visible := false;
+    FCaption.Font.Style := [fsBold];
   end;
 
   Reset;

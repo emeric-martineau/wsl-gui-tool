@@ -1,8 +1,9 @@
 object FormWslconfigEdit: TFormWslconfigEdit
-  Left = -1218
+  Left = -1127
   Height = 303
-  Top = 496
+  Top = 245
   Width = 400
+  AutoSize = True
   Caption = 'Global WSL2 configuration'
   ClientHeight = 303
   ClientWidth = 400

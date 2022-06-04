@@ -19,8 +19,7 @@ uses
   // Wslconfig
   WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow,
   // /etc/wsl.conf
-  WslConfigDitribution, Clipbrd
-  ;
+  WslConfigDitribution;
 
 type
 
@@ -305,8 +304,8 @@ begin
 
   if WslConfigForm.ShowModal = mrOk
   then begin
-    Clipboard.AsText := WslConfigForm.Data.Text;
-    SetStatusbarInfo('Content of wsl.conf file was copied in clipboard. You can now copy this with Vi.');
+    UpdateEtcWslConf(WslDistributionList.Selected.Caption, WslConfigForm.Data.Text);
+    SetStatusbarInfo('Content of wsl.conf file was copied in /etc/wsl.conf.');
   end;
 
   WslConfigForm.Free;

@@ -10,7 +10,7 @@ uses
 const
   WSL2_AUTOMOUNT_SECTION = 'automount';
   WSL2_NETWORK_SECTION = 'network';
-  WSL2_INTERPOL_SECTION = 'interop';
+  WSL2_INTEROP_SECTION = 'interop';
   WSL2_USER_SECTION = 'user';
   WSL2_BOOT_SECTION = 'boot';
 
@@ -23,6 +23,13 @@ const
   WSL2_NETWORK_GENERATE_RESOLV_HOSTS_PROPERTY = 'generateResolvConf';
   WSL2_NETWORK_GENERATE_HOSTNAME_PROPERTY = 'hostname';
 
+  WSL2_INTEROP_ENABLED = 'enabled';
+  WSL2_INTEROP_APPEND_WINDOWS_PATH = 'appendWindowsPath';
+
+  WSL2_USER_DEFAULT = 'default';
+
+  WSL2_BOOT_COMMAND = 'command';
+
 function GenerateWslConfigForDistribution(): TWslconfigEntryParameterList;
 
 implementation
@@ -31,7 +38,14 @@ function GenerateWslConfigForDistribution(): TWslconfigEntryParameterList;
 begin
   Result := TWslconfigEntryParameterList.Create();
 
-  // TODO Add intermediate section
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Automount',
+    '',
+    '',
+    EntryHeader,
+    '',
+    '',
+    10, 0));
 
   Result.Add(TWslconfigEntryParameter.Create(
     'Enable:',
@@ -66,7 +80,14 @@ begin
     '',
     10, 0));
 
-  // TODO Add intermediate section
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Network',
+    '',
+    '',
+    EntryHeader,
+    '',
+    '',
+    10, 0));
 
   Result.Add(TWslconfigEntryParameter.Create(
     'Generates "/etc/hosts" file:',
@@ -92,6 +113,65 @@ begin
     'Hostname of WSL distribution.',
     'true',
     10, 0));
+
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Interop',
+    '',
+    '',
+    EntryHeader,
+    '',
+    '',
+    10, 0));
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Run Windows and Linux tools and commands interchangeably:',
+    WSL2_INTEROP_ENABLED,
+    WSL2_INTEROP_SECTION,
+    EntryBoolean,
+    'Setting this key will determine whether WSL will support launching Windows processes.',
+    'true',
+    10, 0));
+  Result.Add(TWslconfigEntryParameter.Create(
+    'RShare environment variables between Linux and Windows:',
+    WSL2_INTEROP_APPEND_WINDOWS_PATH,
+    WSL2_INTEROP_SECTION,
+    EntryBoolean,
+    'Setting this key will determine whether WSL will add Windows path elements to the $PATH environment variable.',
+    'true',
+    10, 0));
+
+  Result.Add(TWslconfigEntryParameter.Create(
+    'User',
+    '',
+    '',
+    EntryHeader,
+    '',
+    '',
+    10, 0));
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Usename:',
+    WSL2_USER_DEFAULT,
+    WSL2_USER_SECTION,
+    EntryString,
+    'Default user to run WSL distribution. By default, the initial username created on first run.',
+    '',
+    10, 0));
+
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Boot',
+    '',
+    '',
+    EntryHeader,
+    '',
+    '',
+    11, 0));
+  Result.Add(TWslconfigEntryParameter.Create(
+    'Usename:',
+    WSL2_BOOT_COMMAND,
+    WSL2_BOOT_SECTION,
+    EntryString,
+    'A string of the command that you would like to run when the WSL instance starts. This command is run as the root user. e.g: "service docker start"',
+    '',
+    11, 0));
 end;
 
 end.

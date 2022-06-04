@@ -5,7 +5,7 @@ unit wslcommandLine;
 interface
 
 uses
-  Classes, SysUtils, Process, fgl, Regexpr, ComObj, ShellApi;
+  Classes, SysUtils, Process, fgl, Regexpr, ComObj, ShellApi, StrUtils;
 
 type
   // A WSL distribution
@@ -36,6 +36,8 @@ function ExportDistribution(Name: string; ExportFileName: string): TProcess;
 function ImportDistribution(Name: string; InstallLocationPath: string; Version: Integer; FileName: string): TProcess;
 // Unregister a distribution
 function UnregisterDistribution(Name: string): TProcess;
+// Update wsl.conf file
+function UpdateEtcWslConf(DistributionName: string; Data: string): boolean;
 
 implementation
 
@@ -262,6 +264,42 @@ begin
   WslProcess.ShowWindow := swoHIDE;
 
   Result := WslProcess;
+end;
+
+function UpdateEtcWslConf(DistributionName: string; Data: string): boolean;
+var
+  // Use to run WSL binary
+  WslProcess: TProcess;
+begin
+  Result := false;
+
+  // Remove CR
+  Data := ReplaceStr(Data, #13, '');
+
+  WslProcess := TProcess.Create(nil);
+
+  WslProcess.Executable := 'wsl';
+  WslProcess.Parameters.Add('--user');
+  WslProcess.Parameters.Add('root');
+  WslProcess.Parameters.Add('--distribution');
+  WslProcess.Parameters.Add(DistributionName);
+  WslProcess.Parameters.Add('eval');
+  WslProcess.Parameters.Add('echo '''+ Data + ''' > /etc/wsl.conf');
+
+  // TODO return stderr
+
+  WslProcess.Options := WslProcess.Options + [poWaitOnExit];
+  WslProcess.ShowWindow := swoHIDE;
+
+  WslProcess.Execute;
+
+  if WslProcess.ExitStatus = 0
+  then begin
+    Result := true;
+  end;
+
+  WslProcess.Free;
+
 end;
 
 end.

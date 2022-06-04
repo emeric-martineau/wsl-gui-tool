@@ -215,7 +215,7 @@
         <UnitName Value="WslConfigGlobal"/>
       </Unit16>
       <Unit17>
-        <Filename Value="wslconfigditribution.pas"/>
+        <Filename Value="wslconfigdistribution.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="WslConfigDitribution"/>
       </Unit17>
