@@ -298,6 +298,7 @@ begin
 
   WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
     Self,
+    Format('/etc/wsl.conf of %s', [WslDistributionList.Selected.Caption]),
     '\\wsl$\' + WslDistributionList.Selected.Caption + '\etc\wsl.conf',
     WslParameters,
     false);
@@ -378,6 +379,7 @@ begin
 
   WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
     Self,
+    'Global WSL2 configuration',
     GetUserDir + '.wslconfig',
     WslParameters);
   WslConfigForm.ShowModal;

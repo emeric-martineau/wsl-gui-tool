@@ -41,6 +41,7 @@ type
   public
     constructor CreateWslConfigForm(
       TheOwner: TComponent;
+      Title: string;
       aConfigFilename: string;
       aParameters: TWslconfigEntryParameterList;
       aSaveFile: boolean = true);
@@ -62,12 +63,14 @@ implementation
 
 constructor TFormWslconfigEdit.CreateWslConfigForm(
   TheOwner: TComponent;
+  Title: string;
   aConfigFilename: string;
   aParameters: TWslconfigEntryParameterList;
   aSaveFile: boolean = true);
 begin
   Inherited Create(TheOwner);
 
+  Caption := Title;
   WslParameters := aParameters;
   ConfigFilename := aConfigFilename;
   FData := nil;
