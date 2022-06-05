@@ -1,10 +1,11 @@
 object FormWslconfigEdit: TFormWslconfigEdit
-  Left = -1547
-  Height = 301
-  Top = 385
+  Left = -1127
+  Height = 303
+  Top = 245
   Width = 400
+  AutoSize = True
   Caption = 'Global WSL2 configuration'
-  ClientHeight = 301
+  ClientHeight = 303
   ClientWidth = 400
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -14,7 +15,7 @@ object FormWslconfigEdit: TFormWslconfigEdit
   object PanelButtons: TPanel
     Left = 0
     Height = 71
-    Top = 230
+    Top = 232
     Width = 400
     Align = alBottom
     AutoSize = True
@@ -42,6 +43,7 @@ object FormWslconfigEdit: TFormWslconfigEdit
         Width = 94
         Caption = '&Save'
         Enabled = False
+        ModalResult = 1
         OnClick = ButtonSaveClick
         TabOrder = 0
       end

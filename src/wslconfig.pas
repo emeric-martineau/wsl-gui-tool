@@ -107,22 +107,25 @@ type
     FItemList: TWslConfigItemList;
 
     // Reload file from FLines
-    procedure ReloadFile;
+    procedure Reload;
   public
     constructor Create(const AFileName: string);
     destructor Destroy; override;
-    function ReadString(const Section, Ident, Default: string): string;
-    procedure WriteString(const Section, Ident, Value: String);
-    procedure ReadSection(const Section: string; Strings: TStrings);
-    procedure ReadSections(Strings: TStrings);
-    procedure ReadSectionValues(const Section: string; Strings: TStrings);
-    procedure EraseSection(const Section: string);
-    procedure DeleteKey(const Section, Ident: String);
-    procedure UpdateFile;
-    function ReadInteger(const Section, Ident: string; Default: integer): integer;
-    procedure WriteInteger(const Section, Ident: string; Value: integer);
-    function ReadBool(const Section, Ident: string; Default: boolean): boolean;
-    procedure WriteBool(const Section, Ident: string; Value: boolean);
+    function   ReadString(const Section, Ident, Default: string): string;
+    procedure  WriteString(const Section, Ident, Value: String);
+    procedure  ReadSection(const Section: string; Strings: TStrings);
+    procedure  ReadSections(Strings: TStrings);
+    procedure  ReadSectionValues(const Section: string; Strings: TStrings);
+    procedure  EraseSection(const Section: string);
+    procedure  DeleteKey(const Section, Ident: String);
+    // Update file on disk
+    procedure  UpdateFile;
+    // Update internal data and return result on virtual file
+    function   Update: TStrings;
+    function   ReadInteger(const Section, Ident: string; Default: integer): integer;
+    procedure  WriteInteger(const Section, Ident: string; Value: integer);
+    function   ReadBool(const Section, Ident: string; Default: boolean): boolean;
+    procedure  WriteBool(const Section, Ident: string; Value: boolean);
   end;
 
   TKeyData = record
@@ -622,7 +625,7 @@ begin
   then begin
     FLines.LoadFromFile(FFileName);
 
-    ReloadFile;
+    Reload;
   end;
 end;
 
@@ -770,6 +773,41 @@ begin
   end;
 end;
 
+function TWslconfigFile.Update: TStrings;
+var
+  // Index of current item to copy or update
+  ItemIndex: integer;
+  // Current item
+  Item: TWslConfigItem;
+begin
+  // We create a new StringsList, to copy data from previous to the new List.
+  Result := TStringList.Create;
+
+  for ItemIndex := 0 to FItemList.Count - 1 do
+  begin
+    Item := FItemList[ItemIndex];
+
+    if not Item.IsDeleted
+    then begin
+      if Item.LineNumber = WSLCONFIG_NOT_SET
+      then begin
+        Result.Add(CreateLineFromNewItem(Item));
+      end else if Item.IsChanged
+      then begin
+        // Existing section/key with modification
+        Result.Add(CreateLineFromExistingItem(FLines, Item));
+      end else begin
+        // Existing section/key without modification
+        Result.Add(FLines[Item.LineNumber]);
+      end;
+    end;
+  end;
+
+  FLines.AddStrings(Result, true);
+
+  Reload;
+end;
+
 procedure TWslconfigFile.UpdateFile;
 var
   // The new lines
@@ -780,37 +818,14 @@ var
   Item: TWslConfigItem;
 begin
   // We create a new StringsList, to copy data from previous to the new List.
-  NewLines := TStringList.Create;
+  NewLines := Update;
 
-  for ItemIndex := 0 to FItemList.Count - 1 do
-  begin
-    Item := FItemList[ItemIndex];
-
-    if not Item.IsDeleted
-    then begin
-      if Item.LineNumber = WSLCONFIG_NOT_SET
-      then begin
-        NewLines.Add(CreateLineFromNewItem(Item));
-      end else if Item.IsChanged
-      then begin
-        // Existing section/key with modification
-        NewLines.Add(CreateLineFromExistingItem(FLines, Item));
-      end else begin
-        // Existing section/key without modification
-        NewLines.Add(FLines[Item.LineNumber]);
-      end;
-    end;
-  end;
-
-  FLines.AddStrings(NewLines, true);
   NewLines.SaveToFile(FFileName);
   NewLines.Free;
-
-  ReloadFile;
 end;
 
 // Reload data from Fline
-procedure TWslconfigFile.ReloadFile;
+procedure TWslconfigFile.Reload;
 var
   // Current line index
   LineIndex: integer;
