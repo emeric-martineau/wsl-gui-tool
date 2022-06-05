@@ -19,7 +19,7 @@ uses
   // Wslconfig
   WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow,
   // /etc/wsl.conf
-  WslConfigDitribution;
+  WslConfigDistribution;
 
 type
 
@@ -741,7 +741,6 @@ begin
     ToolButtonExport.Enabled := enable;
     ToolButtonUnregisterDistribution.Enabled := enable;
     ToolButtonDuplicate.Enabled := enable;
-    PopupMenuEditEtcWslConf.Enabled := enable;
   end;
 end;
 
@@ -752,6 +751,7 @@ begin
   ToolButtonStop.Enabled := running;
   PopupMenuStop.Enabled := running;
   PopupMenuRunCommandWithUser.Enabled := not running;
+  PopupMenuEditEtcWslConf.Enabled := running;
 end;
 
 procedure TWslGuiToolMainWindow.SetStatusbarExport(DistributionName: string);

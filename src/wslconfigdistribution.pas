@@ -1,4 +1,4 @@
-unit WslConfigDitribution;
+unit WslConfigDistribution;
 
 {$mode objfpc}{$H+}
 

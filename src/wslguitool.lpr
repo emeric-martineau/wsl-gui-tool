@@ -11,12 +11,8 @@ uses
   ApplicationInfo, AboutWindow, DistributionPropertiesWindow,
   ImportDistributionWindow, RunCommandWithUserWindow, PromptWindow,
   BackgroundProcessProgressBar, ProcessResultDisplay, WslConfigEditWindow,
-<<<<<<< HEAD
-  Wslconfig, WslconfigParameterCtrl, WslConfigGlobal, LCLType;
-=======
-  Wslconfig, WslconfigParameterCtrl, WslConfigGlobal, WslConfigDitribution;
-
->>>>>>> b714527 (Add network section)
+  Wslconfig, WslconfigParameterCtrl, WslConfigGlobal, WslConfigDistribution,
+  LCLType;
 
 {$R *.res}
 

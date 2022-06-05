@@ -13,6 +13,5 @@
 
 # Misc
 
-* Edit /etc/wsl.conf of a distribution
 * Save size & position of main window
 * Add i18n support
