@@ -15,7 +15,11 @@ uses
   // Wsl interface
   WslCommandLine, WslRegistry,
   // Process
-  BackgroundProcessProgressBar, Process, processresultdisplay;
+  BackgroundProcessProgressBar, Process, processresultdisplay,
+  // Wslconfig
+  WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow,
+  // /etc/wsl.conf
+  WslConfigDistribution;
 
 type
 
@@ -25,6 +29,7 @@ type
     IconListWslDistributionList: TImageList;
     ImageListStatusbar: TImageList;
     ImageListPopupMenu: TImageList;
+    PopupMenuEditEtcWslConf: TMenuItem;
     PopupMenuRunCommandWithUser: TMenuItem;
     PopupMenuProperties: TMenuItem;
     PopupMenuDefault: TMenuItem;
@@ -33,6 +38,8 @@ type
     PopupMenu1: TPopupMenu;
     ExportDialog: TSaveDialog;
     TimerRefreshDistributionList: TTimer;
+    ToolButton1: TToolButton;
+    ToolButtonWslconfigEdit: TToolButton;
     ToolButtonDuplicate: TToolButton;
     ToolButtonUnregisterDistribution: TToolButton;
     ToolButtonExport: TToolButton;
@@ -46,17 +53,18 @@ type
     IconListToolbar: TImageList;
     ToolBar1: TToolBar;
     ToolButtonRun: TToolButton;
-    procedure CheckIfWslIsInstalledExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure PopupMenuDefaultClick(Sender: TObject);
+    procedure PopupMenuEditEtcWslConfClick(Sender: TObject);
     procedure PopupMenuRunCommandWithUserClick(Sender: TObject);
-    procedure StatusBar1DrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+    procedure StatusBar1DrawPanel(StatusBar: TStatusBar; {%H-}Panel: TStatusPanel;
       const Rect: TRect);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
+    procedure ToolButtonWslconfigEditClick(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonDuplicateClick(Sender: TObject);
     procedure ToolButtonExportClick(Sender: TObject);
@@ -66,7 +74,7 @@ type
     procedure ToolButtonStopClick(Sender: TObject);
     procedure ToolButtonUnregisterDistributionClick(Sender: TObject);
     procedure WslDistributionListCompare(Sender: TObject; Item1,
-      Item2: TListItem; Data: Integer; var Compare: Integer);
+      Item2: TListItem; {%H-}Data: Integer; var Compare: Integer);
     procedure WslDistributionListEdited(Sender: TObject; Item: TListItem;
       var AValue: string);
     procedure WslDistributionListSelectItem(Sender: TObject; Item: TListItem;
@@ -80,6 +88,7 @@ type
     procedure SetStatusbarExport(DistributionName: string);
     procedure SetStatusbarImport(DistributionName: string);
     procedure SetStatusbarError(Message: string);
+    procedure SetStatusbarInfo(Message: string);
     procedure SetStatusbarUnregister(DistributionName: string);
 
     // Refresh distribution list
@@ -124,6 +133,7 @@ const
   STATUSBAR_OK_IMAGE_INDEX = 3;
   STATUSBAR_UNREGISTER_IMAGE_INDEX = 4;
   STATUSBAR_CANCEL_IMAGE_INDEX = 5;
+  STATUSBAR_INFO_IMAGE_INDEX = 6;
 
 implementation
 
@@ -235,18 +245,6 @@ begin
   end;
 end;
 
-procedure TWslGuiToolMainWindow.CheckIfWslIsInstalledExecute(Sender: TObject);
-begin
-  if not WslCommandLine.IsWslInstalled()
-  then begin
-    Application.MessageBox(
-      'WSL seems to be not installed!',
-      'Error',
-      MB_OK + MB_ICONERROR);
-    Application.Terminate;
-  end;
-end;
-
 procedure TWslGuiToolMainWindow.FormCreate(Sender: TObject);
 begin
   BackgroundProcessProgressBar := TBackgroundProcessProgressBar.Create(Self);
@@ -258,7 +256,6 @@ begin
 
   StatusbarImageIndex := -1;
   StatusbarMessage := '';
-  Self.CheckIfWslIsInstalledExecute(Sender);
 end;
 
 procedure TWslGuiToolMainWindow.FormDestroy(Sender: TObject);
@@ -290,6 +287,31 @@ begin
   SetDistributionAsDefault(WslDistributionList.Selected.Caption);
 
   TimerRefreshDistributionList.Enabled := true;
+end;
+
+procedure TWslGuiToolMainWindow.PopupMenuEditEtcWslConfClick(Sender: TObject);
+var
+  WslConfigForm: TFormWslconfigEdit;
+  WslParameters: TWslconfigEntryParameterList;
+begin
+  WslParameters := GenerateWslConfigForDistribution;
+
+  WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
+    Self,
+    Format('/etc/wsl.conf of %s', [WslDistributionList.Selected.Caption]),
+    '\\wsl$\' + WslDistributionList.Selected.Caption + '\etc\wsl.conf',
+    WslParameters,
+    false);
+
+  if WslConfigForm.ShowModal = mrOk
+  then begin
+    UpdateEtcWslConf(WslDistributionList.Selected.Caption, WslConfigForm.Data.Text);
+    SetStatusbarInfo('Content of wsl.conf file was copied in /etc/wsl.conf.');
+  end;
+
+  WslConfigForm.Free;
+
+  WslParameters.Free;
 end;
 
 procedure TWslGuiToolMainWindow.PopupMenuRunCommandWithUserClick(Sender: TObject
@@ -346,6 +368,24 @@ procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
   Sender: TObject);
 begin
   RefreshWslDistributionInList(Sender);
+end;
+
+procedure TWslGuiToolMainWindow.ToolButtonWslconfigEditClick(Sender: TObject);
+var
+  WslConfigForm: TFormWslconfigEdit;
+  WslParameters: TWslconfigEntryParameterList;
+begin
+  WslParameters := GenerateWslConfigForUser;
+
+  WslConfigForm := TFormWslconfigEdit.CreateWslConfigForm(
+    Self,
+    'Global WSL2 configuration',
+    GetUserDir + '.wslconfig',
+    WslParameters);
+  WslConfigForm.ShowModal;
+  WslConfigForm.Free;
+
+  WslParameters.Free;
 end;
 
 procedure TWslGuiToolMainWindow.RefreshWslDistributionInList(Sender: TObject);
@@ -674,6 +714,7 @@ begin
     ToolButtonStop.Enabled := false;
     PopupMenuStop.Enabled := false;
     ToolButtonDuplicate.Enabled := false;
+    PopupMenuEditEtcWslConf.Enabled := false;
   end;
 
   ManageOneDistributionActionWithoutState(Selected);
@@ -712,6 +753,7 @@ begin
   ToolButtonStop.Enabled := running;
   PopupMenuStop.Enabled := running;
   PopupMenuRunCommandWithUser.Enabled := not running;
+  PopupMenuEditEtcWslConf.Enabled := running;
 end;
 
 procedure TWslGuiToolMainWindow.SetStatusbarExport(DistributionName: string);
@@ -732,6 +774,13 @@ procedure TWslGuiToolMainWindow.SetStatusbarError(Message: string);
 begin
   StatusbarMessage := Message;
   StatusbarImageIndex := STATUSBAR_ERROR_IMAGE_INDEX;
+  BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.SetStatusbarInfo(Message: string);
+begin
+  StatusbarMessage := Message;
+  StatusbarImageIndex := STATUSBAR_INFO_IMAGE_INDEX;
   BackgroundProcessProgressBar.Refresh;
 end;
 

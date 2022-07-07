@@ -23,7 +23,8 @@ type
   TBackgroundProcessProgressBarFinished = procedure(ExitStatus: integer; Canceled: boolean) of object;
   TBackgroundProcessProgressBarRun = procedure() of object;
 
-  // Background process
+  { TBackgroundProcessProgressBar }
+
   TBackgroundProcessProgressBar = class(TObject)
       FProcess: TProcess;
       FTimer: TTimer;
@@ -67,6 +68,8 @@ type
 
 implementation
 
+{ TBackgroundProcessProgressBar }
+
 constructor TBackgroundProcessProgressBar.Create(Owner: TForm);
 begin
   Create(Owner, 500);
@@ -103,24 +106,18 @@ begin
   if FProcess <> nil
   then begin
     FProcess.Terminate(0);
-    FProcess.Free;
-    FProcess := nil;
+    FreeAndNil(FProcess);
   end;
 
   FTimer.Free;
-  FTimer := nil;
 
   Statusbar.Free;
-  Statusbar := nil;
 
   FStdout.Free;
-  FStdout := nil;
 
   FStderr.Free;
-  FStderr := nil;
 
   FParameters.Free;
-  FParameters := nil;
 end;
 
 procedure TBackgroundProcessProgressBar.CheckProcessStatus(Sender: TObject);
@@ -134,8 +131,7 @@ begin
 
     FExitStatus := FProcess.ExitStatus;
 
-    FProcess.Free;
-    FProcess := nil;
+    FreeAndNil(FProcess);
 
     FCallbackFinished(FExitStatus, FCanceled);
   end;
