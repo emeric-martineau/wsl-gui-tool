@@ -140,6 +140,8 @@ const
 
 implementation
 
+uses helpers;
+
 {$R *.lfm}
 
 { TWslGuiToolMainWindow }
@@ -275,6 +277,7 @@ end;
 
 procedure TWslGuiToolMainWindow.FormShow(Sender: TObject);
 begin
+  RearrangeFormToVisible(Self);
   TimerRefreshDistributionList.Enabled := true;
 end;
 
