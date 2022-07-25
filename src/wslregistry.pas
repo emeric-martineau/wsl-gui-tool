@@ -98,14 +98,20 @@ begin
 
     for i := 0 to DistributionsIdList.Count - 1 do
     begin
-      Distribution := LoadWslOneDistributionFromRegistryById(DistributionsIdList[i]);
+      try
+        Distribution := LoadWslOneDistributionFromRegistryById(DistributionsIdList[i]);
 
-      if Distribution.Id = DefaultDistribution
-      then begin
-        Distribution.IsDefault := true;
+        if Distribution.Id = DefaultDistribution
+        then begin
+          Distribution.IsDefault := true;
+        end;
+
+        Result.Add(Distribution);
+      except
+        on ERegistryException do begin
+          // TODO: should we log this type of exception ?
+        end;
       end;
-
-      Result.Add(Distribution);
     end;
 
     DistributionsIdList.Free;
