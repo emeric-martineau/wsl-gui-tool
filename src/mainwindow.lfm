@@ -3441,7 +3441,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
   OnHide = FormHide
   OnShow = FormShow
   OnWindowStateChange = FormWindowStateChange
-  Position = poDefault
+  SessionProperties = 'Height;Left;Top;Width;WindowState'
   LCLVersion = '2.0.12.0'
   object ToolBar1: TToolBar
     Left = 0
@@ -5591,5 +5591,11 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       0C61F19520FAF39621FFF39621FFF39621FFF39520FFF39620FA673F0D6D1D12
       041E000000000000000000000000
     }
+  end
+  object AppProps: TIniPropStorage
+    StoredValues = <>
+    Active = False
+    Left = 377
+    Top = 234
   end
 end
