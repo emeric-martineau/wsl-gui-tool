@@ -11,7 +11,7 @@ uses
   AboutWindow, ActnList, DistributionPropertiesWindow, importdistributionwindow,
   RunCommandWithUserWindow, PromptWindow,
   // For MB_xxxx dialog flags
-  LCLType, Menus,
+  LCLType, Menus, IniPropStorage,
   // Wsl interface
   WslCommandLine, WslRegistry,
   // Process
@@ -29,6 +29,7 @@ type
     IconListWslDistributionList: TImageList;
     ImageListStatusbar: TImageList;
     ImageListPopupMenu: TImageList;
+    AppProps: TIniPropStorage;
     PopupMenuEditEtcWslConf: TMenuItem;
     PopupMenuRunCommandWithUser: TMenuItem;
     PopupMenuProperties: TMenuItem;
@@ -91,6 +92,8 @@ type
     procedure SetStatusbarInfo(Message: string);
     procedure SetStatusbarUnregister(DistributionName: string);
 
+    procedure ActivateAppProps;
+
     // Refresh distribution list
     procedure RefreshWslDistributionInList(Sender: TObject);
 
@@ -136,6 +139,8 @@ const
   STATUSBAR_INFO_IMAGE_INDEX = 6;
 
 implementation
+
+uses helpers;
 
 {$R *.lfm}
 
@@ -247,6 +252,8 @@ end;
 
 procedure TWslGuiToolMainWindow.FormCreate(Sender: TObject);
 begin
+  ActivateAppProps;
+
   BackgroundProcessProgressBar := TBackgroundProcessProgressBar.Create(Self);
 
   BackgroundProcessProgressBar.OnRun := @BackgroundProcessProgressBarRun;
@@ -270,7 +277,8 @@ end;
 
 procedure TWslGuiToolMainWindow.FormShow(Sender: TObject);
 begin
-    TimerRefreshDistributionList.Enabled := true;
+  RearrangeFormToVisible(Self);
+  TimerRefreshDistributionList.Enabled := true;
 end;
 
 procedure TWslGuiToolMainWindow.FormWindowStateChange(Sender: TObject);
@@ -789,6 +797,18 @@ begin
   StatusbarMessage := Format('Unregister distribution "%s" in progress...', [DistributionName]);
   StatusbarImageIndex := STATUSBAR_UNREGISTER_IMAGE_INDEX;
   BackgroundProcessProgressBar.Refresh;
+end;
+
+procedure TWslGuiToolMainWindow.ActivateAppProps;
+var
+  CfgFile: string;
+begin
+  CfgFile := GetAppConfigFile(False, False);
+  if ForceDirectories(ExtractFileDir(CfgFile)) then
+     with AppProps do begin
+       IniFileName := CfgFile;
+       Active := True;
+     end;
 end;
 
 procedure TWslGuiToolMainWindow.BackgroundProcessProgressBarFinished(ExitStatus: integer; Canceled: boolean);

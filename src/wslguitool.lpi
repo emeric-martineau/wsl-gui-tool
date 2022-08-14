@@ -109,7 +109,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -219,6 +219,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="WslConfigDitribution"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="helpers.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
