@@ -21,19 +21,27 @@ begin
   Result := Rect;
   Width := Rect.Right - Rect.Left;
   Height := Rect.Bottom - Rect.Top;
-  if Result.Left < Screen.DesktopLeft then begin
+
+  if Result.Left < Screen.DesktopLeft
+  then begin
     Result.Left := Screen.DesktopLeft;
     Result.Right := Screen.DesktopLeft + Width;
   end;
-  if Result.Right > (Screen.DesktopLeft + Screen.DesktopWidth) then begin
+
+  if Result.Right > (Screen.DesktopLeft + Screen.DesktopWidth)
+  then begin
     Result.Left := Screen.DesktopLeft + Screen.DesktopWidth - Width;
     Result.Right := Screen.DesktopLeft + Screen.DesktopWidth;
   end;
-  if Result.Top < Screen.DesktopTop then begin
+
+  if Result.Top < Screen.DesktopTop
+  then begin
     Result.Top := Screen.DesktopTop;
     Result.Bottom := Screen.DesktopTop + Height;
   end;
-  if Result.Bottom > (Screen.DesktopTop + Screen.DesktopHeight) then begin
+
+  if Result.Bottom > (Screen.DesktopTop + Screen.DesktopHeight)
+  then begin
     Result.Top := Screen.DesktopTop + Screen.DesktopHeight - Height;
     Result.Bottom := Screen.DesktopTop + Screen.DesktopHeight;
   end;

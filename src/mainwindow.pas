@@ -9,7 +9,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
   AboutWindow, ActnList, DistributionPropertiesWindow, importdistributionwindow,
-  RunCommandWithUserWindow, PromptWindow,
+  RunCommandWithUserWindow, PromptWindow, ConfigWindow,
   // For MB_xxxx dialog flags
   LCLType, Menus, IniPropStorage,
   // Wsl interface
@@ -65,6 +65,7 @@ type
     procedure StatusBar1DrawPanel(StatusBar: TStatusBar; {%H-}Panel: TStatusPanel;
       const Rect: TRect);
     procedure TimerRefreshDistributionListTimer(Sender: TObject);
+    procedure ToolButtonGeneralPropertiesClick(Sender: TObject);
     procedure ToolButtonWslconfigEditClick(Sender: TObject);
     procedure ToolButtonAboutClick(Sender: TObject);
     procedure ToolButtonDuplicateClick(Sender: TObject);
@@ -376,6 +377,16 @@ procedure TWslGuiToolMainWindow.TimerRefreshDistributionListTimer(
   Sender: TObject);
 begin
   RefreshWslDistributionInList(Sender);
+end;
+
+procedure TWslGuiToolMainWindow.ToolButtonGeneralPropertiesClick(Sender: TObject
+  );
+var ConfigForm: TFormSetup;
+begin
+   ConfigForm := TFormSetup.Create(Self);
+   ConfigForm.ShowModal;
+   ConfigForm.Free;
+
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonWslconfigEditClick(Sender: TObject);
@@ -804,11 +815,13 @@ var
   CfgFile: string;
 begin
   CfgFile := GetAppConfigFile(False, False);
-  if ForceDirectories(ExtractFileDir(CfgFile)) then
+  if ForceDirectories(ExtractFileDir(CfgFile))
+  then begin
      with AppProps do begin
        IniFileName := CfgFile;
        Active := True;
      end;
+  end;
 end;
 
 procedure TWslGuiToolMainWindow.BackgroundProcessProgressBarFinished(ExitStatus: integer; Canceled: boolean);

@@ -12,7 +12,7 @@ uses
   ImportDistributionWindow, RunCommandWithUserWindow, PromptWindow,
   BackgroundProcessProgressBar, ProcessResultDisplay, WslConfigEditWindow,
   Wslconfig, WslconfigParameterCtrl, WslConfigGlobal, WslConfigDistribution,
-  LCLType;
+  LCLType, ConfigWindow;
 
 {$R *.res}
 
@@ -24,7 +24,7 @@ begin
 
   if WslCommandLine.IsWslInstalled() then
   begin
-    Application.CreateForm(TWslGuiToolMainWindow, WslGuiToolMainWindow);
+  Application.CreateForm(TWslGuiToolMainWindow, WslGuiToolMainWindow);
     Application.Run;
   end
   else begin

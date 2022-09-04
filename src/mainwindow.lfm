@@ -3496,7 +3496,7 @@ object WslGuiToolMainWindow: TWslGuiToolMainWindow
       Top = 2
       Caption = 'General properties'
       ImageIndex = 3
-      Visible = False
+      OnClick = ToolButtonGeneralPropertiesClick
     end
     object ToolButtonAbout: TToolButton
       Left = 602
