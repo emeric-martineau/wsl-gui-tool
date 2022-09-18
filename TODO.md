@@ -1,7 +1,5 @@
 # Global config
 
-
-* Display config folder
 * Change default WSL version
 * Set default folder to run distribution
 * Parameter to timer to refresh screen

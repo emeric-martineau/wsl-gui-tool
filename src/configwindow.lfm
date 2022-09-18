@@ -87,7 +87,7 @@ object FormSetup: TFormSetup
       end
     end
   end
-  object PanelUpper: TPanel
+  object PanelUpperLabelApplicationConfigFolder: TPanel
     Left = 20
     Height = 209
     Top = 20
@@ -100,21 +100,24 @@ object FormSetup: TFormSetup
     ClientHeight = 209
     ClientWidth = 360
     TabOrder = 1
-    object Label1: TLabel
+    object LabelApplicationConfigFolder: TLabel
       Left = 0
       Height = 20
       Top = 0
-      Width = 44
-      Caption = 'Label1'
+      Width = 360
+      Align = alTop
+      Caption = 'Folder of application configuration:'
       ParentColor = False
     end
-    object Panel1: TPanel
+    object PanelEditLabelApplicationConfigFolder: TPanel
       Left = 0
-      Height = 63
-      Top = 51
+      Height = 28
+      Top = 20
       Width = 360
-      Anchors = [akTop, akLeft, akRight]
-      ClientHeight = 63
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 28
       ClientWidth = 360
       TabOrder = 0
       object DirectoryEditText: TEdit
@@ -123,6 +126,7 @@ object FormSetup: TFormSetup
         Top = 0
         Width = 332
         Anchors = [akTop, akLeft, akRight]
+        ReadOnly = True
         TabOrder = 0
         Text = 'DirectoryEditText'
       end
@@ -133,6 +137,7 @@ object FormSetup: TFormSetup
         Width = 29
         Anchors = [akTop, akRight]
         Flat = True
+        OnClick = DirectoryEditButtonClick
       end
     end
   end

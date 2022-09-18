@@ -386,7 +386,6 @@ begin
    ConfigForm := TFormSetup.Create(Self);
    ConfigForm.ShowModal;
    ConfigForm.Free;
-
 end;
 
 procedure TWslGuiToolMainWindow.ToolButtonWslconfigEditClick(Sender: TObject);
