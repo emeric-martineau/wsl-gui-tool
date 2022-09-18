@@ -48,29 +48,37 @@ var
   Registry : TRegistry;
 begin
   Result := TWslRegistryDistribution.Create();
-
   Registry := TRegistry.Create;
   Registry.RootKey := HKEY_CURRENT_USER;
 
-  Registry.OpenKey(LXSS_REG_KEY + '\\' + DistributionKey, False);
+  try
+    try
+      Registry.OpenKey(LXSS_REG_KEY + '\\' + DistributionKey, False);
 
-  Result.Id:= DistributionKey;
-  Result.Version := Registry.ReadInteger('Version');
-  Result.Name := Registry.Readstring('DistributionName');
-  Result.BasePath := Registry.Readstring('BasePath');
-  Result.Flags := Registry.ReadInteger('Flags');
-  Result.DefaultUID := Longword(Registry.ReadInteger('DefaultUid'));
+      Result.Id:= DistributionKey;
+      Result.Version := Registry.ReadInteger('Version');
+      Result.Name := Registry.Readstring('DistributionName');
+      Result.BasePath := Registry.Readstring('BasePath');
+      Result.Flags := Registry.ReadInteger('Flags');
+      Result.DefaultUID := Longword(Registry.ReadInteger('DefaultUid'));
 
-  Result.Env := TStringList.Create();
+      Result.Env := TStringList.Create();
 
-  Registry.ReadStringList('DefaultEnvironment', Result.Env);
+      Registry.ReadStringList('DefaultEnvironment', Result.Env);
 
-  Result.KernelCommandLine := Registry.Readstring('KernelCommandLine');
-  Result.PackageFamilyName := Registry.Readstring('PackageFamilyName');
+      Result.KernelCommandLine := Registry.Readstring('KernelCommandLine');
+      Result.PackageFamilyName := Registry.Readstring('PackageFamilyName');
 
-  Registry.CloseKey;
-
-  Registry.Free;
+      Registry.CloseKey;
+    except
+      on ERegistryException do begin
+         Result.Free;
+         raise;
+      end;
+    end;
+  finally
+    Registry.Free;
+  end;
 end;
 
 function LoadWslFromRegistry(): TWslRegistryDistributionList;
