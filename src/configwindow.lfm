@@ -41,7 +41,7 @@ object FormSetup: TFormSetup
         Top = 0
         Width = 94
         Caption = '&Save'
-        Enabled = False
+        OnClick = ButtonSaveClick
         TabOrder = 0
       end
     end
@@ -139,6 +139,29 @@ object FormSetup: TFormSetup
         Flat = True
         OnClick = DirectoryEditButtonClick
       end
+    end
+    object ComboBoxWslDefaultVersion: TComboBox
+      Left = 144
+      Height = 28
+      Top = 64
+      Width = 40
+      ItemHeight = 20
+      ItemIndex = 0
+      Items.Strings = (
+        '1'
+        '2'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+      Text = '1'
+    end
+    object Label1: TLabel
+      Left = 0
+      Height = 20
+      Top = 64
+      Width = 136
+      Caption = 'Default WSL version:'
+      ParentColor = False
     end
   end
   object ImageList1: TImageList

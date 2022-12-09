@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  EditBtn, Buttons, ShellApi;
+  EditBtn, Buttons, ShellApi, WslRegistry, Math;
 
 type
 
@@ -16,8 +16,10 @@ type
     ButtonCancel: TButton;
     ButtonReset: TButton;
     ButtonSave: TButton;
+    ComboBoxWslDefaultVersion: TComboBox;
     DirectoryEditText: TEdit;
     ImageList1: TImageList;
+    Label1: TLabel;
     LabelApplicationConfigFolder: TLabel;
     PanelEditLabelApplicationConfigFolder: TPanel;
     PanelUpperLabelApplicationConfigFolder: TPanel;
@@ -26,6 +28,7 @@ type
     PanelButtonReset: TPanel;
     PanelButtons: TPanel;
     DirectoryEditButton: TSpeedButton;
+    procedure ButtonSaveClick(Sender: TObject);
     procedure DirectoryEditButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -75,11 +78,18 @@ procedure TFormSetup.FormCreate(Sender: TObject);
 begin
   LoadOpenFolderIcon(Application, ImageList1, DirectoryEditButton);
   SetAppConfig(DirectoryEditText);
+  ComboBoxWslDefaultVersion.ItemIndex := Max(WslRegistry.GetDefaultWslVersion - 1, 0);
 end;
 
 procedure TFormSetup.DirectoryEditButtonClick(Sender: TObject);
 begin
   SysUtils.ExecuteProcess(Pchar('explorer.exe'), PChar(DirectoryEditText.Text), []);
+end;
+
+procedure TFormSetup.ButtonSaveClick(Sender: TObject);
+begin
+  WslRegistry.SetDefaultWslVersion(ComboBoxWslDefaultVersion.ItemIndex + 1);
+  Close;
 end;
 
 end.

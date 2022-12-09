@@ -33,6 +33,8 @@ procedure SaveDistributionToRegistry(Distribution: TWslRegistryDistribution);
 procedure SetDistributionAsDefault(DistributionName: string);
 // Return default WSL version
 function GetDefaultWslVersion: integer;
+// Set default WSL version
+procedure SetDefaultWslVersion(aVersion: integer);
 // Check if distribution exists.
 function IsDistributionExists(DistributionName: string): boolean;
 // Check if distribution name is valid
@@ -259,6 +261,28 @@ begin
       then begin
         Result := 1;
       end;
+    end;
+
+    Registry.CloseKey;
+  end;
+
+  Registry.Free;
+end;
+
+procedure SetDefaultWslVersion(aVersion: integer);
+var
+  Registry : TRegistry;
+begin
+  Registry := TRegistry.Create;
+  Registry.RootKey := HKEY_CURRENT_USER;
+
+  if Registry.KeyExists(LXSS_REG_KEY)
+  then begin
+    Registry.OpenKey(LXSS_REG_KEY, False);
+
+    if Registry.ValueExists('DefaultVersion')
+    then begin
+      Registry.WriteInteger('DefaultVersion', aVersion);
     end;
 
     Registry.CloseKey;

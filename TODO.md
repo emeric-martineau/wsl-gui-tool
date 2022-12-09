@@ -1,6 +1,5 @@
 # Global config
 
-* Change default WSL version
 * Set default folder to run distribution
 * Parameter to timer to refresh screen
 * Allow save old import distribution folders
