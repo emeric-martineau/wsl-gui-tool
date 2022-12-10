@@ -1,7 +1,6 @@
 # Global config
 
 * Set default folder to run distribution
-* Parameter to timer to refresh screen
 * Allow save old import distribution folders
 * Allow save old export distribution folder
 * Minimize on systray

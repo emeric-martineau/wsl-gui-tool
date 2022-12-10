@@ -12,7 +12,7 @@ uses
   ImportDistributionWindow, RunCommandWithUserWindow, PromptWindow,
   BackgroundProcessProgressBar, ProcessResultDisplay, WslConfigEditWindow,
   Wslconfig, WslconfigParameterCtrl, WslConfigGlobal, WslConfigDistribution,
-  LCLType, ConfigWindow;
+  LCLType, ConfigWindow, RefreshWslDistribitionTimer;
 
 {$R *.res}
 

@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  EditBtn, Buttons, ShellApi, WslRegistry, Math;
+  EditBtn, Buttons, Spin, ShellApi, WslRegistry, Math, IniPropStorage,
+  RefreshWslDistribitionTimer;
 
 type
 
@@ -20,6 +21,7 @@ type
     DirectoryEditText: TEdit;
     ImageList1: TImageList;
     Label1: TLabel;
+    Label2: TLabel;
     LabelApplicationConfigFolder: TLabel;
     PanelEditLabelApplicationConfigFolder: TPanel;
     PanelUpperLabelApplicationConfigFolder: TPanel;
@@ -28,12 +30,16 @@ type
     PanelButtonReset: TPanel;
     PanelButtons: TPanel;
     DirectoryEditButton: TSpeedButton;
+    SpinEditTimerInterval: TSpinEdit;
     procedure ButtonSaveClick(Sender: TObject);
     procedure DirectoryEditButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
+    // Don't free it!
+    AppProps: TIniPropStorage;
 
   public
+    constructor Create(TheOwner: TComponent; TheAppProps: TIniPropStorage);
 
   end;
 
@@ -45,6 +51,12 @@ implementation
 {$R *.lfm}
 
 { TFormSetup }
+constructor TFormSetup.Create(TheOwner: TComponent; TheAppProps: TIniPropStorage);
+begin
+  Inherited Create(TheOwner);
+  AppProps := TheAppProps;
+end;
+
 procedure LoadOpenFolderIcon(aApplication: TApplication; aImageList: TImageList; aSpeedButton: TSpeedButton);
 var
   OpenFolderIcon : TIcon;
@@ -79,6 +91,9 @@ begin
   LoadOpenFolderIcon(Application, ImageList1, DirectoryEditButton);
   SetAppConfig(DirectoryEditText);
   ComboBoxWslDefaultVersion.ItemIndex := Max(WslRegistry.GetDefaultWslVersion - 1, 0);
+  SpinEditTimerInterval.Value := AppProps.ReadInteger(
+    RefreshWslDistribitionTimer.TIMER_VALUE_KEY,
+    RefreshWslDistribitionTimer.DEFAULT_TIMER_VALUE);
 end;
 
 procedure TFormSetup.DirectoryEditButtonClick(Sender: TObject);
@@ -89,6 +104,9 @@ end;
 procedure TFormSetup.ButtonSaveClick(Sender: TObject);
 begin
   WslRegistry.SetDefaultWslVersion(ComboBoxWslDefaultVersion.ItemIndex + 1);
+  AppProps.WriteInteger(
+    RefreshWslDistribitionTimer.TIMER_VALUE_KEY,
+    SpinEditTimerInterval.Value);
   Close;
 end;
 

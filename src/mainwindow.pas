@@ -8,18 +8,20 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  AboutWindow, ActnList, DistributionPropertiesWindow, importdistributionwindow,
+  AboutWindow, ActnList, DistributionPropertiesWindow, ImportDistributionWindow,
   RunCommandWithUserWindow, PromptWindow, ConfigWindow,
   // For MB_xxxx dialog flags
   LCLType, Menus, IniPropStorage,
   // Wsl interface
   WslCommandLine, WslRegistry,
   // Process
-  BackgroundProcessProgressBar, Process, processresultdisplay,
+  BackgroundProcessProgressBar, Process, ProcessResultDisplay,
   // Wslconfig
   WslConfigGlobal, WslconfigParameterCtrl, WslConfigEditWindow,
   // /etc/wsl.conf
-  WslConfigDistribution;
+  WslConfigDistribution,
+  // To read value of timer refresh
+  RefreshWslDistribitionTimer;
 
 type
 
@@ -264,6 +266,10 @@ begin
 
   StatusbarImageIndex := -1;
   StatusbarMessage := '';
+
+  TimerRefreshDistributionList.Interval := AppProps.ReadInteger(
+    RefreshWslDistribitionTimer.TIMER_VALUE_KEY,
+    RefreshWslDistribitionTimer.DEFAULT_TIMER_VALUE);
 end;
 
 procedure TWslGuiToolMainWindow.FormDestroy(Sender: TObject);
@@ -383,7 +389,7 @@ procedure TWslGuiToolMainWindow.ToolButtonGeneralPropertiesClick(Sender: TObject
   );
 var ConfigForm: TFormSetup;
 begin
-   ConfigForm := TFormSetup.Create(Self);
+   ConfigForm := TFormSetup.Create(Self, AppProps);
    ConfigForm.ShowModal;
    ConfigForm.Free;
 end;

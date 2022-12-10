@@ -109,7 +109,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="20">
+    <Units Count="21">
       <Unit0>
         <Filename Value="wslguitool.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -231,6 +231,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ConfigWindow"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="refreshwsldistribitiontimer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RefreshWslDistribitionTimer"/>
+      </Unit20>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
