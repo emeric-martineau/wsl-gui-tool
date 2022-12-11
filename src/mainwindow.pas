@@ -21,7 +21,7 @@ uses
   // /etc/wsl.conf
   WslConfigDistribution,
   // To read value of timer refresh
-  RefreshWslDistribitionTimer;
+  ApplicationConfig;
 
 type
 
@@ -268,8 +268,8 @@ begin
   StatusbarMessage := '';
 
   TimerRefreshDistributionList.Interval := AppProps.ReadInteger(
-    RefreshWslDistribitionTimer.TIMER_VALUE_KEY,
-    RefreshWslDistribitionTimer.DEFAULT_TIMER_VALUE);
+    TIMER_VALUE_KEY,
+    DEFAULT_TIMER_VALUE);
 end;
 
 procedure TWslGuiToolMainWindow.FormDestroy(Sender: TObject);
@@ -333,7 +333,11 @@ procedure TWslGuiToolMainWindow.PopupMenuRunCommandWithUserClick(Sender: TObject
   );
 var RunForm : TFormRunCommandWithUser;
 begin
-  RunForm := TFormRunCommandWithUser.Create(Self);
+  RunForm := TFormRunCommandWithUser.Create(
+    Self,
+    AppProps.ReadString(
+      WSL_START_FOLDER_KEY,
+      DEFAULT_WSL_START_FOLDER_VALUE));
 
   RunForm.ShowModal;
 
@@ -616,8 +620,11 @@ begin
     if WslDistributionList.Items[idx].Selected
     then begin
       // TODO check return of StartDistribution
-      StartDistribution(
-        WslDistributionList.Items[idx].Caption);
+      StartDistributionFromFolder(
+        WslDistributionList.Items[idx].Caption,
+        AppProps.ReadString(
+          WSL_START_FOLDER_KEY,
+          DEFAULT_WSL_START_FOLDER_VALUE));
     end;
   end;
 end;

@@ -5,7 +5,7 @@ unit wslregistry;
 interface
 
 uses
-  Classes, SysUtils, fgl, Regexpr, ComObj, Registry, WslApi;
+  Classes, SysUtils, fgl, Regexpr, ComObj, Registry, WslApi, strutils;
 
 type
   // A WSL distribution
@@ -108,18 +108,21 @@ begin
 
     for i := 0 to DistributionsIdList.Count - 1 do
     begin
-      try
-        Distribution := LoadWslOneDistributionFromRegistryById(DistributionsIdList[i]);
+      if StartsStr('{', DistributionsIdList[i])
+      then begin
+        try
+          Distribution := LoadWslOneDistributionFromRegistryById(DistributionsIdList[i]);
 
-        if Distribution.Id = DefaultDistribution
-        then begin
-          Distribution.IsDefault := true;
-        end;
+          if Distribution.Id = DefaultDistribution
+          then begin
+            Distribution.IsDefault := true;
+          end;
 
-        Result.Add(Distribution);
-      except
-        on ERegistryException do begin
-          // TODO: should we log this type of exception ?
+          Result.Add(Distribution);
+        except
+          on ERegistryException do begin
+            // TODO: should we log this type of exception ?
+          end;
         end;
       end;
     end;

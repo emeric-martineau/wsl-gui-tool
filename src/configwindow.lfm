@@ -1,11 +1,11 @@
 object FormSetup: TFormSetup
-  Left = -1697
-  Height = 300
-  Top = 467
+  Left = -1614
+  Height = 373
+  Top = 398
   Width = 400
   BorderIcons = [biSystemMenu]
   Caption = 'Setup'
-  ClientHeight = 300
+  ClientHeight = 373
   ClientWidth = 400
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -14,7 +14,7 @@ object FormSetup: TFormSetup
   object PanelButtons: TPanel
     Left = 0
     Height = 71
-    Top = 229
+    Top = 302
     Width = 400
     Align = alBottom
     AutoSize = True
@@ -89,7 +89,7 @@ object FormSetup: TFormSetup
   end
   object PanelUpperLabelApplicationConfigFolder: TPanel
     Left = 20
-    Height = 209
+    Height = 282
     Top = 20
     Width = 360
     Align = alClient
@@ -97,7 +97,7 @@ object FormSetup: TFormSetup
     BorderSpacing.Top = 20
     BorderSpacing.Right = 20
     BevelOuter = bvNone
-    ClientHeight = 209
+    ClientHeight = 282
     ClientWidth = 360
     TabOrder = 1
     object LabelApplicationConfigFolder: TLabel
@@ -179,6 +179,62 @@ object FormSetup: TFormSetup
       Width = 177
       Caption = 'Refresh timer interval (ms):'
       ParentColor = False
+    end
+    object DirectoryEditDefaultWSLStartFolder: TDirectoryEdit
+      Left = 0
+      Height = 28
+      Top = 176
+      Width = 361
+      ShowHidden = False
+      ButtonWidth = 29
+      NumGlyphs = 1
+      Flat = True
+      MaxLength = 0
+      TabOrder = 3
+    end
+    object Label3: TLabel
+      Left = 0
+      Height = 20
+      Top = 154
+      Width = 129
+      Caption = 'Default start folder:'
+      ParentColor = False
+    end
+    object Image1: TImage
+      Left = 136
+      Height = 20
+      Hint = 'Leave blank to default folder.'#13#10'Use ~ to start Linux home folder.'#13#10'If the path begins with a / character, it will be interpreted as an absolute Linux path.'
+      Top = 154
+      Width = 16
+      Center = True
+      ParentShowHint = False
+      Picture.Data = {
+        1754506F727461626C654E6574776F726B47726170686963B302000089504E47
+        0D0A1A0A0000000D49484452000000100000001008060000001FF3FF61000000
+        017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
+        597300000EC200000EC20115284A800000024849444154384F8593CF8B525114
+        C7EFBBEFA9CF5FF81346D440454557AE9C4D9B814088FA0FDC242583BA8AC0DA
+        B48C06C66188C95733EB36EDDBB81882962DDAB49A66C0F4312B6BB494B2A7EF
+        BDCEB97390AC813E70DFBDF77BCEB9DE1F5F25F617B1582C339BCD1A9665DDB0
+        6D3B2D491283BEEF70388E83C1E0D170383CA5D4758AC5A202091D28305C2E97
+        AEAAEA413C1E6F2793C9B6DBED3E400D639853AD56552ABB848A7B9CF319F4AD
+        52A9A4506845A552512291484B96E559381CEEAD2DE2F57A77B038954A6D9124
+        486B53191B4D058542618B7EA823841C0082110A855A4200A048CA76C74FD2DA
+        F7AFD872DD8BA79BCF4E388519EE048F138D46337C341A356081F372B97C4871
+        A6D88BBBA6A43CE2B6FD0ADB52723CFCA26CDCA130837B3984A39C1B86D1607E
+        BFFF236CE7886282BC367990D526FB3465396DF23EAF8D5FD3548017EBF1783E
+        70D334933E9FEF8C74C1A76670EFAC19BC8FE36C7772CB64BC68D96C2D271008
+        F4A1F61A2EB05C2C164BD2D7C874BF3D3625F90D98E54462D61EC90205806328
+        1C3EFA743A4D93BE86871BD7DDECD73B8B499BA7ADC805C902A8C9C2457EC605
+        8EE1326E5FF5F64EF3E74BD5FAB1DF6FFA2D9204983B9FCF6F82B9DE72F8BC00
+        DB26745DDFA6F80A4376DFC346D31583C1601B8EBD01F67E2E04F04007CD91CF
+        E7FF6B24341BE6C20BEC90C458BD5E57D19E1880BE85B6A5D00AD4D06C706E74
+        610FED4FA14B6AB59A0A4F833B319C4EA78EEF9C4824DAD8700C97DE47F761CE
+        3FC57F82D60673EDA249A08DA1788C63F8BFECC2F673944630F61BA2DCD10C47
+        60E82C0000000049454E44AE426082
+      }
+      ShowHint = True
+      Transparent = True
     end
   end
   object ImageList1: TImageList

@@ -26,6 +26,7 @@ function ListDistribution: TWslCommandLineDistributionList;
 function FindDistribution(Distributions: TWslCommandLineDistributionList; Name: string): TWslCommandLineDistribution;
 // Start WSL distribution
 function StartDistribution(Name: string; User: string = ''; Command: string = ''; Directory: string = ''; UseShell: boolean = true): boolean;
+function StartDistributionFromFolder(Name: string; Directory: string = ''): boolean;
 // Stop WSL distribution
 function StopDistribution(Name: string): boolean;
 // Set WSL1 or WSL2 for one distribution
@@ -141,6 +142,11 @@ begin
   end;
 
   WslProcessOutput.Free;
+end;
+
+function StartDistributionFromFolder(Name: string; Directory: string = ''): boolean;
+begin
+  Result := StartDistribution(Name, '', '', Directory, true)
 end;
 
 function StartDistribution(Name: string; User: string = ''; Command: string = ''; Directory: string = ''; UseShell: boolean = true): boolean;

@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   EditBtn, Buttons, Spin, ShellApi, WslRegistry, Math, IniPropStorage,
-  RefreshWslDistribitionTimer;
+  ApplicationConfig;
 
 type
 
@@ -18,10 +18,13 @@ type
     ButtonReset: TButton;
     ButtonSave: TButton;
     ComboBoxWslDefaultVersion: TComboBox;
+    DirectoryEditDefaultWSLStartFolder: TDirectoryEdit;
     DirectoryEditText: TEdit;
+    Image1: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
     Label2: TLabel;
+    Label3: TLabel;
     LabelApplicationConfigFolder: TLabel;
     PanelEditLabelApplicationConfigFolder: TPanel;
     PanelUpperLabelApplicationConfigFolder: TPanel;
@@ -39,7 +42,7 @@ type
     AppProps: TIniPropStorage;
 
   public
-    constructor Create(TheOwner: TComponent; TheAppProps: TIniPropStorage);
+    constructor Create(TheOwner: TComponent; TheAppProps: TIniPropStorage); overload;
 
   end;
 
@@ -57,7 +60,8 @@ begin
   AppProps := TheAppProps;
 end;
 
-procedure LoadOpenFolderIcon(aApplication: TApplication; aImageList: TImageList; aSpeedButton: TSpeedButton);
+procedure LoadOpenFolderIcon(aApplication: TApplication; aImageList: TImageList;
+  aSpeedButton: TSpeedButton; DefaultWSLStartFolder: TDirectoryEdit);
 var
   OpenFolderIcon : TIcon;
 begin
@@ -76,6 +80,9 @@ begin
   aSpeedButton.Images := aImageList;
 
   openFolderIcon.Free;
+
+  DefaultWSLStartFolder.ImageIndex := 0;
+  DefaultWSLStartFolder.Images := aImageList;
 end;
 
 procedure SetAppConfig(aEditText: TEdit);
@@ -88,12 +95,19 @@ end;
 
 procedure TFormSetup.FormCreate(Sender: TObject);
 begin
-  LoadOpenFolderIcon(Application, ImageList1, DirectoryEditButton);
+  LoadOpenFolderIcon(
+    Application,
+    ImageList1,
+    DirectoryEditButton,
+    DirectoryEditDefaultWSLStartFolder);
   SetAppConfig(DirectoryEditText);
-  ComboBoxWslDefaultVersion.ItemIndex := Max(WslRegistry.GetDefaultWslVersion - 1, 0);
+  ComboBoxWslDefaultVersion.ItemIndex := Max(GetDefaultWslVersion - 1, 0);
   SpinEditTimerInterval.Value := AppProps.ReadInteger(
-    RefreshWslDistribitionTimer.TIMER_VALUE_KEY,
-    RefreshWslDistribitionTimer.DEFAULT_TIMER_VALUE);
+    TIMER_VALUE_KEY,
+    DEFAULT_TIMER_VALUE);
+  DirectoryEditDefaultWSLStartFolder.Directory := AppProps.ReadString(
+    WSL_START_FOLDER_KEY,
+    DEFAULT_WSL_START_FOLDER_VALUE);
 end;
 
 procedure TFormSetup.DirectoryEditButtonClick(Sender: TObject);
@@ -105,9 +119,12 @@ procedure TFormSetup.ButtonSaveClick(Sender: TObject);
 begin
   WslRegistry.SetDefaultWslVersion(ComboBoxWslDefaultVersion.ItemIndex + 1);
   AppProps.WriteInteger(
-    RefreshWslDistribitionTimer.TIMER_VALUE_KEY,
+    ApplicationConfig.TIMER_VALUE_KEY,
     SpinEditTimerInterval.Value);
   Close;
+  AppProps.WriteString(
+    WSL_START_FOLDER_KEY,
+    DirectoryEditDefaultWSLStartFolder.Directory);
 end;
 
 end.

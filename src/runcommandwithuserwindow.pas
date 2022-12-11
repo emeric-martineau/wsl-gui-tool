@@ -23,7 +23,7 @@ type
   private
 
   public
-
+    constructor Create(TheOwner: TComponent; StartFolder: string);
   end;
 
 var
@@ -32,6 +32,12 @@ var
 implementation
 
 {$R *.lfm}
+
+constructor TFormRunCommandWithUser.Create(TheOwner: TComponent; StartFolder: string);
+begin
+  Inherited Create(TheOwner);
+  DirectoryEditDefault.Text := StartFolder;
+end;
 
 end.
 
