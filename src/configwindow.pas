@@ -17,6 +17,8 @@ type
     ButtonCancel: TButton;
     ButtonReset: TButton;
     ButtonSave: TButton;
+    CheckBoxRememberExportPath: TCheckBox;
+    CheckBoxRememberImportPath: TCheckBox;
     ComboBoxWslDefaultVersion: TComboBox;
     DirectoryEditDefaultWSLStartFolder: TDirectoryEdit;
     DirectoryEditText: TEdit;
@@ -108,6 +110,12 @@ begin
   DirectoryEditDefaultWSLStartFolder.Directory := AppProps.ReadString(
     WSL_START_FOLDER_KEY,
     DEFAULT_WSL_START_FOLDER_VALUE);
+  CheckBoxRememberExportPath.Checked := AppProps.ReadBoolean(
+    REMEMBER_EXPORT_PATH_KEY,
+    DEFAULT_REMEMBER_EXPORT_PATH_VALUE);
+  CheckBoxRememberImportPath.Checked := AppProps.ReadBoolean(
+    REMEMBER_IMPORT_PATH_KEY,
+    DEFAULT_REMEMBER_IMPORT_PATH_VALUE);
 end;
 
 procedure TFormSetup.DirectoryEditButtonClick(Sender: TObject);
@@ -125,6 +133,12 @@ begin
   AppProps.WriteString(
     WSL_START_FOLDER_KEY,
     DirectoryEditDefaultWSLStartFolder.Directory);
+  AppProps.WriteBoolean(
+    REMEMBER_EXPORT_PATH_KEY,
+    CheckBoxRememberExportPath.Checked);
+  AppProps.WriteBoolean(
+    REMEMBER_IMPORT_PATH_KEY,
+    CheckBoxRememberImportPath.Checked);
 end;
 
 end.

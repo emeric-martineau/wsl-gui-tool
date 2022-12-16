@@ -32,11 +32,15 @@ type
     function ReadFilename: string;
     function ReadDistributionName: string;
     function ReadInstallLocationPath: string;
+    procedure WriteInstallLocationPath(Path: string);
     function ReadVersion: Integer;
+    function ReadInitialDir: string;
+    procedure WriteInitialDir(Path: string);
   public
+    property InitialDir: string read ReadInitialDir write WriteInitialDir;
     property Filename: string read ReadFilename;
     property DistributionName: string read ReadDistributionName;
-    property InstallLocationPath: string read ReadInstallLocationPath;
+    property InstallLocationPath: string read ReadInstallLocationPath write WriteInstallLocationPath;
     property Version: Integer read ReadVersion;
   end;
 
@@ -78,9 +82,24 @@ begin
   Result := Trim(DirectoryEditInstallLocationPath.Text);
 end;
 
+procedure TFormImportDistribution.WriteInstallLocationPath(Path: string);
+begin
+  DirectoryEditInstallLocationPath.Text := Path;
+end;
+
 function TFormImportDistribution.ReadVersion: Integer;
 begin
   Result := ComboBoxVersion.ItemIndex + 1;
+end;
+
+function TFormImportDistribution.ReadInitialDir: string;
+begin
+  Result := EditFileNameFileName.InitialDir;
+end;
+
+procedure TFormImportDistribution.WriteInitialDir(Path: string);
+begin
+  EditFileNameFileName.InitialDir := Path;
 end;
 
 end.

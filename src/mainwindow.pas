@@ -564,7 +564,19 @@ end;
 
 procedure TWslGuiToolMainWindow.ToolButtonExportClick(Sender: TObject);
 var ExportProcess: TProcess;
+    RememberExport: boolean;
 begin
+  RememberExport := AppProps.ReadBoolean(
+    REMEMBER_EXPORT_PATH_KEY,
+    DEFAULT_REMEMBER_EXPORT_PATH_VALUE);
+
+  if RememberExport
+  then begin
+    ExportDialog.InitialDir := AppProps.ReadString(
+      EXPORT_PATH_KEY,
+      DEFAULT_EXPORT_PATH);
+  end;
+
   if ExportDialog.Execute
   then begin
     SetStatusbarExport(WslDistributionList.Selected.Caption);
@@ -573,6 +585,13 @@ begin
       WslDistributionList.Selected.Caption, ExportDialog.FileName);
 
     BackgroundProcessProgressBar.Run(ExportProcess);
+
+    if RememberExport
+    then begin
+      AppProps.WriteString(
+        EXPORT_PATH_KEY,
+        ExtractFileDir(ExportDialog.FileName));
+    end;
   end;
 end;
 
@@ -580,8 +599,27 @@ procedure TWslGuiToolMainWindow.ToolButtonImportClick(Sender: TObject);
 var
   FormImportDistribution: TFormImportDistribution;
   ImportProcess: TProcess;
+  RememberImport: boolean;
+  ImportPath: string;
+  InstallLocation: string;
 begin
+  RememberImport := AppProps.ReadBoolean(
+    REMEMBER_IMPORT_PATH_KEY,
+    DEFAULT_REMEMBER_IMPORT_PATH_VALUE);
+
+  if RememberImport
+  then begin
+    InstallLocation := AppProps.ReadString(
+      IMPORT_INSTALL_LOCATION_KEY,
+      DEFAULT_IMPORT_PATH);
+    ImportPath := AppProps.ReadString(
+      IMPORT_PATH_KEY,
+      DEFAULT_IMPORT_PATH);
+  end;
+
   FormImportDistribution := TFormImportDistribution.Create(Self);
+  FormImportDistribution.InstallLocationPath := InstallLocation;
+  FormImportDistribution.InitialDir := ImportPath;
 
   if FormImportDistribution.ShowModal = mrOk
   then begin
@@ -595,6 +633,16 @@ begin
       FormImportDistribution.Filename);
 
     BackgroundProcessProgressBar.Run(ImportProcess);
+
+    if RememberImport
+    then begin
+      AppProps.WriteString(
+        IMPORT_INSTALL_LOCATION_KEY,
+        FormImportDistribution.InstallLocationPath);
+      AppProps.WriteString(
+        IMPORT_PATH_KEY,
+        ExtractFileDir(FormImportDistribution.Filename));
+    end;
   end;
 
   FormImportDistribution.Free;

@@ -1,11 +1,11 @@
 object FormSetup: TFormSetup
   Left = -1614
-  Height = 373
+  Height = 454
   Top = 398
   Width = 400
   BorderIcons = [biSystemMenu]
   Caption = 'Setup'
-  ClientHeight = 373
+  ClientHeight = 454
   ClientWidth = 400
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -14,7 +14,7 @@ object FormSetup: TFormSetup
   object PanelButtons: TPanel
     Left = 0
     Height = 71
-    Top = 302
+    Top = 383
     Width = 400
     Align = alBottom
     AutoSize = True
@@ -89,7 +89,7 @@ object FormSetup: TFormSetup
   end
   object PanelUpperLabelApplicationConfigFolder: TPanel
     Left = 20
-    Height = 282
+    Height = 363
     Top = 20
     Width = 360
     Align = alClient
@@ -97,7 +97,7 @@ object FormSetup: TFormSetup
     BorderSpacing.Top = 20
     BorderSpacing.Right = 20
     BevelOuter = bvNone
-    ClientHeight = 282
+    ClientHeight = 363
     ClientWidth = 360
     TabOrder = 1
     object LabelApplicationConfigFolder: TLabel
@@ -236,9 +236,25 @@ object FormSetup: TFormSetup
       ShowHint = True
       Transparent = True
     end
+    object CheckBoxRememberExportPath: TCheckBox
+      Left = 0
+      Height = 24
+      Top = 224
+      Width = 178
+      Caption = 'Remember export path'
+      TabOrder = 4
+    end
+  end
+  object CheckBoxRememberImportPath: TCheckBox
+    Left = 20
+    Height = 24
+    Top = 272
+    Width = 180
+    Caption = 'Remember import path'
+    TabOrder = 2
   end
   object ImageList1: TImageList
     Left = 136
-    Top = 240
+    Top = 392
   end
 end
