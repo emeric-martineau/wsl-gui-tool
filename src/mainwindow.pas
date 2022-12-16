@@ -7,7 +7,7 @@ unit MainWindow;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls, Math,
   AboutWindow, ActnList, DistributionPropertiesWindow, ImportDistributionWindow,
   RunCommandWithUserWindow, PromptWindow, ConfigWindow,
   // For MB_xxxx dialog flags
@@ -620,6 +620,7 @@ begin
   FormImportDistribution := TFormImportDistribution.Create(Self);
   FormImportDistribution.InstallLocationPath := InstallLocation;
   FormImportDistribution.InitialDir := ImportPath;
+  FormImportDistribution.Version := Max(GetDefaultWslVersion, 1);
 
   if FormImportDistribution.ShowModal = mrOk
   then begin

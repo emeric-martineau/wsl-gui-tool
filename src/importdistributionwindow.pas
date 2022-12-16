@@ -34,6 +34,7 @@ type
     function ReadInstallLocationPath: string;
     procedure WriteInstallLocationPath(Path: string);
     function ReadVersion: Integer;
+    procedure WriteVersion(DefaultVersion: Integer);
     function ReadInitialDir: string;
     procedure WriteInitialDir(Path: string);
   public
@@ -41,7 +42,7 @@ type
     property Filename: string read ReadFilename;
     property DistributionName: string read ReadDistributionName;
     property InstallLocationPath: string read ReadInstallLocationPath write WriteInstallLocationPath;
-    property Version: Integer read ReadVersion;
+    property Version: Integer read ReadVersion write WriteVersion;
   end;
 
 var
@@ -52,8 +53,6 @@ implementation
 {$R *.lfm}
 
 { TFormImportDistribution }
-
-// TODO read default version and set in ComboBox
 
 procedure TFormImportDistribution.LabeledEditDistributionNameChange(Sender: TObject);
 begin
@@ -90,6 +89,11 @@ end;
 function TFormImportDistribution.ReadVersion: Integer;
 begin
   Result := ComboBoxVersion.ItemIndex + 1;
+end;
+
+procedure TFormImportDistribution.WriteVersion(DefaultVersion: Integer);
+begin
+  ComboBoxVersion.ItemIndex := DefaultVersion - 1;
 end;
 
 function TFormImportDistribution.ReadInitialDir: string;
